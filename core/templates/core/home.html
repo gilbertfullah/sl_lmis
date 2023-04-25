@@ -1,0 +1,227 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<style>
+    /* Styles for screens smaller than 768px */
+    @media screen and (max-width: 768px) {
+        .jumbotron {
+            padding-top: 60px;
+        }
+
+        .jumbotron img {
+            display: none;
+        }
+
+        .hero__caption h1 {
+            font-size: 28px !important;
+        }
+
+        .lead {
+            font-size: 16px !important;
+        }
+
+        .apply-process-area {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .apply-process-area h2 {
+            font-size: 28px !important;
+        }
+    }
+</style>
+
+<div class="jumbotron jumbotron-fluid" style="background-color: white">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-6 col-lg-9 col-md-10 my-3">
+                <img src="{% static 'images/hero.png' %}" width="390" height="430" style="position:absolute; left:700px; top: -100px" />
+                <div class="hero__caption">
+                    <h1 style="font-weight: 900 !important">Welcome to Sierra Leone Labour Information System</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6 px-4 my-3">
+                    <p class="lead" style="line-height:2.0; color: black; font-weight: 500">Discover trends in the Sierra Leone jobs market by utilizing our labour market information system.</p>
+                </div>
+            </div>
+      <div class="row" style="margin-top: 25px">
+        <div class="col-3">
+          <a href="{% url 'jobs' %}" class="btn mx-2" style="color:white; background-color:#29569F">Search Jobs Online</a>
+        </div>
+        <div class="col-3">
+          <a href="{% url 'post_job' %}" class="btn mx-2" style="color:white; background-color:#29569F">Post Jobs Online</a>
+        </div>
+      </div>
+    </div>
+    </div>
+    <img src="{% static 'images/double-down.gif' %}" width="40" height="40" style="position: absolute; left:600px !important;" />
+  </div>
+
+
+<div class="container my-3" style="margin-top: -30px !important">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card">
+            <a href="#">
+                <div class="card-header">
+                    <img src="{% static 'images/icons/youth.png' %}" width="80" height="80" style="position:absolute; left:90px" />
+                    <h5 class="card-title px-5" style="font-weight:800; margin-top: 100px">Working Age</h5>
+                    <h3 style="padding-left: 25px; color: #29569F; font-size: 35px; font-weight: 800">6,084,046</h3>
+                </div>
+            </a>
+        </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+                <a href="#">
+                    <div class="card-header">
+                        <img src="{% static 'images/icons/analytics.png' %}" width="80" height="80" style="position:absolute; left:90px" />
+                        <h5 class="card-title px-4" style="font-weight:700; margin-top: 100px">Employment Rate</h5>
+                        <h3 style="padding-left: 75px; color: #29569F; font-size: 35px; font-weight: 800">5.2%</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+                <a href="#">
+                    <div class="card-header">
+                        <img src="{% static 'images/icons/bar-chart.png' %}" width="80" height="80" style="position:absolute; left:90px" />
+                        <h5 class="card-title px-2" style="font-weight:800; margin-top: 100px">Unemployment Rate</h5>
+                        <h3 style="padding-left: 75px; color: #29569F; font-size: 35px; font-weight: 800">5.3%</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+                <a href="#">
+                    <div class="card-header">
+                        <img src="{% static 'images/icons/job-search.png' %}" width="80" height="80" style="position:absolute; left:90px" />
+                        <h5 class="card-title px-5" style="font-weight:800; margin-top: 100px">Job Vacancy</h5>
+                        <h3 style="padding-left: 75px; color: #29569F; font-size: 35px; font-weight: 800">220</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- How  Apply Process Start-->
+<div class="apply-process-area apply-bg pt-60 pb-60" style="background-color: #29569F;">
+    <div class="container">
+        <!-- Section Tittle -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-tittle white-text text-center">
+                    <h2>Apply process</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Apply Process Caption -->
+        <div class="row my-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="single-process text-center mb-30">
+                    <div class="process-ion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="92" fill="white" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                          </svg>
+                    </div>
+                    <div class="process-cap">
+                       <h5>1. Search a job</h5>
+                       <p>Explore endless possibilities by finding your dream job through our online job portals.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-process text-center mb-30">
+                    <div class="process-ion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="92" fill="white" class="bi bi-person-vcard" viewBox="0 0 16 16">
+                            <path d="M5 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm4-2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM9 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4A.5.5 0 0 1 9 8Zm1 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5Z"/>
+                            <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2ZM1 4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H8.96c.026-.163.04-.33.04-.5C9 10.567 7.21 9 5 9c-2.086 0-3.8 1.398-3.984 3.181A1.006 1.006 0 0 1 1 12V4Z"/>
+                          </svg>
+                    </div>
+                    <div class="process-cap">
+                       <h5>2. Apply for job</h5>
+                       <p>Take the first step towards your dream career and apply for your desired job today.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="single-process text-center mb-30">
+                    <div class="process-ion">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="92" fill="white" class="bi bi-person-fill-check" viewBox="0 0 16 16">
+                            <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                            <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+                          </svg>
+                    </div>
+                    <div class="process-cap">
+                       <h5>3. Get your job</h5>
+                       <p>Land your dream job and take the first step towards a fulfilling career. Apply now to secure your future.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+</div>
+<!-- How  Apply Process End-->
+
+<!-- Blog Area Start -->
+<section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="text-center mb-5">
+            <h2>Our Latest News and Events</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-6">
+          <div class="card mb-4">
+            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">News or Event Heading 1</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <p class="card-text"><small class="text-muted">Date: 24th April 2023</small></p>
+              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card mb-4">
+            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">News or Event Heading 2</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <p class="card-text"><small class="text-muted">Date: 23rd April 2023</small></p>
+              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="card mb-4">
+            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">News or Event Heading 3</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <p class="card-text"><small class="text-muted">Date: 22nd April 2023</small></p>
+              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+<!-- Blog Area End -->
+
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+
+<nav class="navbar navbar-expand-lg navbar-light container-fluid">
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <img src="{% static 'images/labor logo.jpg' %}" alt="Logo" width="90" height="90" class="d-inline-block align-text-center">
+    <span>SL-LMIS</span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+        <li class="nav-item" style="padding-right: 30px">
+            <a class="nav-link active" aria-selected="true" href="{% url 'home' %}" style="color:black; font-weight:600">Home</a>
+        </li>
+        <li class="nav-item" style="padding-right: 30px">
+          <a class="nav-link" href="{% url 'jobs' %}" style="color:black; font-weight:600">Jobs</a>
+        </li>
+        <li class="nav-item" style="padding-right: 30px">
+          <a class="nav-link" href="{% url 'labour-supply' %}" style="color:black; font-weight:600">Labor Market Insights</a>
+        </li>
+        <li class="nav-item" style="padding-right: 30px">
+          <a class="nav-link" href="{% url 'career-dev' %}" style="color:black; font-weight:600">Career Development</a>
+        </li>
+        <li class="nav-item dropdown" style="padding-right: 30px">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight:600">
+            Resources
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Labour Laws</a></li>
+            <li><a class="dropdown-item" href="#">Regulations</a></li>
+            <li><a class="dropdown-item" href="#">Policies</a></li>
+            <li><a class="dropdown-item" href="#">Reports & Surveys</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      {% if user.is_authenticated %}
+            <div class="btn-group header-btn d-none f-right d-lg-block">
+              <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="color:#29569F; border:none; background-color:none; font-weight:600">Welcome {{user.username}}</button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="dropdown-item" href="#">Account settings</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+            </div>
+            {% else %}
+            <a class="nav-item btn head-btn1" href="{% url 'register' %}" style="color:white; background-color:#29569F">Register</a>
+            <a class="nav-item btn head-btn2" href="{% url 'login' %}" style="padding-left:20px; color:black; text-decoration:none; font-weight:600; border-color:black">Login</a>
+      {% endif %}
+  </div>
+</nav>
+

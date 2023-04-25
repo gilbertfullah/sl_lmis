@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+
+{% block content %}
+{% load static %}
+    
+    <!-- Job Detail Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row gy-5 gx-4">
+                <div class="col-8">
+                    <div class="d-flex align-items-center mb-5">
+                        <img class="flex-shrink-0 img-fluid border rounded" src="{% static 'images/icons/com-logo-1.jpg' %}" alt="" style="width: 80px; height: 80px;">
+                        <div class="text-start ps-4">
+                            <h3 class="mb-3">{{title}}</h3>
+                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{company}}</span>
+                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{sector}}</span>
+                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{location}}</span>
+                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{contract}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="col-4">
+                    <div class="row">
+                    <div class="col-10">
+                    <a href="{% url 'applied-jobs' %}" class="btn w-60" type="button" style="background-color:#29569F; color:white">Apply Now</a>
+                    </div>
+                    <div class="col-2">
+                    <i class="bi bi-bookmark"></i>
+                    </div>
+                    </div>
+                    <div class="row mt-3">
+                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Application ends: {{expiration_date}}</small>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="row gy-5 gx-4">
+                <div class="col-8">
+                    <div class="mb-5">
+                        <h4 class="mb-3">Job description</h4>
+                        <p>{{description}}</p>
+                        <h4 class="mb-3 mt-5">Job requirements</h4>
+                        <p>{{requirements}}</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+                        </ul>
+                        <h4 class="mb-3 mt-5">Qualification</h4>
+                        <p>{{qualification}}</p>
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
+                            <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <div class="col-lg-4">
+                    <div class="rounded p-5 mb-4 wow slideInUp" style="background-color:#29569F" data-wow-delay="0.1s">
+                        <h4 class="mb-4" style="color:white">Job Summary</h4>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Company: {{company}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Posted at: {{created_at}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Application ends: {{expiration_date}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Sector: {{sector}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Location: {{location}}</p>
+                        <p style="color:white" class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Experience: {{experience}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Salary: {{salary}}</p>
+                        <p style="color:white"><i class="fa fa-angle-right text-primary me-2"></i>Contract: {{contract}}</p>
+                        
+                        
+                        
+                    </div>
+                    <div class="rounded p-5 wow slideInUp" data-wow-delay="0.1s" style="background-color:#29569F;">
+                        <h4 style="color:white" class="mb-4">Company Detail</h4>
+                        <p style="color:white" class="m-0">Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum sadipscing elitr vero dolores. Lorem dolore elitr justo et no gubergren sadipscing, ipsum et takimata aliquyam et rebum est ipsum lorem diam. Et lorem magna eirmod est et et sanctus et, kasd clita labore.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Job Detail End -->
+        
+{% endblock content %}

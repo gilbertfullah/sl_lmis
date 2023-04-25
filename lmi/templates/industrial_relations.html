@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1>Industrial Relations</h1>
+            <hr>
+            <h2>Create New Case</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Create Case</button>
+            </form>
+        </div>
+        <div class="col-lg-4">
+            <h2>Overview</h2>
+            <ul>
+                <li>Total Cases: {{ num_cases }}</li>
+                <li>Pending Cases: {{ num_pending }}</li>
+                <li>Settled Cases: {{ num_settled }}</li>
+                <li>Court Cases: {{ num_court }}</li>
+            </ul>
+            <h2>Visualizations</h2>
+            <!-- Include your visualizations here -->
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

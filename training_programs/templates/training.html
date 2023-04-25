@@ -1,0 +1,85 @@
+{% extends 'main.html' %}
+{% load static %}
+{% load bootstrap_icons %}
+{% block content %}
+
+
+
+<div class="tab-class text-center wow fadeInUp mt-5 container" data-wow-delay="0.3s">
+    <div class="tab-content">
+        <div id="alljobs" class="tab-pane fade show p-0 active"  role="tabpanel" aria-labelledby="pills-job-tab">
+            <div class="container mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 15px;>
+                <div class="container-fluid">
+                    <div class="row g-2">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control border-0" style="height:53px; border:1px solid gray" placeholder="Job Tittle or keyword" />
+                        </div>
+                    <div class="col-md-3" style="margin-left:-70px;">
+                        <button class="btn btn-dark border-0 w-60" style="border-radius:8px">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+                
+                <div class="count-job mb-4">
+                    <h4 class="align-items-start">{{trainings_count}} Trainings found</h4>
+                </div>
+                {% if trainings %}
+                {% for training in trainings %}
+                <div class="job-item p-4 mb-4">
+                    <div class="row g-4">
+                        <div class="col-sm-12 col-lg-8 col-md-8 d-flex align-items-center mb-5"> 
+                            <a href="#"><img class="flex-shrink-0 img-fluid border rounded" src="{% static 'images/icons/com-logo-1.jpg' %}" alt="" style="width: 80px; height: 80px;"></a>
+                            <div class="text-start ps-4">
+                                <h5 class="mb-3"><a href="#" style="color:black">{{training.course}}</a></h5>
+                                <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{training.lead_instructor}}</span>
+                                <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{training.status}}</span>
+                                <span class="text-truncate me-3"><i class="fas fa-map-marker-alt"></i>{{training.location}}</span>
+                                <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{training.fees}}</span>                                
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                            <div class="d-flex mb-3">
+                                <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="https://www.dangote-group.com/">Apply Now</a>
+                            </div>
+                                <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Start date: {{training.date}}</small>
+                        </div>  
+                    </div>
+                </div>
+    
+                {% endfor%}
+                {% endif %}
+                <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+                    <ul class="pagination">
+                        {% if trainings.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ trainings.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        {% for num_page in  trainings.paginator.page_range %}
+                        {% if trainings.number == num_page %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ num_page }}">{{num_page}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num_page }}">{{num_page}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if trainings.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ trainings.next_page_number }}">Next</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+   
+</div>
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
