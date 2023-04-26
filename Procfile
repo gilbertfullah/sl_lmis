@@ -1,0 +1,1 @@
+web: gunicorn sl_lmis.wsgi:application --log-file -

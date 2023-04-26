@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Side menu -->
+        <div class="col-md-3 col-lg-2 bg-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#general">General</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#employment-trends">Employment Trends</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#hot-occupations">Hot Occupations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#oversea-employment">Oversea Employment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#unemployment">Unemployment</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Content section -->
+        <div class="col-md-9 col-lg-10">
+            <div class="container-fluid py-3">
+                <h1>General Information</h1>
+                <p>This is the general information section.</p>
+            </div>
+            <div class="container-fluid py-3" id="employment-trends">
+                <h1>Employment Trends</h1>
+                <p>This is the employment trends section.</p>
+            </div>
+            <div class="container-fluid py-3" id="hot-occupations">
+                    <h1>Hot Occupations</h1>
+                    <p>This is the hot occupations section.</p>
+                </div>
+                <div class="container-fluid py-3" id="oversea-employment">
+                    <h1>Oversea Employment</h1>
+                    <p>This is the oversea employment section.</p>
+                </div>
+                <div class="container-fluid py-3" id="unemployment">
+                    <h1>Unemployment</h1>
+                    <p>This is the unemployment section.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+

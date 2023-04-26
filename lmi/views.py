@@ -3,6 +3,8 @@ from django.conf import settings
 from django.http.response import HttpResponse
 import mimetypes
 from .models import IndustrialRelation
+import plotly.graph_objs as go
+import plotly.offline as pyo
 
 def lmi(request):
     return render(request, 'labour_supply.html')
@@ -19,18 +21,37 @@ def employer_insight(request):
 def recruitment_insight(request):
     return render(request, 'recruitment_insight.html')
 
+def employment_statistics(request):
+    return render(request, 'employment_statistics.html')
+
 def industrial_relations(request):
     cases = IndustrialRelation.objects.all()
     num_cases = cases.count()
-    num_pending = cases.filter(status='Pending').count()
-    num_settled = cases.filter(status='Settled').count()
-    num_court = cases.filter(status='Court').count()
+    num_pending = cases.filter(complaint_status='Pending').count()
+    num_settled = cases.filter(complaint_status='Settled').count()
+    num_court = cases.filter(complaint_status='Court').count()
+    
+    # create data for plot
+    x = ['Settled', 'Pending', 'Court']
+    y = [45, 15, 5]
+
+    # create plotly figure
+    fig = go.Figure(
+        data=[go.Bar(x=x, y=y)],
+        layout=go.Layout(title='Industrial Cases')
+    )
+
+    # convert plotly figure to HTML
+    plot_div = pyo.plot(fig, output_type='div')
+    
     context = {
         'num_cases': num_cases,
         'num_pending': num_pending,
         'num_settled': num_settled,
         'num_court': num_court,
+        'plot_div': plot_div,
     }
+
     return render(request, 'industrial_relations.html', context)
 
 def download_file(request):

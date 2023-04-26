@@ -2,30 +2,84 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8">
-            <h1>Industrial Relations</h1>
-            <hr>
-            <h2>Create New Case</h2>
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Create Case</button>
-            </form>
-        </div>
-        <div class="col-lg-4">
-            <h2>Overview</h2>
-            <ul>
-                <li>Total Cases: {{ num_cases }}</li>
-                <li>Pending Cases: {{ num_pending }}</li>
-                <li>Settled Cases: {{ num_settled }}</li>
-                <li>Court Cases: {{ num_court }}</li>
-            </ul>
-            <h2>Visualizations</h2>
-            <!-- Include your visualizations here -->
+<div class="our-services section-pad-t10" style="background-color:#FFFFF">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: #f2f2f2;">
+          <li class="breadcrumb-item"><a href="{% url 'labour-supply' %}" style="color: #6C9BCF">Labour Market Insight</a></li>
+          <li class="breadcrumb-item active text-black" aria-current="page">Industrial Relations</li>
+          {% if user.is_authenticated and user.is_staff %}
+          <li type="submit" class="ml-auto"><button class="btn btn-primary" style="background-color:#29569F; color:#FFFFFF">Create a new case</button></li>
+          {% endif %}
+        </ol>
+        
+    </nav>
+      
+    <!-- Hero Area Start-->
+    <div class="slider-area" style="background-color: #654E92; margin-top: -15px">
+        <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Industrial Relations</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <section class="bg-light py-5">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-12 mx-auto">
+              <h2 class="display-4">Overview</h2>
+              <p>Welcome to the Industrial Relations page. This page is designed to help you manage and keep track of all your industrial relations cases. It provides an easy-to-use form to create new cases and allows you to view an overview of all your cases.</p>
+              <p>Industrial relations refer to the management of relationships between employers, employees, and their representatives. It encompasses various aspects such as collective bargaining, labour law, dispute resolution, and workplace health and safety.</p>
+              <p>Industrial relations function is crucial in any labour market information system as it helps to promote good working relationships between employers and employees, and ensure that workers' rights are protected. It helps to prevent and resolve disputes that may arise in the workplace, which can affect productivity, morale, and ultimately the success of an organization.</p>
+              <p>Moreover, industrial relations function provides critical information about the labour market, including trends in employment, working conditions, and wages. It helps to identify areas where improvements are needed and to develop policies that support the growth and development of the labour market.</p>
+              <p>Overall, industrial relations function plays a vital role in the labour market information system, as it ensures that the labour market operates fairly and efficiently, and that the interests of both employers and employees are represented and protected.</p>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section class="container my-5">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card bg-light shadow-sm mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">Industrial Relation Cases Overview</h5>
+                    <ul class="list-group">
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Total Cases
+                        <span class="badge bg-primary rounded-pill">1000</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Pending Cases
+                        <span class="badge bg-warning rounded-pill">200</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Settled Cases
+                        <span class="badge bg-success rounded-pill">500</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Court Cases
+                        <span class="badge bg-danger rounded-pill">300</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>  
+        
+          <div class="col-lg-8">
+            <div id="plot-container">
+                {{ plot_div|safe }}
+            </div>
+          </div>
+          
+        </div>
+    </section>
 </div>
 
 
