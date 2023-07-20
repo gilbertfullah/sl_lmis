@@ -11,6 +11,7 @@ class Job(models.Model):
         ('', 'Select a contract type'),
         ('Full-Time', 'Full-Time'),
         ('Part-Time', 'Part-Time'),
+        ('Contract', 'Contract'),
         ('Internship', 'Internship'),
         ('Freelance', 'Freelance')
     ]
@@ -31,7 +32,8 @@ class Job(models.Model):
     contract = models.CharField(verbose_name="Contract-Type", max_length=100, choices=CONTRACT_CHOICES)
     sector = models.CharField(verbose_name="Sector", max_length=200, default="Accounting")
     salary = models.CharField(verbose_name="Salary", max_length=200, null=True, blank=True)
-    expiration_date = models.DateField()
+    expiration_date = models.DateField(verbose_name="Expiration Date")
+    published_date = models.DateField(verbose_name="Published Date", default=timezone.now)
     experience = models.CharField(verbose_name="Working Experience", max_length=200, choices=EXP_CHOICES)
     qualification = models.CharField(verbose_name="Qualification", max_length=200, default="Bachelors")
     requirements = models.TextField(verbose_name="Requirement")

@@ -14,32 +14,28 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.db.models import Q
 from django.db.models import Count
+from django.views.generic import TemplateView
+from .models import Job
 
 
-def jobs(request):
-    location = request.GET.get('location')
-    sector = request.GET.get('sector')
-    search_query = request.GET.get('search')
-    contract = request.GET.get('contract')
+def Jobs(request):
+    jobs = Job.objects.all()
+    jobs_count = Job.objects.all().count()
     
-    if search_query:
-        jobs = Job.objects.filter(title__icontains=search_query) 
-    elif location:
-        jobs = Job.objects.filter(location__icontains=location)
-    elif sector:
-        jobs = Job.objects.filter(sector__icontains=sector)
-    elif contract:
-        jobs = Job.objects.filter(contract__icontains=contract)
-    else:
-        jobs = Job.objects.all()
-        
-    paginator = Paginator(jobs, 3)
+    # Calculate the number of job openings for each category
+    categories = {}
+    for job in jobs:
+        category = job.sector
+        if category in categories:
+            categories[category] += 1
+        else:
+            categories[category] = 1
+    
+    paginator = Paginator(jobs, 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    context = {'jobs': page_obj, 'job_count':Job.objects.all().count()}
-    
-    return render(request, 'jobs.html', context)
-    
+            
+    return render(request, 'jobs.html', {'jobs': page_obj, 'categories': categories, 'jobs_count': jobs_count})
 
 
 def job_detail(request, id):

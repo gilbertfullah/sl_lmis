@@ -10,12 +10,6 @@ class User(AbstractUser):
     is_government = models.BooleanField(default=False)
     
 class JobSeeker(models.Model):
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Approved', 'Approved'),
-        ('Disapproved','Disapproved')
-    )
-    
     CHOICES = (
         ('Full-Time', 'Full-Time'),
         ('Part-Time', 'Part-Time'),
@@ -35,7 +29,6 @@ class JobSeeker(models.Model):
     email = models.EmailField(max_length=50)
     phone_number = models.CharField(max_length=20)
     profile_pic = models.FileField(null=True, blank=True)
-    #country = CountryField(null=True, blank=True)
     location = models.CharField(max_length=100)
     education_level = models.CharField(max_length=200)
     course_training = models.CharField(max_length=200)
@@ -43,7 +36,6 @@ class JobSeeker(models.Model):
     grad_year = models.CharField(max_length=4)
     resume = models.FileField(null=True, blank=True)
     looking_for = models.CharField(max_length=30)
-    status = models.CharField(max_length=50, null=True, choices=STATUS, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
     
     
@@ -79,6 +71,8 @@ class Company(models.Model):
     address = models.CharField(max_length=200)
     company_logo = models.FileField(null=True, blank=True)
     company_certificate = models.FileField()
+    company_size = models.CharField(max_length=255, null=True, blank=True)
+    website = models.URLField(null=True, blank=True)
     status = models.CharField(max_length=50, null=True, choices=STATUS, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
     

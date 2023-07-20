@@ -1,0 +1,34 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>Industry</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Trend</th>
+            <th>Growth Rate</th>
+            <th>Expected Job Openings</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trend in trends %}
+        <tr>
+            <td>{{ trend.industry }}</td>
+            <td>{{ trend.location }}</td>
+            <td>{{ trend.date }}</td>
+            <td>{{ trend.trend }}</td>
+            <td>{{ trend.growth_rate }}</td>
+            <td>{{ trend.expected_job_openings }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock content %}
+
+
+

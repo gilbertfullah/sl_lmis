@@ -3,10 +3,16 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Count
 from plotly.graph_objs import Pie
+from jobs.models import Job
+from django.db import models
 
 
 def home(request):
-    return render(request, 'core/home.html')
+    jobs = Job.objects.all().order_by('-published_date')[:6]
+    #categories = Job.objects.values('sector').annotate(job_count=models.Count('sector')).order_by('-job_count')[:4]
+    categories = Job.objects.values('sector').annotate(job_count=Count('sector')).order_by('-job_count')[:4]
+            
+    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories})
 
 def working_age_population(request):
     values = [20, 30, 40, 50]

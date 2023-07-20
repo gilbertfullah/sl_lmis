@@ -9,9 +9,9 @@ class UserAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 class JobSeekerAdmin(admin.ModelAdmin):
-    list_filter = ['first_name', 'last_name', 'username', 'email', 'status']
-    list_display = ['name', 'username', 'email', 'gender', 'location', 'profession', 'status', '_']
-    search_fields = ['first_name', 'last_name', 'username', 'email', 'status']
+    list_filter = ['first_name', 'last_name', 'username', 'email']
+    list_display = ['name', 'username', 'email', 'gender', 'location', 'profession']
+    search_fields = ['first_name', 'last_name', 'username', 'email']
     list_per_page = 10
     
     #Method to change the icons

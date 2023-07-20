@@ -11,7 +11,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('lmi/', include('lmi.urls')),
     path('jobs/', include('jobs.urls')),
+    path('news_and_events/', include('news_and_events.urls')),
     path('career_dev/', include('career_dev.urls')),
+    path('sl_lmis/', include('about.urls')),
     path('training_programs/', include('training_programs.urls')),
     
 ] 

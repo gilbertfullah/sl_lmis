@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.conf import settings
 from django.http.response import HttpResponse
 import mimetypes
-from .models import IndustrialRelation
+from .models import IndustrialRelation, SalaryInformation
 import plotly.graph_objs as go
 import plotly.offline as pyo
 
@@ -71,3 +71,31 @@ def download_file(request):
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     # Return the response value
     return response
+
+def salary_information(request):
+    job_title = request.GET.get('job_title')
+    location = request.GET.get('location')
+    industry = request.GET.get('industry')
+    date = request.GET.get('date')
+
+    salary_info = SalaryInformation.objects.filter(job_title=job_title, location=location, industry=industry, date=date)
+    context = {'salary_info': salary_info}
+    return render(request, 'salary_information.html', context)
+
+def industry_trends(request):
+    industry = request.GET.get('industry')
+    location = request.GET.get('location')
+    date = request.GET.get('date')
+
+    trends = IndustryTrends.objects.filter(industry=industry, location=location, date=date)
+    context = {'trends': trends}
+    return render(request, 'industry_trends.html', context)
+
+def employment_insights(request):
+    industry = request.GET.get('industry')
+    location = request.GET.get('location')
+    date = request.GET.get('date')
+
+    insights = EmploymentInsights.objects.filter(industry=industry, location=location, date=date)
+    context = {'insights': insights}
+    return render(request, 'employment_insights.html', context)

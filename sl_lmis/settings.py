@@ -29,7 +29,9 @@ DEBUG = os.getenv('DEBUG', default=False)
 
 port = int(os.environ.get('PORT', 8000))
 
+ENV_ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS') or None
 ALLOWED_HOSTS = ['*']
+
 
 
 # Application definition
@@ -47,11 +49,14 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'accounts.apps.AccountsConfig',
     'jobs.apps.JobsConfig',
+    'news_and_events.apps.NewsAndEventsConfig',
+    'about.apps.AboutConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'phonenumber_field',
     'widget_tweaks',
     'django_bootstrap_icons',
+    'django_unicorn',
     'django_countries',
     'lmi.apps.LmiConfig',
     'fontawesomefree',

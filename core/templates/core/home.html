@@ -42,7 +42,7 @@
             <div class="col-xl-6 col-lg-9 col-md-10 my-3">
                 <img src="{% static 'images/hero.png' %}" width="390" height="430" style="position:absolute; left:700px; top: -100px" />
                 <div class="hero__caption">
-                    <h1 style="font-weight: 900 !important">Welcome to Sierra Leone Labour Market Information System</h1>
+                    <h1 style="font-weight: 900 !important; font-size: 34px !important">Welcome to Sierra Leone Labour Market Information System</h1>
                 </div>
             </div>
 
@@ -61,6 +61,7 @@
       </div>
     </div>
     </div>
+
     <img src="{% static 'images/double-down.gif' %}" width="40" height="40" style="position: absolute; left:600px !important;" />
   </div>
 
@@ -113,7 +114,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- How  Apply Process Start-->
 <div class="apply-process-area apply-bg pt-60 pb-60" style="background-color: #29569F;">
@@ -174,54 +174,101 @@
 </div>
 <!-- How  Apply Process End-->
 
-<!-- Blog Area Start -->
+<!-- Latest Jobs -->
 <section class="py-5">
     <div class="container">
+        <div class="section-title">
+            <div class="row">
+                <div class="col-lg-6 mb-4" style="text-align: left;">
+                    <h2 style="color: black; font-weight: bold;">Latest Jobs</h2>
+                </div>
+                <div class="col-lg-6" style="text-align: right;">
+                    <a href="#" style="color: #004F98; font-size: 18px;">View all jobs &#8811;</a>
+                </div>
+            </div>
+          </div>
       <div class="row">
-        <div class="col-lg-12">
-          <div class="text-center mb-5">
-            <h2>Our Latest News and Events</h2>
-          </div>
-        </div>
-      </div>
-      <div class="row">
+        {% for job in jobs %}
         <div class="col-lg-4 col-md-6">
-          <div class="card mb-4">
-            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+          <div class="job-item card mb-4" style="height:420px">
+            <img src="{{ job.logo.url}}" class="card-img-top px-4" alt="{{ job.title}}" height="200" width="100%">
             <div class="card-body">
-              <h5 class="card-title">News or Event Heading 1</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <p class="card-text"><small class="text-muted">Date: 24th April 2023</small></p>
-              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
+              <h5 class="card-title"><b>{{ job.title}}</b></h5>
+              <p class="card-text"><small class="text-muted">Application ends: {{ job.expiration_date}}</small></p>
+              <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+              </svg> {{job.location}}</span>
+            <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+              </svg> {{job.contract}}</span>     
+              <a href="#" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card mb-4">
-            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">News or Event Heading 2</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <p class="card-text"><small class="text-muted">Date: 23rd April 2023</small></p>
-              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6">
-          <div class="card mb-4">
-            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">News or Event Heading 3</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <p class="card-text"><small class="text-muted">Date: 22nd April 2023</small></p>
-              <a href="#" class="btn btn-primary" style="color:white; background-color:#29569F">Read More</a>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
   </section>
-  
+<!-- Latest Jobs End -->
+
+<!-- Blog Area Start -->
+<div class="home-blog-area">
+    <div class="container">
+        <!-- Section Tittle -->
+        <div class="row mb-4">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-6" style="text-align: left;">
+                        <h2 style="color: black; font-weight: bold;">Latest News and Events</h2>
+                    </div>
+                    <div class="col-lg-6" style="text-align: right;">
+                        <a href="#" style="color: #004F98; font-size: 18px;">View all &#8811;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-6 col-lg-6 col-md-6">
+                <div class="home-blog-single mb-30">
+                    <div class="blog-img-cap">
+                        <div class="blog-img">
+                            <img src="{% static 'images/home-blog1.jpg' %}" alt=""> 
+                            <!-- Blog date -->
+                            <div class="blog-date text-center">
+                                <span>24</span>
+                                <p>Now</p>
+                            </div>
+                        </div>
+                        <div class="blog-cap">
+                            <p>|   Properties</p>
+                            <h3><a href="single-blog.html">Footprints in Time is perfect House in Kurashiki</a></h3>
+                            <a href="#" class="more-btn">Read more »</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6">
+                <div class="home-blog-single mb-30">
+                    <div class="blog-img-cap">
+                        <div class="blog-img">
+                            <img src="{% static 'images/home-blog2.jpg' %}" alt="">
+                            <!-- Blog date -->
+                            <div class="blog-date text-center">
+                                <span>24</span>
+                                <p>Now</p>
+                            </div>
+                        </div>
+                        <div class="blog-cap">
+                            <p>|   Properties</p>
+                            <h3><a href="single-blog.html">Footprints in Time is perfect House in Kurashiki</a></h3>
+                            <a href="#" class="more-btn">Read more »</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Blog Area End -->
 
 {% endblock content %}

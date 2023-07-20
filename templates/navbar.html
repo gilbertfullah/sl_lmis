@@ -11,8 +11,14 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
-        <li class="nav-item" style="padding-right: 30px">
-            <a class="nav-link active" aria-selected="true" href="{% url 'home' %}" style="color:black; font-weight:600">Home</a>
+        <li class="nav-item dropdown" style="padding-right: 30px">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight:600">
+            About SL-LMIS
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'about' %}">About SL-LMIS</a></li>
+            <li><a class="dropdown-item" href="{% url 'contact_us' %}">Contact Us</a></li>
+          </ul>
         </li>
         <li class="nav-item" style="padding-right: 30px">
           <a class="nav-link" href="{% url 'jobs' %}" style="color:black; font-weight:600">Jobs</a>
@@ -29,9 +35,9 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Labour Laws</a></li>
-            <li><a class="dropdown-item" href="#">Regulations</a></li>
-            <li><a class="dropdown-item" href="#">Policies</a></li>
+            <li><a class="dropdown-item" href="#">Policies & Regulations</a></li>
             <li><a class="dropdown-item" href="#">Reports & Surveys</a></li>
+            <li><a class="dropdown-item" href="#">News & Events</a></li>
           </ul>
         </li>
       </ul>
@@ -51,4 +57,3 @@
       {% endif %}
   </div>
 </nav>
-

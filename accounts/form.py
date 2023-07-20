@@ -34,26 +34,6 @@ EXPERIENCE_LEVEL = (
         ('More than 10 years', 'More than 10 years'),
     )
 
-LOCATION = (
-        ('', 'Select a region'),
-        ('Freetown', 'Freetown'),
-        ('Bo', 'Bo'),
-        ('Kailahun', 'Kailahun'),
-        ('Kenema', 'Kenema'),
-        ('Kono', 'Kono'),
-        ('Bonthe', 'Bonthe'),
-        ('Kabala', 'Kabala'),
-        ('Kambia', 'Kambia'),
-        ('Pujehun', 'Pujehun'),
-        ('Port Loko', 'Port Loko'),
-        ('Makeni', 'Makeni'),
-        ('Moyamba', 'Moyamba'),
-        ('Magburaka', 'Magburaka'),
-        ('Yele', 'Yele'),
-        ('Waterloo', 'Waterloo'),
-        ('International', 'International'),
-    )
-
 SECTOR = (
         ('', 'Select a category'),
         ('Agriculture, Fishing, Aquaculture', 'Agriculture, Fishing, Aquaculture'),
@@ -106,6 +86,26 @@ CHOICES = (
         ('Freelance', 'Freelance')
 )
 
+DISTRICT = (
+        ('', 'Select a district'),
+        ('Bo', 'Bo'),
+        ('Bonthe', 'Bonthe'),
+        ('Bombali', 'Bombali'),
+        ('Falaba', 'Falaba'),
+        ('Kailahun', 'Kailahun'),
+        ('Kambia', 'Kambia'),
+        ('Kenema', 'Kenema'),
+        ('Koinadugu', 'Koinadugu'),
+        ('Karene', 'Karene'),
+        ('Kono', 'Kono'),
+        ('Moyamba', 'Moyamba'),
+        ('Port Loko', 'Port Loko'),
+        ('Pujehun', 'Pujehun'),
+        ('Tonkolili', 'Tonkolili'),
+        ('Western Rural', 'Western Rural'),
+        ('Western Urban', 'Western Urban'),
+)
+
 class JobSeekerRegisterForm(UserCreationForm):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                  message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
@@ -129,7 +129,7 @@ class JobSeekerRegisterForm(UserCreationForm):
                                 message="Only letter is allowed!")], error_messages={'required':'Course/Training cannot be empty'}, required=True,
                                 widget=forms.TextInput(attrs={'placeholder':'Example: Accounting',
                                                               'style':'font-size: 13px; text-transform: capitalize'}))
-    profession = forms.CharField(label="Profession", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
+    profession = forms.CharField(label="Profession/Qualification", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                 message="Only letter is allowed!")], error_messages={'required':'Profession cannot be empty'}, required=True,
                                 widget=forms.TextInput(attrs={'placeholder':'Example: Accountant',
                                                               'style':'font-size: 13px; text-transform: capitalize'}))
@@ -139,7 +139,7 @@ class JobSeekerRegisterForm(UserCreationForm):
     gender = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=GENDER, error_messages={'required':'Gender cannot be empty'},)
     education_level = forms.ChoiceField(label="Highest level of education", widget=forms.Select(attrs={"class":"form-control"}), choices=EDUCATION_LEVEL, error_messages={'required':'Education level cannot be empty'},)
 
-    location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=LOCATION, error_messages={'required':'Location cannot be empty'},)
+    location = forms.CharField(max_length=250, min_length=2, widget=forms.Select(attrs={"class":"form-control"}), error_messages={'required':'Location cannot be empty'},)
     age = forms.CharField(label="Age", min_length=2, validators=[RegexValidator(r'^[0-9]*$',
                           message="Only number is allowed!")], error_messages={'required':'Age cannot be empty'},
                           widget=forms.TextInput(attrs={'placeholder':'Your Age',
@@ -147,7 +147,7 @@ class JobSeekerRegisterForm(UserCreationForm):
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 
                                                                  'placeholder':'Phone Number',
-                                                                 'data-mask': '(000) 00 00 00'}))
+                                                                 'data-mask': '+(000) 00 00 00 00'}))
     profile_pic = forms.FileField(label="Upload your profile picture", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     #country = CountryField(blank_label='(Select country)')
     grad_year = forms.CharField(label="Graduation year", min_length=2, required=True, validators=[RegexValidator(r'^[0-9]*$', message="Only number is allowed!")],
@@ -209,7 +209,7 @@ class NewSkillForm(forms.ModelForm):
 class CompanyRegisterForm(UserCreationForm):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                  message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
-                                 widget=forms.TextInput(attrs={'placeholder':'Username', 'style':'font-size: 13px; text-transform: capitalize'}))
+                                 widget=forms.TextInput(attrs={'placeholder':'Username', 'autofocus': 'autofocus', 'style':'font-size: 13px; text-transform: capitalize'}))
     company_name = forms.CharField(label="Company Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                  message="Only letter is allowed!")], error_messages={'required':'Company name cannot be empty'}, required=True,
                                  widget=forms.TextInput(attrs={'placeholder':'Company name', 
@@ -229,7 +229,7 @@ class CompanyRegisterForm(UserCreationForm):
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number',
                                                                  'data-mask': '(000) 00 00 00'}))
-    region = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=LOCATION, error_messages={'required':'Region cannot be empty'},)
+    districts = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR, error_messages={'required':'Sector cannot be empty'},)
     address = forms.CharField(label="Company Address", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-,\s]*$',
                                  message="Only letters and numbers is allowed!")], error_messages={'required':'Address cannot be empty'}, required=True,
@@ -238,11 +238,15 @@ class CompanyRegisterForm(UserCreationForm):
     company_certificate = forms.FileField(label="Upload company registration certificate", required=True, error_messages={'required':'Company certificate cannot be empty'},
                                           widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     company_logo = forms.FileField(label="Upload company logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    company_size = forms.CharField(label="Company size", min_length=1, validators= [RegexValidator(r'^[0-9\s]*$',
+                                 message="Only number is allowed!")], widget=forms.TextInput(attrs={'placeholder':'30', 'style':'font-size: 13px;'}))
+    website = forms.URLField(max_length=150, min_length=3, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}),
+                             validators=[RegexValidator(r'^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$')])
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'region', 
-                  'sector', 'company_certificate', 'company_logo', 'address')
+        fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'districts', 
+                  'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website')
         
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -268,11 +272,13 @@ class CompanyRegisterForm(UserCreationForm):
         company.password2 = self.cleaned_data.get('password2')
         company.description = self.cleaned_data.get('description')
         company.phone_number = self.cleaned_data.get('phone_number')
-        company.region = self.cleaned_data.get('region')
+        company.districts = self.cleaned_data.get('districts') 
         company.sector = self.cleaned_data.get('sector')
         company.company_certificate = self.cleaned_data.get('company_certificate')
         company.company_logo = self.cleaned_data.get('company_logo')
         company.address = self.cleaned_data.get('address')
+        company.company_size = self.cleaned_data.get('company_size')
+        company.website = self.cleaned_data.get('website')
         company.save()
         return user
     
@@ -302,13 +308,14 @@ class GovernmentRegisterForm(UserCreationForm):
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 
                                                                  'placeholder':'Phone Number',
                                                                  'data-mask': '(000) 00 00 00'}))
-    region = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=LOCATION)
+    districts = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR)
     logo = forms.FileField(label="Upload institution logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
-
+    
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('government_institution_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'region', 'sector', 'logo')
+        fields = ('government_institution_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 
+                  'districts', 'sector', 'logo',)
 
     @transaction.atomic
     def save(self):
@@ -327,7 +334,7 @@ class GovernmentRegisterForm(UserCreationForm):
         government.password2 = self.cleaned_data.get('password2')
         government.description = self.cleaned_data.get('description')
         government.phone_number = self.cleaned_data.get('phone_number')
-        government.region = self.cleaned_data.get('region')
+        government.districts = self.cleaned_data.get('districts')
         government.sector = self.cleaned_data.get('sector')
         government.logo = self.cleaned_data.get('logo')
         government.save()

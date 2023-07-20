@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns=[
-     path('', views.jobs, name='jobs'),
+     path('unicorn/', include('django_unicorn.urls')),
+     path('', views.Jobs, name='jobs'),
      path('<int:id>/',views.job_detail, name='job_detail'),
      path('post_job/',views.post_job, name='post_job'),
      #path('favourite_jobs/',views.favourite, name='favourite_jobs'),   
