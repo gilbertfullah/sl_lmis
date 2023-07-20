@@ -229,7 +229,7 @@ class CompanyRegisterForm(UserCreationForm):
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number',
                                                                  'data-mask': '(000) 00 00 00'}))
-    districts = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
+    location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR, error_messages={'required':'Sector cannot be empty'},)
     address = forms.CharField(label="Company Address", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-,\s]*$',
                                  message="Only letters and numbers is allowed!")], error_messages={'required':'Address cannot be empty'}, required=True,
@@ -245,7 +245,7 @@ class CompanyRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'districts', 
+        fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'location', 
                   'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website')
         
     def clean_email(self):
@@ -272,7 +272,7 @@ class CompanyRegisterForm(UserCreationForm):
         company.password2 = self.cleaned_data.get('password2')
         company.description = self.cleaned_data.get('description')
         company.phone_number = self.cleaned_data.get('phone_number')
-        company.districts = self.cleaned_data.get('districts') 
+        company.location = self.cleaned_data.get('location') 
         company.sector = self.cleaned_data.get('sector')
         company.company_certificate = self.cleaned_data.get('company_certificate')
         company.company_logo = self.cleaned_data.get('company_logo')
@@ -308,14 +308,14 @@ class GovernmentRegisterForm(UserCreationForm):
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 
                                                                  'placeholder':'Phone Number',
                                                                  'data-mask': '(000) 00 00 00'}))
-    districts = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT)
+    location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR)
     logo = forms.FileField(label="Upload institution logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('government_institution_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 
-                  'districts', 'sector', 'logo',)
+                  'location', 'sector', 'logo',)
 
     @transaction.atomic
     def save(self):
@@ -334,7 +334,7 @@ class GovernmentRegisterForm(UserCreationForm):
         government.password2 = self.cleaned_data.get('password2')
         government.description = self.cleaned_data.get('description')
         government.phone_number = self.cleaned_data.get('phone_number')
-        government.districts = self.cleaned_data.get('districts')
+        government.location = self.cleaned_data.get('location')
         government.sector = self.cleaned_data.get('sector')
         government.logo = self.cleaned_data.get('logo')
         government.save()

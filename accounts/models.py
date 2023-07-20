@@ -4,6 +4,26 @@ from django_countries.fields import CountryField
 from django.utils import timezone
 
 
+DISTRICT = (
+        ('', 'Select a district'),
+        ('Bo', 'Bo'),
+        ('Bonthe', 'Bonthe'),
+        ('Bombali', 'Bombali'),
+        ('Falaba', 'Falaba'),
+        ('Kailahun', 'Kailahun'),
+        ('Kambia', 'Kambia'),
+        ('Kenema', 'Kenema'),
+        ('Koinadugu', 'Koinadugu'),
+        ('Karene', 'Karene'),
+        ('Kono', 'Kono'),
+        ('Moyamba', 'Moyamba'),
+        ('Port Loko', 'Port Loko'),
+        ('Pujehun', 'Pujehun'),
+        ('Tonkolili', 'Tonkolili'),
+        ('Western Rural', 'Western Rural'),
+        ('Western Urban', 'Western Urban'),
+)
+
 class User(AbstractUser):
     is_jobseeker = models.BooleanField(default=False)
     is_company = models.BooleanField(default=False)
@@ -29,7 +49,7 @@ class JobSeeker(models.Model):
     email = models.EmailField(max_length=50)
     phone_number = models.CharField(max_length=20)
     profile_pic = models.FileField(null=True, blank=True)
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=250, choices=DISTRICT)
     education_level = models.CharField(max_length=200)
     course_training = models.CharField(max_length=200)
     profession = models.CharField(max_length=200)
@@ -41,7 +61,7 @@ class JobSeeker(models.Model):
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'username', 'password1', 'password2', 'gender', 'age', 'education_level', 'course_training', 
-                       'profession', 'grad_year', 'looking_for']
+                       'profession', 'grad_year', 'looking_for', 'location']
     
     def __str__(self):
         return self.username
@@ -65,10 +85,10 @@ class Company(models.Model):
     company_name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
-    region = models.CharField(max_length=200)
+    districts = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=200)
-    address = models.CharField(max_length=200)
+    location = models.CharField(max_length=250, choices=DISTRICT)
     company_logo = models.FileField(null=True, blank=True)
     company_certificate = models.FileField()
     company_size = models.CharField(max_length=255, null=True, blank=True)
@@ -77,7 +97,7 @@ class Company(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email', 'company_name', 'region', 'phone_number', 'sector', 'address', 'company_certificate']
+    REQUIRED_FIELDS = ['email', 'company_name', 'location', 'phone_number', 'sector', 'address', 'company_certificate']
    
     def __str__(self):
         return self.company_name
@@ -93,7 +113,7 @@ class Government(models.Model):
     government_institution_name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
-    region = models.CharField(max_length=200)
+    location = models.CharField(max_length=250, choices=DISTRICT)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=100)
     logo = models.FileField(null=True, blank=True)
