@@ -56,8 +56,6 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'widget_tweaks',
     'django_bootstrap_icons',
-    'django_unicorn',
-    'django_countries',
     'lmi.apps.LmiConfig',
     'fontawesomefree',
     'career_dev.apps.CareerDevConfig',

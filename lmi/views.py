@@ -99,3 +99,5 @@ def employment_insights(request):
     insights = EmploymentInsights.objects.filter(industry=industry, location=location, date=date)
     context = {'insights': insights}
     return render(request, 'employment_insights.html', context)
+
+
