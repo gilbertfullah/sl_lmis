@@ -2,7 +2,6 @@ from django.urls import path, include
 from . import views
 
 urlpatterns=[
-     path('unicorn/', include('django_unicorn.urls')),
      path('', views.Jobs, name='jobs'),
      path('<int:id>/',views.job_detail, name='job_detail'),
      path('post_job/',views.post_job, name='post_job'),
