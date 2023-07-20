@@ -85,7 +85,7 @@ class Company(models.Model):
     company_name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
-    districts = models.CharField(max_length=200)
+    address = models.CharField(max_length=250)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=200)
     location = models.CharField(max_length=250, choices=DISTRICT)

@@ -36,7 +36,7 @@ class JobSeekerAdmin(admin.ModelAdmin):
     status.allow_tags = True
     
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['company_name', 'email', 'region', 'sector', 'address', 'status']
+    list_display = ['company_name', 'email', 'location', 'sector', 'address', 'status']
     search_fields = ['company_name', 'email', 'sector', 'address']
     list_per_page = 10
     
@@ -62,7 +62,7 @@ class CompanyAdmin(admin.ModelAdmin):
     status.allow_tags = True
     
 class GovernmentAdmin(admin.ModelAdmin):
-    list_display = ['government_institution_name', 'email', 'region', 'sector', 'created_at']
+    list_display = ['government_institution_name', 'email', 'location', 'sector', 'created_at']
     search_fields = ['government_institution_name', 'email', 'sector']
     list_per_page = 10
  
