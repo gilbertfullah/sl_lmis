@@ -37,9 +37,7 @@ class Job(models.Model):
     experience = models.CharField(verbose_name="Working Experience", max_length=200, choices=EXP_CHOICES)
     qualification = models.CharField(verbose_name="Qualification", max_length=200, default="Bachelors")
     requirements = models.TextField(verbose_name="Requirement")
-    #summary = models.TextField(verbose_name="Summary", required=False)
     logo = models.ImageField(null=True, blank=True)
-    #favourite = models.ManyToManyField(User, related_name="favourite", blank=True)
     updated = models.DateField(auto_now=True)
     created_at = models.DateField(default=timezone.now)
     
