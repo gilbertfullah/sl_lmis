@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.postgres.fields import ArrayField
 
 class Image(models.Model):
-    images = ArrayField(models.ImageField(upload_to='news/', default=list))
+    images = ArrayField(models.ImageField(upload_to='news/', default='static/images/home-blog1.jpg'))
     created_at = models.DateField(default=timezone.now)
 
     def __str__(self):
