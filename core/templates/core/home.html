@@ -199,7 +199,7 @@
                     <div class="blog-img-cap">
                         <div class="blog-img">
                             {% if news.images.all %}
-                            <img src="{{ news.images.all.0.image.url }}" alt="Image {{ news.images.all.0.pk }}"> 
+                            <img src="{{ news.images.0.url }}" alt="Image {{ news.pk }}"> 
                             {% endif %}
                             <!-- Blog date -->
                             <div class="blog-date text-center">
@@ -208,7 +208,7 @@
                         </div>
                         <div class="blog-cap">
                             <p>|   {{ news.published_date }}</p>
-                            <h3><a href="single-blog.html">{{ news.title }}</a></h3>
+                            <h5><a href="#">{{ news.title }}</a></h5>
                             <a href="#" class="more-btn">Read more »</a>
                         </div>
                     </div>
