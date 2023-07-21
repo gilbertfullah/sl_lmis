@@ -10,11 +10,11 @@ from news_and_events.models import NewsAndEvents
 
 def home(request):
     jobs = Job.objects.all().order_by('-published_date')[:6]
-    news_and_events = NewsAndEvents.objects.all().order_by('-published_date')[:3]
+    news_and_events_list = NewsAndEvents.objects.all().order_by('-published_date')[:3]
     #new = Job.objects.values('sector').annotate(job_count=models.Count('sector')).order_by('-job_count')[:4]
     categories = Job.objects.values('sector').annotate(job_count=Count('sector')).order_by('-job_count')[:4]
             
-    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories, 'news_and_events': news_and_events})
+    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories, 'news_and_events_list': news_and_events_list})
 
 def working_age_population(request):
     values = [20, 30, 40, 50]
