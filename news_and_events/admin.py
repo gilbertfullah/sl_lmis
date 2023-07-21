@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import NewsAndEvents
+from .models import NewsAndEvents, Image
 
 class NewsAndEventsAdmin(admin.ModelAdmin):
     list_filter = ['title', 'tag', 'author']
