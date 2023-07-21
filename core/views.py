@@ -5,14 +5,16 @@ from django.db.models import Count
 from plotly.graph_objs import Pie
 from jobs.models import Job
 from django.db import models
+from news_and_events.models import NewsAndEvents
 
 
 def home(request):
     jobs = Job.objects.all().order_by('-published_date')[:6]
-    #categories = Job.objects.values('sector').annotate(job_count=models.Count('sector')).order_by('-job_count')[:4]
+    news_and_events = NewsAndEvents.objects.all().order_by('-published_date')[:3]
+    #new = Job.objects.values('sector').annotate(job_count=models.Count('sector')).order_by('-job_count')[:4]
     categories = Job.objects.values('sector').annotate(job_count=Count('sector')).order_by('-job_count')[:4]
             
-    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories})
+    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories, 'news_and_events': news_and_events})
 
 def working_age_population(request):
     values = [20, 30, 40, 50]
