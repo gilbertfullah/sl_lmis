@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import NewsAndEvents, Image
+from .models import NewsAndEvents
 
 class NewsAndEventsAdmin(admin.ModelAdmin):
     list_filter = ['title', 'tag', 'author']
@@ -8,4 +8,3 @@ class NewsAndEventsAdmin(admin.ModelAdmin):
     list_per_page = 10
     
 admin.site.register(NewsAndEvents, NewsAndEventsAdmin)
-admin.site.register(Image)
