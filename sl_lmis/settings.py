@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'career_dev.apps.CareerDevConfig',
     'training_programs.apps.TrainingProgramsConfig',
     'plotly',
+    'django.contrib.postgres',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
