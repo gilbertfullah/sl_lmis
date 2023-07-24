@@ -10,6 +10,7 @@ class NewsAndEvents(models.Model):
     title = models.CharField(verbose_name="Title", max_length=250)
     author = models.CharField(verbose_name="Author", max_length=250)
     content = models.TextField(verbose_name="Content")
+    image = models.FileField(blank=True)
     tag = models.CharField(verbose_name="Tag", max_length=200, choices=TAG)
     published_date = models.DateField(verbose_name="Published Date", default=timezone.now)
     created_at = models.DateField(default=timezone.now)
@@ -21,8 +22,8 @@ class NewsAndEvents(models.Model):
         return self.title
 
 class Image(models.Model):
-    news_and_events = models.ForeignKey(NewsAndEvents, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='news/', default='images/home-blog1.jpg')
+    news_and_events = models.ForeignKey(NewsAndEvents, default=None, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='news/', default='images/home-blog1.jpg')
 
     def __str__(self):
         return f'Image {self.pk}'
