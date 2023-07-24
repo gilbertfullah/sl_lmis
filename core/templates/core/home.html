@@ -198,9 +198,9 @@
                 <div class="home-blog-single mb-30">
                     <div class="blog-img-cap">
                         <div class="blog-img">
-                            {% if news.images.all %}
+                            {% for image in news.images.all %}
                             <img src="{{ news.images.url }}" alt="Image {{ news.pk }}"> 
-                            {% endif %}
+                            {% endfor %}
                             <!-- Blog date -->
                             <div class="blog-date text-center">
                                 <span>{{ news.tag }}</span>
