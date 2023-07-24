@@ -177,7 +177,7 @@
 
 
 <!-- News and Events Start -->
-<div class="home-blog-area">
+<div class="home-blog-area mt-4">
     <div class="container">
         <!-- Section Tittle -->
         <div class="row mb-4">
@@ -194,13 +194,13 @@
         </div>
         <div class="row">
             {% for news in news_and_events_list %}
-            <div class="col-xl-4 col-lg-4 col-md-4">
+            <div class="col-xl-4 col-lg-4 col-md-4" style="height:400px">
                 <div class="home-blog-single mb-30">
                     <div class="blog-img-cap">
                         <div class="blog-img">
-                            
+                            {% for image in news.images.all %}
                             <img src="{{ news.images.url }}" alt="Image {{ news.pk }}"> 
-                            
+                            {% endfor %}
                             <!-- Blog date -->
                             <div class="blog-date text-center">
                                 <span>{{ news.tag }}</span>
