@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import NewsAndEvents
+from .models import NewsAndEvents, Image
 
 class NewsAndEventsAdmin(admin.ModelAdmin):
     list_filter = ['title', 'tag', 'author']
@@ -7,6 +7,9 @@ class NewsAndEventsAdmin(admin.ModelAdmin):
     search_fields = ['title', 'tag', 'author']
     list_per_page = 10
 
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['image']
+
     
 admin.site.register(NewsAndEvents, NewsAndEventsAdmin)
-#admin.site.register(Image)
+admin.site.register(Image, ImageAdmin)
