@@ -228,8 +228,8 @@
         </div>
       <div class="row">
         {% for news in news_and_events_list %}
-        <div class="col-lg-4 col-md-6">
-          <div class="job-item card mb-4" style="height:420px">
+        <div class="col-xl-4 col-lg-4 col-md-4 mb-5">
+          <div class="home-blog-single mb-30" style="height:420px">
             <div class="blog-img-cap">
                 <div class="blog-img">
                     <img src="{{ news.image1.url }}" alt="" height="200"> 
@@ -280,11 +280,11 @@
                                 <span>{{ news.tag }}</span>
                             </div>
                         </div>
-                        <div class="blog-cap">
-                            <p>|   {{ news.published_date }}</p>
-                            <h5 style="width: 100%">{{ news.title }}</h5>
-                            <a href="#" class="more-btn">Read more »</a>
-                        </div>
+                    </div>
+                    <div class="blog-cap">
+                        <p>|   {{ news.published_date }}</p>
+                        <h5 style="width: 100%">{{ news.title }}</h5>
+                        <a href="#" class="more-btn">Read more »</a>
                     </div>
                 </div>
             </div>
