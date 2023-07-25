@@ -1,0 +1,59 @@
+.job-item:hover {
+    border-color: rgba(0, 0, 0, .08);
+    box-shadow: none;
+}
+
+span#working-population {
+    position: absolute;
+    left: 40px;
+    padding-bottom: 30px;
+}
+
+span#employment-rate {
+    position: absolute;
+    right: 600px;
+    padding-bottom: 30px;
+}
+
+span#unemployment-rate {
+    position: absolute;
+    right: 310px;
+    padding-bottom: 30px;
+}
+
+span#youth-employment-rate {
+    position: absolute;
+    right: 30px;
+    padding-bottom: 30px;
+}
+
+li a:hover {
+    color: #29569F !important;
+}
+
+a.navbar-brand {
+    font-weight:bold;
+    left:30px;
+}
+
+.bg-cover {
+    background-size: cover;
+}
+
+.section-tittle h2 {
+    font-size:30px;
+    line-height:1.4;
+    margin-bottom:10px !important;
+}
+
+.navbar-nav .nav-link:active {
+    border-bottom: 2px solid #007bff !important;
+}
+
+.required-field::before {
+    content: "*";
+    color: red;
+    margin-right: 5px;
+}
+
+  

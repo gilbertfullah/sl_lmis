@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from ckeditor.fields import RichTextField
     
     
 class NewsAndEvents(models.Model):
@@ -11,7 +12,7 @@ class NewsAndEvents(models.Model):
 
     title = models.CharField(verbose_name="Title", max_length=250)
     author = models.CharField(verbose_name="Author", max_length=250)
-    content = models.TextField(verbose_name="Content")
+    content = RichTextField()
     image1 = models.ImageField()
     image2 = models.ImageField(blank=True)
     image3 = models.ImageField(blank=True)

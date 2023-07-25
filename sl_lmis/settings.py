@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     'career_dev.apps.CareerDevConfig',
     'training_programs.apps.TrainingProgramsConfig',
     'plotly',
-    'django.contrib.postgres',
+    'ckeditor',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'

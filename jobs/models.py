@@ -3,6 +3,7 @@ from accounts.models import Company
 from django.utils import timezone
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
+from ckeditor.fields import RichTextField
 
 #from ..accounts.models import Company
 
@@ -27,7 +28,7 @@ class Job(models.Model):
     ]
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(verbose_name="Job Title", max_length=200)
-    description = models.TextField(verbose_name="Job Description", null=True, blank=True)
+    description = RichTextField(verbose_name="Job Description", null=True, blank=True)
     location = models.CharField(verbose_name="Location", max_length=200, default="Western Area")
     contract = models.CharField(verbose_name="Contract-Type", max_length=100, choices=CONTRACT_CHOICES)
     sector = models.CharField(verbose_name="Sector", max_length=200, default="Accounting")
@@ -36,7 +37,7 @@ class Job(models.Model):
     published_date = models.DateField(verbose_name="Published Date", default=timezone.now)
     experience = models.CharField(verbose_name="Working Experience", max_length=200, choices=EXP_CHOICES)
     qualification = models.CharField(verbose_name="Qualification", max_length=200, default="Bachelors")
-    requirements = models.TextField(verbose_name="Requirement")
+    requirements = RichTextField(verbose_name="Requirement", null=True, blank=True)
     logo = models.ImageField(null=True, blank=True)
     updated = models.DateField(auto_now=True)
     created_at = models.DateField(default=timezone.now)

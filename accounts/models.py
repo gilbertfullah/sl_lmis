@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 
 DISTRICT = (
@@ -83,7 +84,7 @@ class Company(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     company_name = models.CharField(max_length=200)
-    description = models.TextField(null=True, blank=True, max_length=1000)
+    description = RichTextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=250)
     phone_number = models.CharField(max_length=50)
@@ -111,7 +112,7 @@ class Government(models.Model):
     
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     government_institution_name = models.CharField(max_length=200)
-    description = models.TextField(null=True, blank=True, max_length=1000)
+    description = RichTextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
     location = models.CharField(max_length=250, choices=DISTRICT)
     phone_number = models.CharField(max_length=50)
