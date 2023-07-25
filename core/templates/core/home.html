@@ -211,7 +211,7 @@
   </section>
 <!-- Latest Jobs End -->
 
-<!-- Latest Jobs -->
+<!-- News and Events Jobs -->
 <section class="py-5">
     <div class="container">
         <div class="row mb-4">
@@ -230,11 +230,13 @@
         {% for news in news_and_events_list %}
         <div class="col-lg-4 col-md-6">
           <div class="job-item card mb-4" style="height:420px">
-            <div class="blog-img">
-                <img src="{{ news.image1.url }}" alt="" height="200"> 
-                <!-- Blog date -->
-                <div class="blog-date text-center">
-                    <span>{{ news.tag }}</span>
+            <div class="blog-img-cap">
+                <div class="blog-img">
+                    <img src="{{ news.image1.url }}" alt="" height="200"> 
+                    <!-- Blog date -->
+                    <div class="blog-date text-center">
+                        <span>{{ news.tag }}</span>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
