@@ -229,7 +229,7 @@ class CompanyRegisterForm(UserCreationForm):
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number',
                                                                  'data-mask': '(000) 00 00 00'}))
-    location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
+    district = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR, error_messages={'required':'Sector cannot be empty'},)
     address = forms.CharField(label="Company Address", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-,\s]*$',
                                  message="Only letters and numbers is allowed!")], error_messages={'required':'Address cannot be empty'}, required=True,
