@@ -10,59 +10,17 @@ class UserAdmin(admin.ModelAdmin):
 
 class JobSeekerAdmin(admin.ModelAdmin):
     list_filter = ['first_name', 'last_name', 'username', 'email']
-    list_display = ['name', 'username', 'email', 'gender', 'location', 'profession']
+    list_display = ['name', 'username', 'email', 'gender', 'district', 'profession']
     search_fields = ['first_name', 'last_name', 'username', 'email']
     list_per_page = 10
     
-    #Method to change the icons
-    def _(self, obj):
-        if obj.status == "Approved":
-            return True
-        elif obj.status == "Pending":
-            return None
-        else:
-            return False
-    _.boolean = True
-    
-    # Function to color the tex
-    def status(self, obj):
-        if obj.status == "Approved":
-            color = '#28a745'
-        elif obj.status == "Pending":
-            color = '#fea95e'
-        else:
-            color = 'red'
-        return format_html('<strong><p style="color: {}">{}</p></strong>'.format(color, obj.status))
-    status.allow_tags = True
-    
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ['company_name', 'email', 'location', 'sector', 'address', 'status']
+    list_display = ['company_name', 'email', 'district', 'sector', 'address']
     search_fields = ['company_name', 'email', 'sector', 'address']
     list_per_page = 10
     
-     #Method to change the icons
-    def _(self, obj):
-        if obj.status == "Approved":
-            return True
-        elif obj.status == "Pending":
-            return None
-        else:
-            return False
-    _.boolean = True
-    
-    # Function to color the tex
-    def status(self, obj):
-        if obj.status == "Approved":
-            color = '#28a745'
-        elif obj.status == "Pending":
-            color = '#fea95e'
-        else:
-            color = 'red'
-        return format_html('<strong><p style="color: {}">{}</p></strong>'.format(color, obj.status))
-    status.allow_tags = True
-    
 class GovernmentAdmin(admin.ModelAdmin):
-    list_display = ['government_institution_name', 'email', 'location', 'sector', 'created_at']
+    list_display = ['government_institution_name', 'email', 'district', 'sector', 'created_at']
     search_fields = ['government_institution_name', 'email', 'sector']
     list_per_page = 10
  

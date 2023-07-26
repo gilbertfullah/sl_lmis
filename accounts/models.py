@@ -50,7 +50,7 @@ class JobSeeker(models.Model):
     email = models.EmailField(max_length=50)
     phone_number = models.CharField(max_length=20)
     profile_pic = models.FileField(null=True, blank=True)
-    location = models.CharField(max_length=250, choices=DISTRICT)
+    district = models.CharField(max_length=250, choices=DISTRICT)
     education_level = models.CharField(max_length=200)
     course_training = models.CharField(max_length=200)
     profession = models.CharField(max_length=200)
@@ -76,12 +76,6 @@ class Skill(models.Model):
     user = models.ForeignKey(User, related_name='skills', on_delete=models.CASCADE)
     
 class Company(models.Model):
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Approved', 'Approved'),
-        ('Disapproved','Disapproved')
-    )
-
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     company_name = models.CharField(max_length=200)
     description = RichTextField(null=True, blank=True, max_length=1000)
@@ -89,36 +83,28 @@ class Company(models.Model):
     address = models.CharField(max_length=250)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=200)
-    location = models.CharField(max_length=250, choices=DISTRICT)
+    district = models.CharField(max_length=250, choices=DISTRICT)
     company_logo = models.FileField(null=True, blank=True)
     company_certificate = models.FileField()
     company_size = models.CharField(max_length=255, null=True, blank=True)
     website = models.URLField(null=True, blank=True)
-    status = models.CharField(max_length=50, null=True, choices=STATUS, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email', 'company_name', 'location', 'phone_number', 'sector', 'address', 'company_certificate']
+    REQUIRED_FIELDS = ['email', 'company_name', 'district', 'phone_number', 'sector', 'address', 'company_certificate']
    
     def __str__(self):
         return self.company_name
     
 class Government(models.Model):
-    STATUS = (
-        ('Pending', 'Pending'),
-        ('Approved', 'Approved'),
-        ('Disapproved','Disapproved')
-    )
-    
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     government_institution_name = models.CharField(max_length=200)
     description = RichTextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
-    location = models.CharField(max_length=250, choices=DISTRICT)
+    district = models.CharField(max_length=250, choices=DISTRICT)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=100)
     logo = models.FileField(null=True, blank=True)
-    status = models.CharField(max_length=50, null=True, choices=STATUS, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
    
     def __str__(self):
