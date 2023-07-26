@@ -238,9 +238,9 @@ class CompanyRegisterForm(UserCreationForm):
     company_certificate = forms.FileField(label="Upload company registration certificate", required=True, error_messages={'required':'Company certificate cannot be empty'},
                                           widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     company_logo = forms.FileField(label="Upload company logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
-    company_size = forms.CharField(label="Company size", min_length=1, validators= [RegexValidator(r'^[0-9\s]*$',
+    company_size = forms.CharField(label="Company size", min_length=1, required=False, validators= [RegexValidator(r'^[0-9\s]*$',
                                  message="Only number is allowed!")], widget=forms.TextInput(attrs={'placeholder':'30', 'style':'font-size: 13px;'}))
-    website = forms.URLField(max_length=150, min_length=3, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}),
+    website = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}),
                              validators=[RegexValidator(r'^((http|https)://)[-a-zA-Z0-9@:%._\\+~#?&//=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%._\\+~#?&//=]*)$')])
 
     class Meta(UserCreationForm.Meta):
