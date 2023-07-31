@@ -109,7 +109,7 @@ class JobForm(forms.ModelForm):
                                  widget=forms.TextInput(attrs={'placeholder':'Job title', 
                                                                'style':'font-size: 13px; text-transform: capitalize'}))
     salary = forms.CharField(label="Salary", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-\s]*$',
-                                 message="Only letter is allowed!")], required=True,
+                                 message="Only letter is allowed!")], required=False,
                                  widget=forms.TextInput(attrs={'placeholder':'Salary', 
                                                                'style':'font-size: 13px; text-transform: capitalize'}))
     location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=LOCATION)
@@ -123,7 +123,7 @@ class JobForm(forms.ModelForm):
     requirements = forms.CharField(label="Job requirements", min_length=50, required=True,
                                  widget=forms.Textarea(attrs={'placeholder':'Write a brief job requirements', 
                                                                'style':'font-size: 13px', 'rows':4}))
-    expiration_date = forms.DateField(label="Job Expiration Date", required=False, widget=forms.DateInput(attrs={'class': 'form-control datepicker-input'}))
+    expiration_date = forms.DateField(label="Job Expiration Date", required=False, widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control datepicker-input'}))
     logo = forms.FileField(label="Upload company logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     
     class Meta:
@@ -144,7 +144,7 @@ class JobUpdateForm(forms.ModelForm):
                                  widget=forms.TextInput(attrs={'placeholder':'Job title', 
                                                                'style':'font-size: 13px; text-transform: capitalize'}))
     salary = forms.CharField(label="Salary", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-\s]*$',
-                                 message="Only letter is allowed!")], required=True,
+                                 message="Only letter is allowed!")], required=False,
                                  widget=forms.TextInput(attrs={'placeholder':'Salary', 
                                                                'style':'font-size: 13px; text-transform: capitalize'}))
     location = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=LOCATION)

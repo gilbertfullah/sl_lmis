@@ -139,7 +139,7 @@ class JobSeekerRegisterForm(UserCreationForm):
     gender = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=GENDER, error_messages={'required':'Gender cannot be empty'},)
     education_level = forms.ChoiceField(label="Highest level of education", widget=forms.Select(attrs={"class":"form-control"}), choices=EDUCATION_LEVEL, error_messages={'required':'Education level cannot be empty'},)
 
-    location = forms.CharField(max_length=250, min_length=2, widget=forms.Select(attrs={"class":"form-control"}), error_messages={'required':'Location cannot be empty'},)
+    district = forms.CharField(max_length=250, min_length=2, widget=forms.Select(attrs={"class":"form-control"}), error_messages={'required':'District cannot be empty'},)
     age = forms.CharField(label="Age", min_length=2, validators=[RegexValidator(r'^[0-9]*$',
                           message="Only number is allowed!")], error_messages={'required':'Age cannot be empty'},
                           widget=forms.TextInput(attrs={'placeholder':'Your Age',
@@ -166,7 +166,7 @@ class JobSeekerRegisterForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'looking_for', 'resume', 'grad_year',
-                  'age', 'phone_number', 'location', 'gender', 'education_level', 'profile_pic', 'course_training', 'profession')
+                  'age', 'phone_number', 'district', 'gender', 'education_level', 'profile_pic', 'course_training', 'profession')
     
     @transaction.atomic
     def save(self):
@@ -188,7 +188,7 @@ class JobSeekerRegisterForm(UserCreationForm):
         jobseeker.password2 = self.cleaned_data.get('password2')
         jobseeker.age = self.cleaned_data.get('age')
         jobseeker.phone_number = self.cleaned_data.get('phone_number')
-        jobseeker.location = self.cleaned_data.get('location')
+        jobseeker.district = self.cleaned_data.get('district')
         jobseeker.gender = self.cleaned_data.get('gender')
         jobseeker.education_level = self.cleaned_data.get('education_level')
         jobseeker.profile_pic = self.cleaned_data.get('profile_pic')
@@ -228,7 +228,7 @@ class CompanyRegisterForm(UserCreationForm):
                                                            'style':'font-size: 13px; text-transform: lowercase'}))
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number',
-                                                                 'data-mask': '(000) 00 00 00'}))
+                                                                 'data-mask': '(+000) 00 00 00'}))
     district = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR, error_messages={'required':'Sector cannot be empty'},)
     address = forms.CharField(label="Company Address", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-,\s]*$',
