@@ -1,7 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<div class="our-services section-pad-t10" style="background-color:#FFFFF">
+<div class="our-services section-pad-t10 mt-2" style="background-color:#FFFFF">
     <div class="slider-area" style="background-color: #3CB043; margin-top: -15px">
         <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
             <div class="container">
@@ -15,19 +15,20 @@
             </div>
         </div>
     </div>
-
-    <div class="row">
-        {% for download in downloads %}
-        <div class="col-lg-4 col-md-6 mt-4">
-            <div class="job-item card mb-4" style="height:420px">
-              <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
-              <div class="card-body">
-                <h5 class="card-title"><b>{{ download.name }}</b></h5>   
-                <a href="{{ download.document }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
-              </div>
+    <div class="container">
+        <div class="row">
+            {% for download in downloads %}
+            <div class="col-lg-4 col-md-6 mt-5">
+                <div class="job-item card mb-4" style="height:420px">
+                <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
+                <div class="card-body">
+                    <h5 class="card-title"><b>{{ download.name }}</b></h5>   
+                    <a href="{% url 'download_document' document_id=document.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
+                </div>
+                </div>
             </div>
-          </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 
