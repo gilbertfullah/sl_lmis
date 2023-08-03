@@ -3,7 +3,20 @@
 {% block content %}
 
 <div class="container mt-5">
-    <h1 class="mb-4">Downloadable Resources</h1>
+    <div class="slider-area" style="background-color: #3CB043; margin-top: -15px">
+        <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Downloadable Resources</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         {% for download in downloads %}
         <div class="col-md-4 mb-4">
@@ -11,7 +24,7 @@
                 <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ download.name }}</h5>
-                    <a href="{{ download.document.url }}" class="btn btn-primary">Download</a>
+                    <a href="{{ download.document }}" class="btn btn-primary">Download</a>
                 </div>
             </div>
         </div>
