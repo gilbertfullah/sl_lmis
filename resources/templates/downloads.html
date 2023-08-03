@@ -19,15 +19,15 @@
 
     <div class="row">
         {% for download in downloads %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ download.name }}</h5>
-                    <a href="{{ download.document }}" class="btn btn-primary">Download</a>
-                </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="job-item card mb-4" style="height:420px">
+              <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
+              <div class="card-body">
+                <h5 class="card-title"><b>{{ download.name }}</b></h5>   
+                <a href="{{ download.document }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
+              </div>
             </div>
-        </div>
+          </div>
         {% endfor %}
     </div>
 </div>
