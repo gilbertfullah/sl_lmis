@@ -16,7 +16,7 @@ urlpatterns = [
     path('sl_lmis/', include('about.urls')),
     path('training_programs/', include('training_programs.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    
+    path('resources/', include('resources.urls')),
 ] 
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

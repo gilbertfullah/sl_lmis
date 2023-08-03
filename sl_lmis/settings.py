@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'cloudinary_storage',
     'cloudinary',
+    'resources.apps.ResourcesConfig',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -181,11 +182,11 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 
 if os.environ["ENVIRONMENT"] == "PRODUCTION":
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    
+
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME' : 'bongili',
-    'API_KEY' : '479259914118822',
-    'API_SECRET' : '21S9l1aekytyrx5dzIoEV952b2w'
+    'CLOUD_NAME' : os.environ['CLOUD_NAME'],
+    'API_KEY' : os.environ['API_KEY'],
+    'API_SECRET' : os.environ['API_SECRET']
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
