@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'training_programs.apps.TrainingProgramsConfig',
     'plotly',
     'ckeditor',
+    'cloudinary_storage',
+    'cloudinary',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -176,6 +178,15 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
+
+if os.environ["ENVIRONMENT"] == "PRODUCTION":
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME' : 'bongili',
+    'API_KEY' : '479259914118822',
+    'API_SECRET' : '21S9l1aekytyrx5dzIoEV952b2w'
+}
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
