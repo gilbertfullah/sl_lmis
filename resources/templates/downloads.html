@@ -1,8 +1,7 @@
 {% extends 'main.html' %}
 
 {% block content %}
-
-<div class="container mt-5">
+<div class="our-services section-pad-t10" style="background-color:#FFFFF">
     <div class="slider-area" style="background-color: #3CB043; margin-top: -15px">
         <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
             <div class="container">
@@ -19,7 +18,7 @@
 
     <div class="row">
         {% for download in downloads %}
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-4 col-md-6 mt-4">
             <div class="job-item card mb-4" style="height:420px">
               <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
               <div class="card-body">
