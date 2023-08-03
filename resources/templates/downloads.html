@@ -5,13 +5,13 @@
 <div class="container mt-5">
     <h1 class="mb-4">Downloadable Resources</h1>
     <div class="row">
-        {% for resource in resources %}
+        {% for download in downloads %}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ downloads.image.url }}" class="card-img-top" alt="{{ resource.name }}">
+                <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ downloads.name }}</h5>
-                    <a href="{{ downloads.document.url }}" class="btn btn-primary">Download</a>
+                    <h5 class="card-title">{{ download.name }}</h5>
+                    <a href="{{ download.document.url }}" class="btn btn-primary">Download</a>
                 </div>
             </div>
         </div>
