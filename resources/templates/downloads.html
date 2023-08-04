@@ -20,10 +20,10 @@
             {% for download in downloads %}
             <div class="col-lg-4 col-md-6 mt-5">
                 <div class="job-item card mb-4" style="height:420px">
-                <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
+                <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}" height="200" width="100%">
                 <div class="card-body">
                     <h5 class="card-title"><b>{{ download.name }}</b></h5>   
-                    <a href="{{ download.url }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
+                    <a href="{{ download.url }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F" target="_blank">Download</a>
                 </div>
                 </div>
             </div>
