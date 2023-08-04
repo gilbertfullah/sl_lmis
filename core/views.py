@@ -16,6 +16,11 @@ def home(request):
             
     return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories, 'news_and_events_list': news_and_events_list, 'jobs_count': jobs_count})
 
+def news_and_event_detail(request, news_id):
+    news = get_object_or_404(NewsAndEvents, pk=news_id)
+    context = {'news': news}
+    return render(request, 'news_and_event_details.html', context)
+
 def working_age_population(request):
     values = [20, 30, 40, 50]
     labels = ['A', 'B', 'C', 'D']
@@ -56,3 +61,53 @@ def youth_unemployment_rate(request):
         opacity=0.5)])]
 
     return render(request, 'home.html', {'data': data})
+
+
+def job_detail(request, id):
+    job = get_object_or_404(Job, id=id)
+    apply_button = 0
+    save_button = 0
+    profile = JobSeeker.objects.filter(user=request.user).first()
+    if AppliedJobs.objects.filter(user=request.user).filter(job=job).exists():
+        apply_button = 1
+    if SavedJobs.objects.filter(user=request.user).filter(job=job).exists():
+        save_button = 1
+    relevant_jobs = []
+    jobs1 = Job.objects.filter(company=job.company).order_by('-created_at')
+    jobs2 = Job.objects.filter(contract=job.contract).order_by('-created_at')
+    jobs3 = Job.objects.filter(title=job.title).order_by('-created_at')
+    
+    for i in jobs1:
+        if len(relevant_jobs) > 5:
+            break
+        if i not in relevant_jobs and i != job:
+            relevant_jobs.append(i)
+    for i in jobs2:
+        if len(relevant_jobs) > 5:
+            break
+        if i not in relevant_jobs and i != job:
+            relevant_jobs.append(i)
+    for i in jobs3:
+        if len(relevant_jobs) > 5:
+            break
+        if i not in relevant_jobs and i != job:
+            relevant_jobs.append(i)
+
+    title = job.title
+    sector = job.sector
+    contract = job.contract
+    description = job.description
+    location = job.location
+    expiration_date = job.expiration_date
+    experience = job.experience
+    qualification = job.qualification
+    company = job.company
+    requirements = job.requirements
+    salary = job.salary
+    
+    context = {'description':description, 'location':location, 'expiration_date':expiration_date,
+               'experience':experience, 'qualification':qualification, 'company':company, 'requirements':requirements,
+               'contract': contract, 'title':title, 'sector':sector, 'salary':salary, 'job': job, 'profile': profile, 
+               'apply_button': apply_button, 'save_button': save_button, 'relevant_jobs': relevant_jobs, 'candidate_navbar': 1}
+    
+    return render(request, 'job_detail.html', context)
