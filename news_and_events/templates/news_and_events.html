@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="hero-cap text-center">
-                            <h2>Downloadable Resources</h2>
+                            <h2>News & Events</h2>
                         </div>
                     </div>
                 </div>
@@ -17,14 +17,14 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="card-container d-flex flex-wrap">
         <div class="row">
             {% for news in news_and_events_list %}
             <div class="col-xl-4 col-lg-4 col-md-4 mb-5">
-                <div class="home-blog-single mb-30" style="height:400px">
+                <div class="home-blog-single mb-30 mb-3 flex-fill" style="height:450px">
                     <div class="blog-img-cap">
                         <div class="blog-img">
-                            <img src="{{ news.image1.url }}" alt="" height="200"> 
+                            <img src="{{ news.image1.url }}" alt="" height="200" width="100%"> 
                             <!-- Blog date -->
                             <div class="blog-date text-center">
                                 <span>{{ news.tag }}</span>
@@ -40,6 +40,7 @@
             </div>
             {% endfor %}
         </div>
+    </div>
 
         <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
             <ul class="pagination">
