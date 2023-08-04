@@ -30,6 +30,25 @@
             {% endfor %}
         </div>
     </div>
+
+    <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+        <ul class="pagination">
+            {% if downloads.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ downloads.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+            {% endif %}
+            {% for num_page in  downloads.paginator.page_range %}
+            {% if downloads.number == num_page %}
+                <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if downloads.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ downloads.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
 </div>
 
 {% endblock content %}
