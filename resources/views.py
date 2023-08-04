@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import DownloadDocument
+from django.core.paginator import Paginator, EmptyPage
 
 def download_list(request):
     downloads = DownloadDocument.objects.all()
