@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import NewsAndEvents
+from django.core.paginator import Paginator, EmptyPage
 
 def news_and_events(request):
     news_and_events_list = NewsAndEvents.objects.all()

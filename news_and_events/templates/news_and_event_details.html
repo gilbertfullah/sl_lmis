@@ -4,24 +4,45 @@
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-lg-8 mx-auto">
+            <div class="col-12 mx-auto">
                 <article>
-                    <h1>{{ news.title }}</h1>
-                    <p class="text-muted">By {{ news.author }} | Published on {{ news.published_date }}</p>
                     
-                    <div class="mb-4">
-                        {% if news.image %}
-                            <img src="{{ news.image1.url }}" alt="{{ news.title }}" class="img-fluid">
-                        {% endif %}
+                    <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                          <div class="carousel-item active">
+                            <img src="{{ news.image1.url }}" class="d-block w-100" alt="...">
+                          </div>
+                          {% if news.image2 %}
+                          <div class="carousel-item">
+                            <img src="{{ news.image2.url }}" class="d-block w-100" alt="...">
+                          </div>
+                          {% endif %}
+                          {% if news.image3 %}
+                          <div class="carousel-item">
+                            <img src="{{ news.image3.url }}" class="d-block w-100" alt="...">
+                          </div>
+                          {% endif %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
+                    <div class="mt-4">
+                        Tag: <span class="badge bg-secondary">{{ news.tag }}</span>
+                    </div>
+                    
+                    <h1><b>{{ news.title }}</b></h1>
+                    <p class="text-muted">By <b>{{ news.author }}</b> | Published on {{ news.published_date }}</p>
 
                     <div>
                         {{ news.content | safe }}
                     </div>
                     
-                    <div class="mt-4">
-                        Tag: <span class="badge bg-secondary">{{ news.tag }}</span>
-                    </div>
                 </article>
             </div>
         </div>

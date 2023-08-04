@@ -180,15 +180,6 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
 
-if os.environ["ENVIRONMENT"] == "PRODUCTION":
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME' : os.environ['CLOUD_NAME'],
-    'API_KEY' : os.environ['API_KEY'],
-    'API_SECRET' : os.environ['API_SECRET']
-}
-
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 LOGIN_REDIRECT_URL = "/"
