@@ -23,7 +23,7 @@
                 <img src="{{ download.image.url }}" class="card-img-top" alt="{{ download.name }}">
                 <div class="card-body">
                     <h5 class="card-title"><b>{{ download.name }}</b></h5>   
-                    <a href="{% url 'download.url' %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
+                    <a href="{{ download.url }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Download</a>
                 </div>
                 </div>
             </div>
