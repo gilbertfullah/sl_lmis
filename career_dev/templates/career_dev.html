@@ -17,75 +17,24 @@
 
 <div class="container mb-5">
     <h3 style="margin-top: 50px">Institutions, Programmes and Resources</h3>
-    <div class="row">
-        <table class="table mt-5">
-            <thead>
-              <tr>
-                <th scope="col">TERTIARY INSTITUTIONS</th>
-                <th scope="col">POST SECONDARY INSTITUTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>University of Sierra Leone</td>
-                <td>National Centre for Vocational Studies</td>
-              </tr>
-              <tr>
-                <td>UNIMAK/University of Makeni</td>
-                <td>Institute of Business Studies & Administration</td>
-              </tr>
-              <tr>
-                <td>Njala University</td>
-                <td>Mohan's Technical Vocational Centre</td>
-              </tr>
-              <tr>
-                <td>University of Lunsar</td>
-                <td>Women's Vocational Training Centre</td>
-              </tr>
-              <tr>
-                <td>Eastern Polytechnic</td>
-                <td>Bluecrest College</td>
-              </tr>
-              <tr>
-                <td>Freetown Polytechnic</td>
-                <td>Civil Service Training College</td>
-              </tr>
-              <tr>
-                <td>Limkokwing University</td>
-                <td>Every Nation College of Administration</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Institute of Business Administration and Technology (IBATECH)</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>LICCSAL Business College</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Tonkolili District College of Health Sciences</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>Crown Technical College</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td>IMAT College</td>
-              </tr>
-            </tbody>
-          </table>
-
-
-
-        
-        
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Institutions</th>
+                <th scope="col">Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for institution in institutions %}
+            <tr>
+                <td>{{ institution.name }}</td>
+                <td><a href="{{ institution.url }}" class="btn btn-primary">Go to site</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
     </div>
 </div>
-
-
-
-
 
 {% endblock content %}
