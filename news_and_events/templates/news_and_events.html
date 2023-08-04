@@ -1,0 +1,49 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="our-services section-pad-t10 mt-2" style="background-color:#FFFFF">
+    <div class="slider-area" style="background-color: #3CB043; margin-top: -15px">
+        <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Downloadable Resources</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% for news in news_and_events_list %}
+            <div class="col-xl-4 col-lg-4 col-md-4 mb-5">
+                <div class="home-blog-single mb-30" style="height:400px">
+                    <div class="blog-img-cap">
+                        <div class="blog-img">
+                            <img src="{{ news.image1.url }}" alt="" height="200"> 
+                            <!-- Blog date -->
+                            <div class="blog-date text-center">
+                                <span>{{ news.tag }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blog-cap">
+                        <p>|   {{ news.published_date }}</p>
+                        <h5 style="width: 100%">{{ news.title }}</h5>
+                        <a href="{% url 'news_and_event_detail' news_id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+
