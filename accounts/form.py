@@ -146,8 +146,7 @@ class JobSeekerRegisterForm(UserCreationForm):
                                                         'style':'font-size: 13px'}))
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                    widget=forms.TextInput(attrs={'style':'font-size: 13px', 
-                                                                 'placeholder':'Phone Number',
-                                                                 'data-mask': '+(000) 00 00 00 00'}))
+                                                                 'placeholder':'Phone Number'}))
     profile_pic = forms.FileField(label="Upload your profile picture", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
     #country = CountryField(blank_label='(Select country)')
     grad_year = forms.CharField(label="Graduation year", min_length=2, required=True, validators=[RegexValidator(r'^[0-9]*$', message="Only number is allowed!")],
@@ -227,8 +226,7 @@ class CompanyRegisterForm(UserCreationForm):
                              widget=forms.TextInput(attrs={'placeholder':'Email',
                                                            'style':'font-size: 13px; text-transform: lowercase'}))
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
-                                   widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number',
-                                                                 'data-mask': '(+000) 00 00 00'}))
+                                   widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number'}))
     district = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR, error_messages={'required':'Sector cannot be empty'},)
     address = forms.CharField(label="Company Address", min_length=3, validators= [RegexValidator(r'^[a-zA-Z0-9-,\s]*$',
