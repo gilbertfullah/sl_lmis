@@ -1,73 +1,90 @@
 {% extends 'main.html' %}
 {% load widget_tweaks %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
-<div class="container mt-3" style="width:70%; font-size:14px">
-    <h5 class="mt-5 text-center fw-bold">JOB SEEKERS REGISTRATION</h5>
-    <!--Message from backend (success)-->
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"><strong>{{error|escape}}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-            </div>
-        {% endfor %}
-    {% endfor %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
-    <!--Message from backend (success)-->
-    <div class="text-center">
-        {% for message in messages %}
-            {% if message.tags == 'success' %}
-                <div class="alert alert-primary alert-dismissible fade show" role="alert"><strong>{{message}}</strong>
-                    <a href="{% url 'login' %}" type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="close"></a>
+
+    <div class="our-services section-pad-t10" style="background-color:#FFFFF">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color: #f2f2f2;">
+                <li class="breadcrumb-item pl-145"><a href="{% url 'register' %}" style="color: #6C9BCF">Register</a></li>
+                <li class="breadcrumb-item active text-black" aria-current="page">JobSeeker Registration</li>
+            </ol>
+        </nav>
+
+        <div class="container mt-3" style="width:70%; font-size:14px">
+            <h5 class="mt-5 text-center fw-bold">JOB SEEKERS REGISTRATION</h5>
+            <!--Message from backend (success)-->
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"><strong>{{error|escape}}</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            <!--Message from backend (success)-->
+            <div class="text-center">
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert"><strong>{{message}}</strong>
+                            <a href="{% url 'login' %}" type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <form method="POST" class="card p-3 mt-4" style="margin-bottom:80px; background-color:#f5f5f5; border: 1px solid #e3e3e3;" autocomplete="off" action="{% url 'jobseeker_register' %}" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-6">{{ form.first_name|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.last_name|as_crispy_field }}</div>
                 </div>
-            {% endif %}
-        {% endfor %}
+                <div class="row">
+                    <div class="col-6">{{ form.username|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.email|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">{{ form.password1|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.password2|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">{{ form.gender|as_crispy_field }}</div>
+                    <div class="col-4">{{ form.age|as_crispy_field }}</div>
+                    <div class="col-4">{{ form.phone_number|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">{{ form.district|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.looking_for|as_crispy_field }}</div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-6">{{ form.education_level|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.grad_year|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-6">{{ form.qualification|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.profession|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    
+                    <div class="col-6">{{ form.profile_pic|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.resume|as_crispy_field }}</div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn text-white mt-3" style="width:250px; font-weight:400; font-size:15px; background-color:#29569F">Register</button>
+                    </div>
+                    <div class="col-6 align-items-center">
+                        <h5 class="text-center" style="font-size:14px; padding-top: 34px;">Already Registered?<a href="{% url 'login' %}" class="px-2 fs-6 fw-bold" style="color:red">Login</a></h5>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <form method="POST" class="card p-3 mt-4" style="margin-bottom:80px; background-color:#f5f5f5; border: 1px solid #e3e3e3;" autocomplete="off" action="{% url 'jobseeker_register' %}" novalidate>
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-6">{{ form.first_name|as_crispy_field }}</div>
-            <div class="col-6">{{ form.last_name|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.username|as_crispy_field }}</div>
-            <div class="col-6">{{ form.email|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.password1|as_crispy_field }}</div>
-            <div class="col-6">{{ form.password2|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.gender|as_crispy_field }}</div>
-            <div class="col-6">{{ form.education_level|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.age|as_crispy_field }}</div>
-            <div class="col-6">{{ form.phone_number|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.looking_for|as_crispy_field }}</div>
-            <div class="col-6">{{ form.district|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">{{ form.profile_pic|as_crispy_field }}</div>
-            <div class="col-6">{{ form.resume|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-4">{{ form.grad_year|as_crispy_field }}</div>
-            <div class="col-4">{{ form.course_training|as_crispy_field }}</div>
-            <div class="col-4">{{ form.profession|as_crispy_field }}</div>
-        </div>
-        <div class="row">
-            <div class="col-6">
-                <button type="submit" class="btn text-white mt-3" style="width:250px; font-weight:400; font-size:15px; background-color:#29569F">Register</button>
-            </div>
-            <div class="col-4 offset-2" style="padding-top: 40px; padding-left:-60px">
-                <h5 style="font-size:14px;">Already Registered?<a href="{% url 'login' %}" class="px-2 fs-6 fw-bold" style="color:red">Login</a></h5>
-            </div>
-        </div>
-    </form>
-</div>
 {% endblock content %}

@@ -40,7 +40,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-6 col-lg-9 col-md-10 my-3">
-                <img src="{% static 'images/hero.png' %}" width="390" height="430" style="position:absolute; left:700px; top: -100px" />
+                <img src="{% static 'images/hero pic.png' %}" width="510" height="430" style="position:absolute; left:580px; top: -80px" />
                 <div class="hero__caption">
                     <h1 style="font-weight: 900 !important; font-size: 34px !important">Welcome to Sierra Leone Labour Market Information System</h1>
                 </div>
@@ -67,45 +67,93 @@
 
 <div class="container my-3" style="margin-top: -30px !important">
     <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-        <div class="card">
-                <div class="card-header">
-                    <img src="{% static 'images/icons/youth.png' %}" width="80" style="position:absolute; left:90px; max-height:90px" />
-                    <h5 class="card-title px-5" style="font-weight:800; margin-top: 100px; text-align: center">Working Age (15-64)</h5>
-                    <h3 style="color: #29569F; font-size: 35px; font-weight: 800; text-align: center">52%</h3>
-                </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center">
+                <a href="{% url 'labour-force-participation-rate' %}">
+                    <div class="card-header justify-content-center">
+                        <img src="{% static 'images/icons/youth.png' %}" class="img-fluid" width="80" class="align-items-center" style="position:absolute; left:90px; max-height:90px" />
+                        <h6 class="card-title px-5" style="font-weight:800; margin-top: 100px; text-align: center; font-size: 16px;">Working Age (15-64)</h6>
+                        <h3 class="text-center" style="color: #29569F; font-size: 35px; font-weight: 800;">52%</h3>
+                    </div>
+                </a>
+            </div>
         </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center">
+                <a href="{% url 'labour-force-participation-rate' %}">
+                    <div class="card-header justify-content-center">
+                        <img src="{% static 'images/icons/workers.png' %}" class="img-fluid" width="80" style="position:absolute; left:90px; max-height:90px" />
+                        <h6 class="card-title px-2" style="font-weight:800; margin-top: 100px; text-align: center; font-size: 16px;">Labour force participation rate</h6>
+                        <h3 style="color: #29569F; font-size: 35px; font-weight: 800; text-align: center">65%</h3>
+                    </div>
+                </a>
+            </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card">
-                    <div class="card-header">
-                        <img src="{% static 'images/icons/bar-chart.png' %}" width="80" style="position:absolute; left:90px; max-height:90px" />
-                        <h5 class="card-title px-2" style="font-weight:800; margin-top: 100px; text-align: center">Unemployment Rate</h5>
+        <div class="col-sm-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center">
+                <a href="{% url 'employment-and-unemployment-rate' %}">
+                    <div class="card-header justify-content-center">
+                        <img src="{% static 'images/icons/self-employed.png' %}" class="img-fluid" width="80" style="position:absolute; left:90px; max-height:90px" />
+                        <h6 class="card-title px-2" style="font-weight:800; margin-top: 100px; text-align: center; font-size: 16px;">Employment & Unemployment Rate</h6>
                         <h3 style="color: #29569F; font-size: 35px; font-weight: 800; text-align: center">3.6%</h3>
                     </div>
+                </a>
             </div>
         </div>
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card">
-                    <div class="card-header">
-                        <img src="{% static 'images/icons/analytics.png' %}" width="80" height:"100" style="position:absolute; left:90px; " />
-                        <h5 class="card-title px-4" style="font-weight:700; margin-top: 100px; text-align: center">Employer</h5>
-                        <h3 style="color: #29569F; font-size: 35px; font-weight: 800; text-align: center">10</h3>
-                    </div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card">
-                    <div class="card-header">
-                        <img src="{% static 'images/icons/job-search.png' %}" width="80" style="position:absolute; left:90px max-height:90px" />
-                        <h5 class="card-title px-5" style="font-weight:800; margin-top: 100px; text-align: center">Job Vacancy</h5>
+        <div class="col-sm-6 col-md-6 col-lg-3 mb-4">
+            <div class="card text-center">
+                <a href="{% url 'jobs' %}">
+                    <div class="card-header justify-content-center">
+                        <img src="{% static 'images/icons/job-search.png' %}" class="img-fluid" width="80" style="position:absolute; left:90px; max-height:90px" />
+                        <h6 class="card-title px-5" style="font-weight:800; margin-top: 100px; text-align: center; font-size: 16px;">Stock of Job Vacancies</h6>
                         <h3 style="color: #29569F; font-size: 35px; font-weight: 800; text-align: center">{{jobs_count}}</h3>
                     </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="our-services p-5">
+    <div class="container">
+        <!-- Section Tittle -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-6 mb-4" style="text-align: left;">
+                    <h2 style="color: black; font-weight: bold;">Browse Sectors</h2>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row d-flex justify-contnet-center">
+            {% for sector in sectors %}
+            <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                <div class="single-services text-center mb-30">
+                    <div class="services-ion">
+                        <img src="{{sector.image.url}}" class="img-fluid" width="80" />
+                    </div>
+                    <div class="services-cap">
+                       <h5><a href="#">{{sector.title}}</a></h5>
+                        <span>{{sector.job_count}}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- More Btn -->
+        <!-- Section Button -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="browse-btn2 text-center mt-50">
+                    <a href="{% url 'sectors' %}" class="border-btn2">Browse All Sectors</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Our Services End -->
 
 <!-- How  Apply Process Start-->
 <div class="apply-process-area apply-bg pt-60 pb-60" style="background-color: #29569F;">
@@ -172,7 +220,7 @@
         <div class="section-title">
             <div class="row">
                 <div class="col-lg-6 mb-4" style="text-align: left;">
-                    <h2 style="color: black; font-weight: bold;">Latest Jobs</h2>
+                    <h2 style="color: black; font-weight: bold;">Latest Featured Jobs</h2>
                 </div>
                 <div class="col-lg-6" style="text-align: right;">
                     <a href="{% url 'jobs' %}" style="color: #004F98; font-size: 18px;">View all jobs &#8811;</a>
@@ -183,7 +231,7 @@
         {% for job in jobs %}
         <div class="col-lg-4 col-md-6">
           <div class="job-item card mb-4" style="height:420px">
-            <img src="{{ job.logo.url}}" class="card-img-top px-4" alt="{{ job.title}}" height="200" width="100%">
+            <img src="{{ job.image.url}}" class="card-img-top px-4" alt="{{ job.title}}" height="200" width="100%">
             <div class="card-body">
               <h5 class="card-title"><b>{{ job.title}}</b></h5>
               <p class="card-text"><small class="text-muted">Application ends: {{ job.expiration_date}}</small></p>

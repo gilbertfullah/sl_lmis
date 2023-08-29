@@ -2,29 +2,48 @@
 
 {% block content %}
 {% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<style>
+    /* Small devices such as large phones (640px and up) */
+    @media screen and (max-width: 768px) {
+        #employer { 
+            width: 20rem;
+            top: 20px;
+            right: 20px;
+            position:absolute;
+            height: 320px;
+        }
+    }
+</style>
+
+
+
     <div class='container-fluid' style="padding-top:70px; position:relative; padding-bottom:150px; background-color:#f5f5f5">
         <h3 class="text-center">Create an account</h3>
         <p class="text-center" style="margin-bottom:50px">Register with an account type and enter your account details to create an account</p>
 
         <div class="row">
-            <div class="col-4 offset-2">
+            <div class="col-lg-4 offset-lg-2 col-sm-6 mb-3">
                 <div class="card" data-clickable="true" style="width: 18rem; position:relative; left:80px; height:320px">
                     <img src="{% static 'images/icons/user.png' %}" style="width:50px; position:absolute; top: 15px; left:110px" height="60" class="card-img-top" alt="...">
                     <div class="card-body" style="position: absolute; top: 80px; left: 70px">
                       <h5 class="card-title" style="font-weight:bold">Job Seeker</h5>
                       <p style="position:absolute; left: -40px; width:220px">Finding a job has been made easy. Create an account to find your dream job now.</p>
-                      <a type="button" class="btn btn-sm text-white" href="{% url 'jobseeker_register' %}" style="position:absolute; left: -40px; width:220px; top: 160px; background-color:#29569F">Register</a>
+                      <a type="button" class="btn btn text-white" href="{% url 'jobseeker_register' %}" style="position:absolute; left: -40px; width:220px; top: 160px; background-color:#29569F">Register</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col-4">
-                <div class="card" style="width: 18rem; position:relative; left:20px; height:320px">
+            <div class="col-lg-4 col-sm-6">
+                <div class="card" id="employer" style="width: 18rem; position:relative; left:20px; height:320px">
                     <img src="{% static 'images/icons/company.png' %}" style="width:50px; position:absolute; top: 15px; left:110px" height="60" class="card-img-top" alt="...">
                     <div class="card-body" style="position: absolute; top: 80px; left: 70px">
-                      <h5 class="card-title" style="font-weight:bold">Company</h5>
+                      <h5 class="card-title" style="font-weight:bold">Employer</h5>
                       <p style="position:absolute; left: -30px; width:220px">Recruiting at your fingertips. Create an account to find the best candidate here.</p>
-                      <a type="button" class="btn btn-sm text-white" href="{% url 'company_register' %}" style="position:absolute; left: -40px; width:220px; top: 160px; background-color:#29569F">Register</a>
+                      <a type="button" class="btn btn text-white" href="{% url 'company_register' %}" style="position:absolute; left: -40px; width:220px; top: 160px; background-color:#29569F">Register</a>
                     </div>
                 </div>
             </div>

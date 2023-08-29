@@ -3,6 +3,7 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
 <div class="container-fluid" style="background-color:white; margin-top:-50px; padding-bottom:60px; padding-top:80px">
   <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -220px; font-weight: bold">{{jobs_count}} Jobs found</h3>
@@ -59,13 +60,13 @@
                 <div class="job-item p-4 mb-4">
                     <div class="row g-4">
                         <div class="col-sm-12 col-lg-8 col-md-8 d-flex align-items-center mb-5"> 
-                            <a href="{% url 'job_detail' job.id %}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ job.logo.url}}" alt="" style="width: 80px; height: 80px;"></a>
+                            <a href="{% url 'job_detail' job.id %}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ job.image.url}}" alt="" style="width: 80px; height: 80px;"></a>
                             <div class="text-start ps-4">
                                 <h5 class="mb-3"><a href="{% url 'job_detail' job.id %}" style="color:black; font-weight:700">{{job.title}}</a></h5>
                                 <span class="text-truncate me-0" style="padding-right: 25px; font-size: 18px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-building" viewBox="0 0 16 16">
                                     <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
                                     <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
-                                  </svg> {{job.company}}</span>
+                                  </svg> {{job.employer}}</span>
                                 <!--<span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{job.sector}}</span>-->
                                 <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>

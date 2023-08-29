@@ -2,9 +2,9 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.views.generic.edit import CreateView
-from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm, NewSkillForm
+from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User, JobSeeker, Company, Government, Skill
+from .models import User, JobSeeker, Employer, Government
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt

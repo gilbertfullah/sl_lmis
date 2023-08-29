@@ -1,6 +1,6 @@
 from django.db import models
 from jobs.models import Job
-from accounts.models import Company
+from accounts.models import Employer
 
 class EmploymentStatistics(models.Model):
     location = models.CharField(max_length=255)
@@ -15,7 +15,7 @@ class EmploymentStatistics(models.Model):
     industry_trend = models.CharField(max_length=255)
     
 class EmployerInsights(models.Model):
-    employer = models.ForeignKey(Company, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     date = models.DateField()
     employee_turnover_rate = models.DecimalField(max_digits=5, decimal_places=2)
     average_salary = models.DecimalField(max_digits=10, decimal_places=2)

@@ -9,3 +9,33 @@ class DownloadDocument(models.Model):
 
     def __str__(self):
         return self.name
+    
+class LabourLaw(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(blank=True)
+    #document = models.FileField(upload_to='documents/')
+    url = models.URLField()
+    uploaded_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class PolicyAndRegulation(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(blank=True)
+    #document = models.FileField(upload_to='documents/')
+    url = models.URLField()
+    uploaded_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class ReportAndSurvey(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(blank=True)
+    #document = models.FileField(upload_to='documents/')
+    url = models.URLField()
+    uploaded_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

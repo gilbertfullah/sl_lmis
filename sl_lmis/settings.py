@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     #'jet.dashboard',
     #'jet',
     'jazzmin',
+    #'admin_adminlte.apps.AdminAdminlteConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,7 +51,6 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'jobs.apps.JobsConfig',
     'news_and_events.apps.NewsAndEventsConfig',
-    'about.apps.AboutConfig',
     'crispy_forms',
     'crispy_bootstrap5',
     'phonenumber_field',
@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'resources.apps.ResourcesConfig',
+    'taggit',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -192,6 +193,8 @@ CLOUDINARY_STORAGE = {
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 LOGIN_REDIRECT_URL = "/"
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = "/"
 

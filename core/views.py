@@ -3,18 +3,38 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Count
 from plotly.graph_objs import Pie
-from jobs.models import Job
+from jobs.models import Job, Sector
 from django.db import models
 from news_and_events.models import NewsAndEvents
+from .models import LFP, EmploymentAndUnemployment
+from taggit.models import Tag
 
 
 def home(request):
-    jobs = Job.objects.all().order_by('-published_date')[:6]
+    jobs = Job.objects.filter(job_status='Approved').order_by('-published_date')[:6]
     news_and_events_list = NewsAndEvents.objects.all().order_by('-published_date')[:3]
     jobs_count = Job.objects.all().count()
-    categories = Job.objects.values('sector').annotate(job_count=Count('sector')).order_by('-job_count')[:4]
-            
-    return render(request, 'core/home.html', {'jobs': jobs, 'categories': categories, 'news_and_events_list': news_and_events_list, 'jobs_count': jobs_count})
+    
+    #sectors = Sector.objects.all()
+    #sector_count = Sector.objects.values('sector').annotate(job_count=Count('sector'))
+    sectors = Sector.objects.annotate(job_count=Count('job'))[:8]
+    
+    context = {
+        'jobs': jobs,
+        'sectors': sectors,
+        'news_and_events_list': news_and_events_list,
+        'jobs_count': jobs_count
+    }
+    
+    return render(request, 'core/home.html', context)
+
+def lfp(request):
+    lfp = LFP.objects.all()
+    return render(request, "core/lfp.html", {'lfp':lfp})
+
+def employment_and_unemployment(request):
+    employment_and_unemployment = EmploymentAndUnemployment.objects.all()
+    return render(request, "core/eau.html", {'employment_and_unemployment': employment_and_unemployment})
 
 def news_and_event_detail(request, news_id):
     news = get_object_or_404(NewsAndEvents, pk=news_id)
@@ -110,4 +130,19 @@ def job_detail(request, id):
                'contract': contract, 'title':title, 'sector':sector, 'salary':salary, 'job': job, 'profile': profile, 
                'apply_button': apply_button, 'save_button': save_button, 'relevant_jobs': relevant_jobs, 'candidate_navbar': 1}
     
-    return render(request, 'job_detail.html', context)
+    return render(request, 'jobs/job_detail.html', context)
+
+def tag_list(request, tag_slug=None):
+    jobs = Job.objects.filter(job_status='Approved').order_by('-published_date')
+    
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        jobs = Job.objects.filter(tags__in=[tag])
+    
+    context = {
+        "jobs": jobs,
+        "tag": tag,
+        }
+    
+    return render(request, 'jobs/tag.html', context)

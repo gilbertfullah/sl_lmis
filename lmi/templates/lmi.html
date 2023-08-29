@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<div class="our-services section-pad-t10" style="background-color:#FFFFF">
+                <!-- Hero Area Start-->
+                <div class="slider-area" style="background-color: #394867">
+                    <div class="single-slider section-overly d-flex align-items-center" style="height:300px">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="hero-cap text-center">
+                                        <h2>Labour Market Insight</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+    <div class="container">
+        <div class="row d-flex justify-contnet-center">
+            <div class="col-xl-3 offset-lg-3 col-lg-4 col-md-4 col-sm-6">
+                <div class="single-services text-center mt-60 mb-60">
+                    <div class="services-ion">
+                        <img src="{% static 'images/icons/unemployment.png' %}" style="width:70px; height:70px"/>
+                    </div>
+                    <div class="services-cap">
+                       <h5><a href="{% url 'employment_statistics' %}">Employment Statistics</a></h5>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                <div class="single-services text-center mt-60 mb-60">
+                    <div class="services-ion">
+                        <img src="{% static 'images/icons/recruitment.png' %}" style="width:70px; height:70px"/>
+                    </div>
+                    <div class="services-cap">
+                       <h5><a href="{% url 'industrial_relations' %}">Industrial relations</a></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

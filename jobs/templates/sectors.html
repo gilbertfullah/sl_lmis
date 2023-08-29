@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+
+    <div class="container our-services section-pad-t10" style="background-color:#FFFFF">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color: #f2f2f2;">
+              <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
+              <li class="breadcrumb-item active text-black" aria-current="page">All Sectors</li>
+            </ol>
+        </nav>
+
+        <div class="our-services p-5">
+            <div class="container">           
+                <div class="row d-flex justify-contnet-center">
+                    {% for sector in sectors %}
+                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                        <div class="single-services text-center mb-30">
+                            <div class="services-ion">
+                                <img src="{{sector.image.url}}" class="img-fluid" width="80" />
+                            </div>
+                            <div class="services-cap">
+                               <h5><a href="{% url 'sector_detail' sector_detail.id %}">{{sector.title}}</a></h5>
+                                <span>{{sector.job_count}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Our Services End -->
+    </div>
+{% endblock content %}
+
+

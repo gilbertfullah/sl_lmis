@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, JobSeeker, Company, Government, Skill
+from .models import User, JobSeeker, Employer, Government
 from django.utils.html import format_html
 
 class UserAdmin(admin.ModelAdmin):
@@ -14,23 +14,21 @@ class JobSeekerAdmin(admin.ModelAdmin):
     search_fields = ['first_name', 'last_name', 'username', 'email']
     list_per_page = 10
     
-class CompanyAdmin(admin.ModelAdmin):
+class EmployerAdmin(admin.ModelAdmin):
     list_display = ['company_name', 'email', 'district', 'sector', 'address']
     search_fields = ['company_name', 'email', 'sector', 'address']
     list_per_page = 10
     
 class GovernmentAdmin(admin.ModelAdmin):
-    list_display = ['government_institution_name', 'email', 'district', 'sector', 'created_at']
-    search_fields = ['government_institution_name', 'email', 'sector']
+    list_display = ['institution_name', 'email', 'district', 'sector', 'created_at']
+    search_fields = ['institution_name', 'email', 'sector']
     list_per_page = 10
  
     
 admin.site.register(User, UserAdmin)
 admin.site.register(JobSeeker, JobSeekerAdmin)
-admin.site.register(Company, CompanyAdmin)
+admin.site.register(Employer, EmployerAdmin)
 admin.site.register(Government, GovernmentAdmin)
-admin.site.register(Skill)
-
 
 
 

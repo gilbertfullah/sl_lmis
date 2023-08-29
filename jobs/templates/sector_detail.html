@@ -1,0 +1,68 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+    <div class="container our-services section-pad-t10" style="background-color:#FFFFF">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" style="background-color: #f2f2f2;">
+                <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'sectors' %}" style="color: #6C9BCF">Sectors</a></li>
+                <li class="breadcrumb-item active text-black" aria-current="page">{{ tag.name}}</li>
+            </ol>
+        </nav>
+
+        <div class="section-title">
+            <div class="row">
+                <div class="col-12 mb-4" style="text-align: left;">
+                    <h4 style="color: black; font-weight: bold;">We found {{ jobs.count }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for job in related_job_sectors %}
+            <div class="col-lg-4 col-md-6">
+                <div class="job-item card mb-4" style="height:450px">
+                    <img src="{{ job.image.url}}" class="card-img-top px-4" alt="{{ job.title }}" height="200" width="100%">
+                    <div class="card-body">
+                    <h5 class="card-title"><b>{{ job.title}}</b></h5>
+                    <p class="card-text"><small class="text-muted">Application ends: {{ job.expiration_date}}</small></p>
+                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                    </svg> {{job.location}}</span>
+                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                    </svg> {{job.contract}}</span>     
+                    <a href="{% url 'sector_detail' sector_detail.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+
+        <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+            <ul class="pagination">
+                {% if related_job_sectors.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ related_job_sectors.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+                {% endif %}
+                {% for num_page in  related_job_sectors.paginator.page_range %}
+                {% if related_job_sectors.number == num_page %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if jobs.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ related_job_sectors.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+{% endblock content %}
+
+

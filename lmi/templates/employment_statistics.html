@@ -1,55 +1,54 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row">
-        <!-- Side menu -->
-        <div class="col-md-3 col-lg-2 bg-light">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#general">General</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#employment-trends">Employment Trends</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#hot-occupations">Hot Occupations</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#oversea-employment">Oversea Employment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#unemployment">Unemployment</a>
-                </li>
-            </ul>
-        </div>
-        
-        <!-- Content section -->
-        <div class="col-md-9 col-lg-10">
-            <div class="container-fluid py-3">
-                <h1>General Information</h1>
-                <p>This is the general information section.</p>
-            </div>
-            <div class="container-fluid py-3" id="employment-trends">
-                <h1>Employment Trends</h1>
-                <p>This is the employment trends section.</p>
-            </div>
-            <div class="container-fluid py-3" id="hot-occupations">
-                    <h1>Hot Occupations</h1>
-                    <p>This is the hot occupations section.</p>
-                </div>
-                <div class="container-fluid py-3" id="oversea-employment">
-                    <h1>Oversea Employment</h1>
-                    <p>This is the oversea employment section.</p>
-                </div>
-                <div class="container-fluid py-3" id="unemployment">
-                    <h1>Unemployment</h1>
-                    <p>This is the unemployment section.</p>
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<div class="our-services section-pad-t10" style="background-color:#FFFFF">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: #f2f2f2;">
+          <li class="breadcrumb-item"><a href="{% url 'lmi' %}" style="color: #6C9BCF">Labour Market Insight</a></li>
+          <li class="breadcrumb-item active text-black" aria-current="page">Employment Statistics</li>
+        </ol>
+    </nav>
+
+    <!-- Hero Area Start-->
+    <div class="slider-area" style="background-color: #654E92; margin-top: -15px">
+        <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>Employment Statistics</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+        
+    <!-- Content section -->
+    <div class="col-md-9 col-lg-10">
+        <div class="container-fluid py-3">
+            <h3>Figure: Literacy Rates of Population 10 years and above</h3>
+            <img src="{% static 'images/Literacy Rate.png' %}" />
+            <p>At the Regional level, the literacy rates are: Eastern Region – 47.5 percent; Northern Region 42.2 percent; Southern Region - 45.2 percent and Western Area - 74.5 percent.</p>
+
+            <h3>Economic characteristics</h3>
+            <p>The results show that 68.6 percent of the working age population (15-64 years) are economically active, known also as the labour force (employed and unemployed), and 31.4 percent are non-economically active.</p>
+
+            <h5>Employment Rate</h5>
+            <p>Figure above shows that 91.4 percent of the labour force are employed, and 8.6 percent are unemployed. The
+                employment rate is almost the same for male and female, 91.5 percent and 91.3 percent, respectively. At the
+                regional level, the employment rates are: Eastern Region - 94.1 percent, Northern Region - 93.5 percent,
+                Southern Region - 92.1 percent and Western Area – 84.7 percent.</p>
+
+            <img src="{% static 'images/employment and unemployment.png' %}" />
+ 
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 

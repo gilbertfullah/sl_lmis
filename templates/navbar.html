@@ -5,7 +5,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light container-fluid">
   <a class="navbar-brand" href="{% url 'home' %}">
-    <img src="{% static 'images/logo.jpeg' %}" alt="Logo" width="90" height="90" class="d-inline-block align-text-center">
+    <img src="{% static 'images/logo.png' %}" alt="Logo" width="90" height="90" class="d-inline-block align-text-center">
     <span>SL-LMIS</span>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,34 +14,37 @@
   <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
         <li class="nav-item" style="padding-right: 30px">
-          <a class="nav-link" href="{% url 'about' %}" style="color:black; font-weight:600">About Us</a>
+          <a class="nav-link" href="{% url 'home' %}" style="color:black; font-weight:600">Home</a>
         </li>
         <li class="nav-item" style="padding-right: 30px">
           <a class="nav-link" href="{% url 'jobs' %}" style="color:black; font-weight:600">Jobs</a>
         </li>
         <li class="nav-item" style="padding-right: 30px">
-          <a class="nav-link" href="{% url 'labour-supply' %}" style="color:black; font-weight:600">Labor Market Insights</a>
+          <a class="nav-link" href="{% url 'lmi' %}" style="color:black; font-weight:600">LMI</a>
         </li>
         <li class="nav-item" style="padding-right: 30px">
           <a class="nav-link" href="{% url 'career-dev' %}" style="color:black; font-weight:600">Career Development</a>
+        </li>
+        <li class="nav-item" style="padding-right: 30px">
+          <a class="nav-link" href="{% url 'news_and_events' %}" style="color:black; font-weight:600">News & Events</a>
         </li>
         <li class="nav-item dropdown" style="padding-right: 30px">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight:600">
             Resources
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Labour Laws</a></li>
-            <li><a class="dropdown-item" href="#">Policies & Regulations</a></li>
-            <li><a class="dropdown-item" href="#">Reports & Surveys</a></li>
-            <li><a class="dropdown-item" href="{% url 'news_and_events' %}">News & Events</a></li>
+            <li><a class="dropdown-item" href="{% url 'labour-laws' %}">Labour Laws</a></li>
+            <li><a class="dropdown-item" href="{% url 'policies-and-regulations' %}">Policies & Regulations</a></li>
+            <li><a class="dropdown-item" href="{% url 'reports-and-surveys' %}">Reports & Surveys</a></li>
+            <li><a class="dropdown-item" href="{% url 'news_and_events' %}">Links</a></li>
             <li><a class="dropdown-item" href="{% url 'download_list' %}">Downloads</a></li>
           </ul>
         </li>
       </ul>
 
       {% if user.is_authenticated %}
-            <div class="btn-group header-btn d-none f-right d-lg-block">
-              <button class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="color:#29569F; border:none; background-color:none; font-weight:600">Welcome {{user.username}}</button>
+            <div class="btn-group header-btn d-none f-right d-lg-block pr-20">
+              <p class="dropdown-toggle text-black fw-bold pt-20" data-bs-toggle="dropdown" aria-expanded="false">Welcome {{user.username}}</p>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a class="dropdown-item" href="#">Account settings</a></li>

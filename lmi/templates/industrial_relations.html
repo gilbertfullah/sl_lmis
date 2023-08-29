@@ -1,11 +1,14 @@
 {% extends 'main.html' %}
-
+{% load static %}
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
 <div class="our-services section-pad-t10" style="background-color:#FFFFF">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb" style="background-color: #f2f2f2;">
-          <li class="breadcrumb-item"><a href="{% url 'labour-supply' %}" style="color: #6C9BCF">Labour Market Insight</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'lmi' %}" style="color: #6C9BCF">Labour Market Insight</a></li>
           <li class="breadcrumb-item active text-black" aria-current="page">Industrial Relations</li>
           {% if user.is_authenticated and user.is_staff %}
           <li type="submit" class="ml-auto"><button class="btn btn-primary" style="background-color:#29569F; color:#FFFFFF">Create a new case</button></li>

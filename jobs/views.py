@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .decorators import allowed_users
 from django.contrib import messages
-from accounts.models import Company, Government, User, JobSeeker, Skill
+from accounts.models import Employer, Government, User, JobSeeker
 from django.core.paginator import Paginator, EmptyPage
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -15,11 +15,12 @@ from django.conf import settings
 from django.db.models import Q
 from django.db.models import Count
 from django.views.generic import TemplateView
-from .models import Job
+from .models import Job, Sector
+from taggit.models import Tag
 
 
 def Jobs(request):
-    jobs = Job.objects.all()
+    jobs = Job.objects.filter(job_status='Approved')
     jobs_count = Job.objects.all().count()
     
     # Calculate the number of job openings for each category
@@ -38,52 +39,39 @@ def Jobs(request):
     return render(request, 'jobs.html', {'jobs': page_obj, 'categories': categories, 'jobs_count': jobs_count})
 
 
-def job_detail(request, id):
-    job = get_object_or_404(Job, id=id)
-    apply_button = 0
-    save_button = 0
-    profile = JobSeeker.objects.filter(user=request.user).first()
-    if AppliedJobs.objects.filter(user=request.user).filter(job=job).exists():
-        apply_button = 1
-    if SavedJobs.objects.filter(user=request.user).filter(job=job).exists():
-        save_button = 1
-    relevant_jobs = []
-    jobs1 = Job.objects.filter(company=job.company).order_by('-created_at')
-    jobs2 = Job.objects.filter(contract=job.contract).order_by('-created_at')
-    jobs3 = Job.objects.filter(title=job.title).order_by('-created_at')
+def sectors(request):
+    #sectors = Sector.objects.all()
+    sectors = Sector.objects.annotate(job_count=Count('job'))
     
-    for i in jobs1:
-        if len(relevant_jobs) > 5:
-            break
-        if i not in relevant_jobs and i != job:
-            relevant_jobs.append(i)
-    for i in jobs2:
-        if len(relevant_jobs) > 5:
-            break
-        if i not in relevant_jobs and i != job:
-            relevant_jobs.append(i)
-    for i in jobs3:
-        if len(relevant_jobs) > 5:
-            break
-        if i not in relevant_jobs and i != job:
-            relevant_jobs.append(i)
+    context = {
+        'sectors': sectors,
+        }
+    return render(request, 'sectors.html', context)
 
-    title = job.title
-    sector = job.sector
-    contract = job.contract
-    description = job.description
-    location = job.location
-    expiration_date = job.expiration_date
-    experience = job.experience
-    qualification = job.qualification
-    company = job.company
-    requirements = job.requirements
-    salary = job.salary
+def sector_detail(request, id):
+    sector = get_object_or_404(sector, id=id)
+    jobs = Job.objects.all()
+    related_job_sectors = Job.objects.filter(sector=jobs.sector)
     
-    context = {'description':description, 'location':location, 'expiration_date':expiration_date,
-               'experience':experience, 'qualification':qualification, 'company':company, 'requirements':requirements,
-               'contract': contract, 'title':title, 'sector':sector, 'salary':salary, 'job': job, 'profile': profile, 
-               'apply_button': apply_button, 'save_button': save_button, 'relevant_jobs': relevant_jobs, 'candidate_navbar': 1}
+    paginator = Paginator(related_job_sectors, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        "sector": page_obj,
+        "related_job_sectors": page_obj,
+        }
+    
+    return render(request, 'sector_detail.html', context)
+
+
+def job_detail(request, id):
+    job_detail = get_object_or_404(Job, id=id)
+    
+    related_jobs = Job.objects.filter(sector=job_detail.sector).exclude(id=id)[:4]
+
+    
+    context = {'related_jobs':related_jobs, 'job_detail': job_detail}
     
     return render(request, 'job_detail.html', context)
 
@@ -107,12 +95,12 @@ def jobs_favourite_list(request):
 
 @login_required
 def post_job(request):
-    user = request.user
+    user = request.user.employer  
     if request.method == "POST":
         form = JobForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.save(commit=False)
-            data.company = user
+            data.employer = user
             data.save()
             messages.success(request, f"Job was successfully registered")
             return redirect("jobs")
@@ -242,3 +230,21 @@ def intelligent_search(request):
     }
     return render(request, 'intelligent_search.html', context)
 
+def tag_list(request, tag_slug=None):
+    jobs = Job.objects.filter(job_status='Approved').order_by('-published_date')
+    
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        jobs = Job.objects.filter(tags__in=[tag])
+    
+    paginator = Paginator(jobs, 4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    context = {
+        "jobs": page_obj,
+        "tag": tag,
+        }
+    
+    return render(request, 'tag.html', context)

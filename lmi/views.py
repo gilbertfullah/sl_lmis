@@ -7,19 +7,7 @@ import plotly.graph_objs as go
 import plotly.offline as pyo
 
 def lmi(request):
-    return render(request, 'labour_supply.html')
-
-def employment(request):
-    return render(request, 'employment.html')
-
-def unemployment(request):
-    return render(request, 'unemployment.html')
-
-def employer_insight(request):
-    return render(request, 'employer_insight.html')
-
-def recruitment_insight(request):
-    return render(request, 'recruitment_insight.html')
+    return render(request, 'lmi.html')
 
 def employment_statistics(request):
     return render(request, 'employment_statistics.html')

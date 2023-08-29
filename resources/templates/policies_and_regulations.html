@@ -1,0 +1,59 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+    <div class="our-services section-pad-t10 mt-2" style="background-color:#FFFFF">
+        <div class="slider-area" style="background-color: #3CB043; margin-top: -15px">
+            <div class="single-slider section-overly d-flex align-items-center" style="height:200px">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>Policies and Regulations</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% for policy in policies %}
+                <div class="col-lg-4 col-md-6 mt-5">
+                    <div class="job-item card mb-4" style="height:420px">
+                    <img src="{{ policy.image.url }}" class="card-img-top" alt="{{ policy.name }}" height="200" width="100%">
+                    <div class="card-body">
+                        <h5 class="card-title"><b>{{ policy.name }}</b></h5>   
+                        <a href="{{ policy.url }}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F" target="_blank">Download</a>
+                    </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+            <ul class="pagination">
+                {% if policies.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ policies.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+                {% endif %}
+                {% for num_page in  policies.paginator.page_range %}
+                {% if policies.number == num_page %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                {% endif %}
+                {% endfor %}
+                {% if downloads.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ policies.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+
+
+{% endblock content %}
+
+
+
