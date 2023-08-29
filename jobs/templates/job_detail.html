@@ -10,7 +10,8 @@
     <div class="container-xxl py-2 wow fadeInUp" data-wow-delay="0.1s">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb" style="background-color: #f2f2f2;">
-            <li class="breadcrumb-item pl-145"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
+            <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
             <li class="breadcrumb-item active text-black" aria-current="page">{{job_detail.title}}</li>
             </ol>
         </nav>
@@ -48,11 +49,15 @@
                 
                 <div class="col-4">
                     <div class="row">
-                    <div class="col-10">
+                    <div class="col-8">
                     <a href="{% url 'applied-jobs' %}" class="btn w-60" type="button" style="background-color:#29569F; color:white">Apply Now</a>
                     </div>
-                    <div class="col-2">
-                    <i class="bi bi-bookmark"></i>
+                    <div class="col-4">
+                        <button class="btn btn-toggle" data-bs-toggle="button" aria-pressed="false" style="background-color:none; height:20px">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                              </svg>
+                        </button>
                     </div>
                     </div>
                     <div class="row mt-3">
@@ -101,14 +106,16 @@
                         <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
                             <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
                         </svg>  Location: {{job_detail.location}}</p>
-                        <p style="color:white" class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Experience: {{job_detail.experience}}</p>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <p style="color:white" class="m-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
+                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
+                          </svg>  Experience: {{job_detail.experience}}</p>
+                        <p style="color:white" class="mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
                             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                         </svg>  Contract: {{job_detail.contract}}</p>
                     </div>
                     <div class="rounded p-5 wow slideInUp mb-5" data-wow-delay="0.1s" style="background-color:#29569F;">
-                        <h4 style="color:white" class="mb-4">Company Detail</h4>
-                        <p style="color:white" class="m-0">Ipsum dolor ipsum accusam stet et et diam dolores, sed rebum sadipscing elitr vero dolores. Lorem dolore elitr justo et no gubergren sadipscing, ipsum et takimata aliquyam et rebum est ipsum lorem diam. Et lorem magna eirmod est et et sanctus et, kasd clita labore.</p>
+                        <h4 style="color:white" class="mb-4">{{ job_detail.employer }}</h4>
+                        <p style="color:white" class="m-0">{{ employer.description }}</p>
                     </div>
                 </div>
             </div>

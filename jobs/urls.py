@@ -13,6 +13,8 @@ urlpatterns=[
      path('applied_job_list/', views.applied_jobs, name='applied-jobs'),
      path('job/<int:job_id>/remove/', views.remove_job, name='remove-job'),
      
+     path('search_jobs/', views.job_search, name='job_search_list'),
+     
      path('sectors/', views.sectors, name='sectors'),
      path('sectors/<int:id>/',views.sector_detail, name='sectors_detail'),
      #Tag

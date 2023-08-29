@@ -1,113 +1,100 @@
 {% extends 'main.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
 {% load static %}
+
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 <link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
-<div class="container-fluid" style="background-color:white; margin-top:-50px; padding-bottom:60px; padding-top:80px">
-  <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -220px; font-weight: bold">{{jobs_count}} Jobs found</h3>
-  <div class="row">
-    <div class="col-md-3">
-        <div class="small-section-tittle2 mb-45">
-            <div class="ion"> <svg 
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                width="20px" height="12px">
-                <path fill-rule="evenodd"  fill="rgb(27, 207, 107)"
-                d="M7.778,12.000 L12.222,12.000 L12.222,10.000 L7.778,10.000 L7.778,12.000 ZM-0.000,-0.000 L-0.000,2.000 L20.000,2.000 L20.000,-0.000 L-0.000,-0.000 ZM3.333,7.000 L16.667,7.000 L16.667,5.000 L3.333,5.000 L3.333,7.000 Z"/>
-                </svg>
+<div style="background-color:white; margin-top:-50px; padding-bottom:60px; padding-top:80px">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb" style="background-color: #f2f2f2;">
+    <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
+    <li class="breadcrumb-item active text-black" aria-current="page">Jobs</li>
+    </ol>
+  </nav>
+
+  <div class="container mt-5 mb-5">
+    <div class="row">
+      <div class="col-xl-8 offset-lg-2">
+          <!-- form -->
+          <form method="GET" action="{% url 'job_search_list' %}" class="search-box">
+            {% csrf_token %}
+            <div class="input-form">
+              <input type="text" name="q" placeholder="Job Tittle or keyword">
             </div>
-            <h3>Filter Jobs</h3>
-        </div>
-
-      <form>
-        <div class="form-group">
-          <label for="search-input">Search</label>
-          <input type="text" name="search" class="form-control" id="search-input" placeholder="Search for jobs">
-        </div>
-        <div class="form-group">
-          <label for="sector-select">Sector</label>
-          <select class="form-control" id="sector-select" name="sector">
-            <option value="">All sectors</option>
-            {% for job in jobs %}
-              <option value="{{ job.sector }}">{{ job.sector }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="location-input">Location</label>
-          <input type="text" name="location" class="form-control" id="location-input" placeholder="City or town">
-        </div>
-
-        <div class="form-group">
-            <label for="contract-select">Job Type</label>
-            <select class="form-control" id="contract-select" name="contract">
-              <option value="">All job type</option>
-              <option value="Full-Time">Full-time</option>
-              <option value="Part-Time">Part-time</option>
-              <option value="Freelance">Freelance</option>
-              <option value="Internship">Internship</option>
-            </select>
-          </div>
-
-        <button type="submit" class="btn" style="background-color:#29569F; color:#FFFFFF">Apply Filter</button>
-      </form>
+            <div class="search-form">
+              <div class="search-form">
+                <button type="submit" class="btn text-white mt-2" style="width:250px; font-weight:420; font-size:15px; background-color:#29569F">Find job</button>
+            </div>
+            </div>	
+          </form>	
+      </div>
     </div>
-    <div class="col-md-9">
-        {% if jobs %}
-                {% for job in jobs %}
-                <div class="job-item p-4 mb-4">
-                    <div class="row g-4">
-                        <div class="col-sm-12 col-lg-8 col-md-8 d-flex align-items-center mb-5"> 
-                            <a href="{% url 'job_detail' job.id %}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ job.image.url}}" alt="" style="width: 80px; height: 80px;"></a>
-                            <div class="text-start ps-4">
-                                <h5 class="mb-3"><a href="{% url 'job_detail' job.id %}" style="color:black; font-weight:700">{{job.title}}</a></h5>
-                                <span class="text-truncate me-0" style="padding-right: 25px; font-size: 18px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-building" viewBox="0 0 16 16">
-                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
-                                    <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
-                                  </svg> {{job.employer}}</span>
-                                <!--<span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{job.sector}}</span>-->
-                                <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                  </svg> {{job.location}}</span>
-                                <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                                  </svg> {{job.contract}}</span>                                
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                            <div class="d-flex mb-3">
-                                <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="https://www.dangote-group.com/">Apply Now</a>
-                            </div>
-                                <small class="text-truncate"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-calendar3" viewBox="0 0 16 16">
-                                    <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                                    <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-                                  </svg> Application ends: {{job.expiration_date}}</small>
-                        </div>  
-                    </div>
-                </div>
-    
-                {% endfor%}
-                {% endif %}
+  </div>
 
-                <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
-                    <ul class="pagination">
-                        {% if jobs.has_previous %}
-                            <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
-                        {% endif %}
-                        {% for num_page in  jobs.paginator.page_range %}
-                        {% if jobs.number == num_page %}
-                            <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
-                        {% else %}
-                            <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                        {% if jobs.has_next %}
-                            <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
+
+
+  <div class="container-fluid">
+    <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -310px; font-weight: bold">{{jobs_count}} Jobs found</h3>
+    <div class="row">
+      <div class="col-md-8 offset-2">
+          {% if jobs %}
+                  {% for job in jobs %}
+                  <div class="job-item p-4 mb-4">
+                      <div class="row g-4">
+                          <div class="col-sm-12 col-lg-8 col-md-8 d-flex align-items-center mb-5"> 
+                              <a href="{% url 'job_detail' job.id %}"><img class="flex-shrink-0 img-fluid border rounded" src="{{ job.image.url}}" alt="" style="width: 80px; height: 80px;"></a>
+                              <div class="text-start ps-4">
+                                  <h5 class="mb-3"><a href="{% url 'job_detail' job.id %}" style="color:black; font-weight:700">{{job.title}}</a></h5>
+                                  <span class="text-truncate me-0" style="padding-right: 25px; font-size: 18px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-building" viewBox="0 0 16 16">
+                                      <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
+                                      <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
+                                    </svg> {{job.employer}}</span>
+                                  <!--<span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{job.sector}}</span>-->
+                                  <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                      <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                    </svg> {{job.location}}</span>
+                                  <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    </svg> {{job.contract}}</span>                                
+                              </div>
+                          </div>
+                          <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                              <div class="d-flex mb-3">
+                                  <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="https://www.dangote-group.com/">Apply Now</a>
+                              </div>
+                                  <small class="text-truncate"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-calendar3" viewBox="0 0 16 16">
+                                      <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                                      <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                    </svg> Application ends: {{job.expiration_date}}</small>
+                          </div>  
+                      </div>
+                  </div>
+      
+                  {% endfor%}
+                  {% endif %}
+
+                  <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+                      <ul class="pagination">
+                          {% if jobs.has_previous %}
+                              <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+                          {% endif %}
+                          {% for num_page in  jobs.paginator.page_range %}
+                          {% if jobs.number == num_page %}
+                              <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                          {% else %}
+                              <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                          {% endif %}
+                          {% endfor %}
+                          {% if jobs.has_next %}
+                              <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+                          {% endif %}
+                      </ul>
+                  </nav>
+      </div>
     </div>
   </div>
 </div>

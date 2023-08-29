@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Job, AppliedJobs, SavedJobs
-from .form import JobForm
+from .form import JobForm, JobSearchForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .decorators import allowed_users
@@ -38,42 +38,48 @@ def Jobs(request):
             
     return render(request, 'jobs.html', {'jobs': page_obj, 'categories': categories, 'jobs_count': jobs_count})
 
+def job_detail(request, id):
+    job_detail = get_object_or_404(Job, id=id)
+    employer = Employer.objects.filter(company_name=job_detail.employer)
+    related_jobs = Job.objects.filter(sector=job_detail.sector).exclude(id=id)[:4]
+
+    
+    context = {
+        'related_jobs':related_jobs, 
+        'job_detail': job_detail,
+        'employer': employer,
+        }
+    
+    return render(request, 'job_detail.html', context)
 
 def sectors(request):
     #sectors = Sector.objects.all()
     sectors = Sector.objects.annotate(job_count=Count('job'))
     
+    #related_job_sectors = Job.objects.filter(sector=sectors.title)
+    
     context = {
         'sectors': sectors,
+        #"related_job_sectors": related_job_sectors,
         }
     return render(request, 'sectors.html', context)
 
 def sector_detail(request, id):
-    sector = get_object_or_404(sector, id=id)
-    jobs = Job.objects.all()
-    related_job_sectors = Job.objects.filter(sector=jobs.sector)
+    sector = Sector.objects.get(id=id)
+    related_job_sectors = Job.objects.filter(sector=sector.id)
+    count = Job.objects.filter(sector=sector.id).count()
     
     paginator = Paginator(related_job_sectors, 8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     context = {
-        "sector": page_obj,
+        "sector": sector,
         "related_job_sectors": page_obj,
+        'count': count,
         }
     
     return render(request, 'sector_detail.html', context)
-
-
-def job_detail(request, id):
-    job_detail = get_object_or_404(Job, id=id)
-    
-    related_jobs = Job.objects.filter(sector=job_detail.sector).exclude(id=id)[:4]
-
-    
-    context = {'related_jobs':related_jobs, 'job_detail': job_detail}
-    
-    return render(request, 'job_detail.html', context)
 
 def favourite(request, id):
     job = get_object_or_404(Job, id=id)
@@ -127,9 +133,6 @@ def job_search_list(request):
         job_type_list = Job.objects.filter(job_type__icontains=query).order_by('-date_posted')
         for i in title_list:
             object_list.append(i)
-        for i in skill_list:
-            if i not in object_list:
-                object_list.append(i)
         for i in company_list:
             if i not in object_list:
                 object_list.append(i)
@@ -248,3 +251,16 @@ def tag_list(request, tag_slug=None):
         }
     
     return render(request, 'tag.html', context)
+
+
+
+def job_search(request):
+    query = request.GET.get('q')
+
+    jobs = Job.objects.filter(title__icontains=query).order_by("-published_date")
+
+    context = {
+        'jobs': jobs,
+        'query': query
+    }
+    return render(request, 'job_search_list.html', context)

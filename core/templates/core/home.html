@@ -134,7 +134,7 @@
                         <img src="{{sector.image.url}}" class="img-fluid" width="80" />
                     </div>
                     <div class="services-cap">
-                       <h5><a href="#">{{sector.title}}</a></h5>
+                       <h5><a href="{% url 'sectors_detail' sector.id %}">{{sector.title}}</a></h5>
                         <span>{{sector.job_count}}</span>
                     </div>
                 </div>

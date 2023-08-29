@@ -6,11 +6,12 @@
 <link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
 
-    <div class="container our-services section-pad-t10" style="background-color:#FFFFF">
+    <div class="our-services section-pad-t10" style="background-color:#FFFFF">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb" style="background-color: #f2f2f2;">
-              <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
-              <li class="breadcrumb-item active text-black" aria-current="page">All Sectors</li>
+                <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
+                <li class="breadcrumb-item active text-black" aria-current="page">All Sectors</li>
             </ol>
         </nav>
 
@@ -24,7 +25,7 @@
                                 <img src="{{sector.image.url}}" class="img-fluid" width="80" />
                             </div>
                             <div class="services-cap">
-                               <h5><a href="{% url 'sector_detail' sector_detail.id %}">{{sector.title}}</a></h5>
+                               <h5><a href="{% url 'sectors_detail' sector.id %}">{{sector.title}}</a></h5>
                                 <span>{{sector.job_count}}</span>
                             </div>
                         </div>
