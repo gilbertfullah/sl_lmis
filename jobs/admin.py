@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
-from .models import Job, Sector, SavedJobs, AppliedJobs
+from .models import Job, Sector, SavedJobs, AppliedJobs, Location, Contract
 
 class JobAdmin(admin.ModelAdmin):
     list_filter = ['title', 'employer', 'location', 'sector']
@@ -19,17 +19,25 @@ class SectorAdmin(admin.ModelAdmin):
         return mark_safe(f'<img src="{obj.image.url}" alt="{obj.title}" width="60" height="60" />')
     image_preview.short_description = 'Image Preview'
 
-
-
 class SavedAdmin(admin.ModelAdmin):
-    list_display = ['user', 'job']
+    list_display = ['jobseeker', 'job']
     list_per_page = 10
     
 class AppliedAdmin(admin.ModelAdmin):
     list_display = ['user', 'job']
     list_per_page = 10
     
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 10
+
+class ContractAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_per_page = 10
+    
 admin.site.register(Job, JobAdmin)
 admin.site.register(Sector, SectorAdmin)
 admin.site.register(SavedJobs, SavedAdmin)
 admin.site.register(AppliedJobs, AppliedAdmin)
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Contract, ContractAdmin)

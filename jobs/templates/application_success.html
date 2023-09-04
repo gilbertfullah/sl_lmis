@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Congratulations on your job application</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobs' %}" class="text-white">Jobs</a></li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ jobseeker.username }}, Your Job Application Was Submitted Successfully</div>
+
+                <div class="card-body">
+                    <p>Your application for the position of {{ job.title }} at {{ job.employer }} was successfully submitted.</p>
+                    <p>Thank you for applying! You will be contacted if your application is shortlisted.</p>
+                    <a href="{% url 'jobs' %}" class="btn btn-primary" style="background-color:#29569F;">Browse More Jobs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

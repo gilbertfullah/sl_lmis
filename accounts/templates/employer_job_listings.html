@@ -1,0 +1,54 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Browse All Employers</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Employer</a></li>
+                  <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> All Employer Jobs</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <div class="container mt-4 mb-5">
+        <div class="row">
+            {% for job_listing in job_listings %}
+            <div class="col-md-4 col-sm-12">
+                <div class="job-item card mb-4" style="height:450px">
+                    <img src="{{ job_listing.image.url}}" class="card-img-top px-4" alt="{{ job_listing.title }}" height="200" width="100%">
+                    <div class="card-body">
+                    <h5 class="card-title"><b>{{ job_listing.title}}</b></h5>
+                    <p class="card-text"><small class="text-muted">Application ends: {{ job_listing.expiration_date}}</small></p>
+                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                    </svg> {{job_listing.location}}</span>
+                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                    </svg> {{job_listing.contract}}</span>     
+                    <a href="{% url 'job_detail' job_listing.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
+
+
+

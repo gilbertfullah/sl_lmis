@@ -6,17 +6,34 @@
 <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 <link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Search Jobs</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobs' %}" class="text-white">Jobs</a></li>
+                  <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> Search Jobs</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 <section class="py-5">
     <div>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="background-color: #f2f2f2;">
-            <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
-            <li class="breadcrumb-item active text-black" aria-current="page">{{job_detail.title}}</li>
-            </ol>
-        </nav>
 
         <div class="container">
+            {% if query or location or sector %}
+                <h2 class="mb-3">Search results{% if query %} for '{{ query }}'{% endif %}{% if location %} in '{{ location }}'{% endif %}{% if sector %} in '{{ sector }}' sector{% endif %}:</h2>
+            {% endif %}
             <div class="row">
                 {% for job in jobs %}
                 <div class="col-lg-4 col-md-6">

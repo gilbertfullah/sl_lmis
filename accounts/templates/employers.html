@@ -1,0 +1,82 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Browse All Employers</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> All Employers</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Start grid -->
+    <section class="mt-5">
+        <div class="container mx-auto">
+            
+            <div class="mt-8">
+                <div class="grid grid-cols-12 gap-8">
+                    {% for employer in company %}
+                    <div class="col-span-12 col-lg-4">
+                        <div class="relative px-6 py-12 border" style="border-radius: 10px; border-color: gray;">
+                            <div class="d-flex justify-content-center"> <!-- Center the image horizontally -->
+                                <img src="{{ employer.company_logo.url }}" alt="" class="img-fluid">
+                            </div>
+                            <div class="mt-5 text-center">
+                                <a href="company-details.html"><h6 class="mb-3 text-lg text-gray-900 dark:text-white">{{employer.company_name}}</h6></a>
+                                <p class="mb-6 text-gray-500 dark:text-gray-300">{{employer.district}}</p>
+
+                                <a href="{% url 'employer_job_listings' employer_id=employer.id %}" class="text-white btn btn-sm mb-3" style="background-color:#29569F">{{job_count}} Opening Jobs</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="grid grid-cols-12">
+                <div class="col-12">
+                    <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+                        <ul class="pagination">
+                            {% if jobs.has_previous %}
+                                <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+                            {% endif %}
+                            {% for num_page in  jobs.paginator.page_range %}
+                            {% if jobs.number == num_page %}
+                                <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if jobs.has_next %}
+                                <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <!--end col-->
+            </div>
+        </div>
+    </section>
+<!-- End grid -->
+
+
+{% endblock content %}
+
+
+

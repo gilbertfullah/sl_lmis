@@ -20,13 +20,13 @@
           <a class="nav-link" href="{% url 'jobs' %}" style="color:black; font-weight:600">Jobs</a>
         </li>
         <li class="nav-item" style="padding-right: 30px">
+          <a class="nav-link" href="{% url 'employers' %}" style="color:black; font-weight:600">Employers</a>
+        </li>
+        <li class="nav-item" style="padding-right: 30px">
           <a class="nav-link" href="{% url 'lmi' %}" style="color:black; font-weight:600">LMI</a>
         </li>
         <li class="nav-item" style="padding-right: 30px">
           <a class="nav-link" href="{% url 'career-dev' %}" style="color:black; font-weight:600">Career Development</a>
-        </li>
-        <li class="nav-item" style="padding-right: 30px">
-          <a class="nav-link" href="{% url 'news_and_events' %}" style="color:black; font-weight:600">News & Events</a>
         </li>
         <li class="nav-item dropdown" style="padding-right: 30px">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:black; font-weight:600">
@@ -37,17 +37,49 @@
             <li><a class="dropdown-item" href="{% url 'policies-and-regulations' %}">Policies & Regulations</a></li>
             <li><a class="dropdown-item" href="{% url 'reports-and-surveys' %}">Reports & Surveys</a></li>
             <li><a class="dropdown-item" href="{% url 'news_and_events' %}">Links</a></li>
+            <li><a class="dropdown-item" href="{% url 'news_and_events' %}">News & Events</a></li>
             <li><a class="dropdown-item" href="{% url 'download_list' %}">Downloads</a></li>
           </ul>
         </li>
       </ul>
 
       {% if user.is_authenticated %}
-            <div class="btn-group header-btn d-none f-right d-lg-block pr-20">
-              <p class="dropdown-toggle text-black fw-bold pt-20" data-bs-toggle="dropdown" aria-expanded="false">Welcome {{user.username}}</p>
+            <div class="position-relative btn-group header-btn d-none f-right d-lg-block pr-30" style="top:-4px">
+              <div class="position-absolute" style="left: -45px; top:21px">
+                <button type="button" class="position-relative" style="background-color:white; border:none">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="black" class="bi bi-bell-fill" viewBox="0 0 16 16">
+                    <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+                  </svg>
+                  <span class="position-absolute p-1 bg-danger rounded-circle" style="left: 21px; top: 5px">
+                    <span class="visually-hidden">New alerts</span>
+                  </span>
+                </button>
+              </div>
+              <p class="dropdown-toggle text-black fw-bold pt-20" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{user.profile_pic.url}}" alt="" class="img-fluid rounded-circle" style="max-width: 30px;" />
+                 {{user.username}}
+              </p>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a class="dropdown-item" href="#">Account settings</a></li>
+                {% if request.user.is_jobseeker %}
+                <li><a class="dropdown-item" href="{% url 'jobseeker_dashboard' %}">Dashboard</a></li>
+                {% endif %}
+                {% if request.user.is_company %}
+                <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                {% endif %}
+                {% if request.user.is_government %}
+                <li><a class="dropdown-item" href="#">Dashboard</a></li>
+                {% endif %}
+                {% if id %}
+                  {% if request.user.is_jobseeker %}
+                  <li><a class="dropdown-item" href="{% url 'jobseeker_profile' id %}">Profile</a></li>
+                  {% endif %}
+                {% endif %}
+                {% if request.user.is_company %}
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                {% endif %}
+                {% if request.user.is_government %}
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                {% endif %}
                 <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
             </div>

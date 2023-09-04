@@ -3,6 +3,7 @@ from .models import Job
 from email import message
 from django.core.validators import RegexValidator
 from django.db import transaction
+from ckeditor.widgets import CKEditorWidget
 
 
 CONTRACT_CHOICES = (
@@ -115,10 +116,9 @@ class JobForm(forms.ModelForm):
     sector = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=SECTOR)
     contract = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=CONTRACT_CHOICES)
     qualification = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=EDUCATION_LEVEL)
-    description = forms.CharField(label="Job description", min_length=50, required=True, widget=forms.Textarea(attrs={'placeholder':'Write a brief job description', 
-                                    'style':'font-size: 13px', 'rows':4}))
-    requirements = forms.CharField(label="Job requirements", min_length=50, required=True, widget=forms.Textarea(attrs={'placeholder':'Write a brief job requirements', 
-                                    'style':'font-size: 13px', 'rows':4}))
+    description = forms.CharField(label="Job description", min_length=50, required=True, widget=CKEditorWidget())
+    skills = forms.CharField(label="Professional Skills", min_length=50, required=True, widget=CKEditorWidget())
+    requirements = forms.CharField(label="Job requirements", min_length=50, required=True, widget=CKEditorWidget())
     expiration_date = forms.DateField(label="Job Expiration Date", required=False, widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control datepicker-input'}))
     published_date = forms.DateField(label="Job Expiration Date", required=False, widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control datepicker-input'}))
     image = forms.FileField(label="Upload company logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
@@ -126,7 +126,7 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'location', 'experience', 'description','sector', 'contract', 'qualification', 
-                'requirements', 'expiration_date', 'published_date', 'image']
+                'requirements', 'expiration_date', 'published_date', 'image', 'skills']
 
 
 class JobUpdateForm(forms.ModelForm):
@@ -169,3 +169,23 @@ class JobUpdateForm(forms.ModelForm):
 class JobSearchForm(forms.Form):
     title = forms.CharField(max_length=250, required=False,)
     location = forms.ChoiceField(choices=LOCATION, required=False,)
+    
+
+class JobApplicationForm(forms.Form):
+    first_name = forms.CharField(label="First Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'First name cannot be empty'}, required=True,
+                                widget=forms.TextInput(attrs={'placeholder':'First name', 'style':'font-size: 13px; text-transform: capitalize'}))
+    
+    last_name = forms.CharField(label="Last Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'Last name cannot be empty'}, required=True,
+                                widget=forms.TextInput(attrs={'placeholder':'Last name', 'style':'font-size: 13px; text-transform: capitalize'}))
+    email = forms.CharField(label="Email", min_length=8, required=True, error_messages={'required':'Email cannot be empty'}, widget=forms.TextInput(attrs={'placeholder':'Email',
+                            'style':'font-size: 13px; text-transform: lowercase'}))
+    phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
+                                widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number'}))
+    resume = forms.FileField(label="Upload your CV", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    title = forms.CharField(label="Job Title", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], 
+                            required=True, widget=forms.TextInput(attrs={'placeholder':'Job title', 'style':'font-size: 13px; text-transform: capitalize'}))
+
+    def __init__(self, *args, **kwargs):
+        initial_data = kwargs.pop('initial_data', {})
+        super().__init__(*args, **kwargs)
+        self.initial.update(initial_data)

@@ -4,21 +4,14 @@ from django.utils import timezone
 from django.conf import settings
 User = settings.AUTH_USER_MODEL
 from ckeditor.fields import RichTextField
+#from ckeditor_uploader import RichTextUploadingField
 #from shortuuidfield import ShortUUIDField
 import shortuuid
 from shortuuid.django_fields import ShortUUIDField
 import uuid
 from django.utils.html import mark_safe
 from taggit.managers import TaggableManager
-
-CONTRACT_CHOICES = (
-        ('', 'Select a contract type'),
-        ('Full-Time', 'Full-Time'),
-        ('Part-Time', 'Part-Time'),
-        ('Contract', 'Contract'),
-        ('Internship', 'Internship'),
-        ('Freelance', 'Freelance')
-)
+from accounts.models import JobSeeker
     
 EXP_CHOICES = (
         ('', 'Select an experience level'),
@@ -44,31 +37,12 @@ QUALIFICATION = (
         ('Certificate', 'Certificate'),
         ('Diploma', 'Diploma'),
         ('College', 'College'),
-        ('Bachelor', 'Bachelor'),
-        ('Master', 'Master'),
-        ('Doctrate', 'Doctrate'),
+        ('Bachelor Degree', 'Bachelor Degree'),
+        ('Masters Degree', 'Masters Degree'),
+        ('Doctrate Degree', 'Doctrate Degree'),
     )
 
-LOCATION = (
-        ('', 'Select a district'),
-        ('Bo', 'Bo'),
-        ('Bonthe', 'Bonthe'),
-        ('Bombali', 'Bombali'),
-        ('Falaba', 'Falaba'),
-        ('Kailahun', 'Kailahun'),
-        ('Kambia', 'Kambia'),
-        ('Kenema', 'Kenema'),
-        ('Koinadugu', 'Koinadugu'),
-        ('Karene', 'Karene'),
-        ('Kono', 'Kono'),
-        ('Moyamba', 'Moyamba'),
-        ('Port Loko', 'Port Loko'),
-        ('Pujehun', 'Pujehun'),
-        ('Tonkolili', 'Tonkolili'),
-        ('Western Rural', 'Western Rural'),
-        ('Western Urban', 'Western Urban'),
-        ('International', 'International'),
-)
+
 
 
 def user_directory_path(instance, filename):
@@ -86,7 +60,26 @@ class Sector(models.Model):
     
     def __str__(self):
         return self.title
+    
+class Location(models.Model):
+    name = models.CharField(max_length=255)
 
+    
+    class Meta:
+        verbose_name_plural = "Locations"
+    
+    def __str__(self):
+        return self.name
+
+class Contract(models.Model):
+    name = models.CharField(max_length=255)
+
+    
+    class Meta:
+        verbose_name_plural = "Contracts"
+    
+    def __str__(self):
+        return self.name
 
 class Job(models.Model):
     #job_id = ShortUUIDField(unique=True, length=10, max_length=20, prefix="job_", alphabet="abcdefgh12345", primary_key=True)
@@ -94,11 +87,12 @@ class Job(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE)
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE)
     
     title = models.CharField(max_length=200)
     description = RichTextField(null=True, blank=True)
-    location = models.CharField(max_length=200, choices=LOCATION)
-    contract = models.CharField(max_length=100, choices=CONTRACT_CHOICES)
+    skills = RichTextField(null=True, blank=True)
     experience = models.CharField(max_length=200, choices=EXP_CHOICES)
     qualification = models.CharField(max_length=200, choices=QUALIFICATION)
     requirements = RichTextField(null=True, blank=True)
@@ -124,8 +118,9 @@ class Job(models.Model):
 
 class SavedJobs(models.Model):
     job = models.ForeignKey(Job, related_name='saved_job', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, related_name='saved', on_delete=models.CASCADE)
-    date_posted = models.DateTimeField(default=timezone.now)
+    jobseeker  = models.ForeignKey(User, related_name='saved', on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, related_name='saved_employer', on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(default=timezone.now) 
 
     class Meta:
         verbose_name_plural = "Saved Jobs"
@@ -137,10 +132,21 @@ class SavedJobs(models.Model):
 class AppliedJobs(models.Model):
     job = models.ForeignKey(Job, related_name='applied_job', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='applied_user', on_delete=models.CASCADE)
-    date_posted = models.DateTimeField(default=timezone.now)
+    date_applied = models.DateTimeField(default=timezone.now)
     
     class Meta:
         verbose_name_plural = "Applied Jobs"
 
     def __str__(self):
         return self.job.title
+
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    jobseeker = models.ForeignKey(User, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    applied_at = models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return f"{self.jobseeker.username} applied for {self.job.title}"
+    

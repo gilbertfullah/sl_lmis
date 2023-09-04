@@ -3,11 +3,12 @@ from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from django.utils import timezone
 from ckeditor.fields import RichTextField
+#from ckeditor_uploader import RichTextUploadingField
 #from shortuuidfield import ShortUUIDField
 #import shortuuid
 import uuid
 from django.utils.html import mark_safe
-
+from django.utils import timezone
 
 DISTRICT = (
         ('', 'Select a district'),
@@ -41,6 +42,15 @@ STATUS = (
     ('Pending', 'Pending'),
     ('Approved', 'Approved'),
     ('Rejected', 'Rejected')
+)
+
+EMPLOYMENT_STATUS = (
+    ('', 'Select employment staus'),
+    ('Employed', 'Employed'),
+    ('Self-Employed', 'Self-Employed'),
+    ('Unemployed', 'Unemployed'),
+    ('Student', 'Student'),
+    ('Retired', 'Retired'),
 )
 
 SECTOR = (
@@ -95,6 +105,46 @@ class User(AbstractUser):
     is_company = models.BooleanField(default=False)
     is_government = models.BooleanField(default=False)
     
+class JobSeekerInfo(models.Model):
+    name = models.CharField(max_length=250)
+    username = models.CharField(max_length=50)
+    password1 = models.CharField(max_length=50)
+    password2 = models.CharField(max_length=50)
+    about = RichTextField()
+    gender = models.CharField(max_length=10)
+    age = models.CharField(max_length=3)
+    pic = models.ImageField(upload_to=user_directory_path)
+
+class JobSeekerEducation(models.Model):
+    education_level = models.CharField(max_length=200)
+    institution = models.CharField(verbose_name="School/College/University", max_length=250)
+    grad_year = models.CharField(max_length=4, null=True, blank=True)
+    degree = models.CharField(max_length=200, null=True, blank=True)
+    field_of_study = models.CharField(max_length=200, null=True, blank=True)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
+
+class JobSeekerExperience(models.Model):
+    job_title = models.CharField(max_length=250)
+    employer = models.CharField(max_length=250)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(default=timezone.now)
+    job_description = RichTextField()
+    cv = models.FileField()
+
+class JobSeekerContact(models.Model):
+    email = models.EmailField(max_length=50)
+    phone_number = models.CharField(max_length=20)
+    address = models.CharField(max_length=250)
+    facebook = models.URLField(null=True, blank=True)
+    twitter = models.URLField(null=True, blank=True)
+    linkedin = models.URLField(null=True, blank=True)
+
+class JobSeekerProject(models.Model):
+    title = models.CharField(max_length=250)
+    url = models.URLField(null=True, blank=True)
+    photo = models.ImageField()
+
 class JobSeeker(models.Model):
     #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -116,12 +166,13 @@ class JobSeeker(models.Model):
     grad_year = models.CharField(max_length=4)
     resume = models.FileField(null=True, blank=True)
     looking_for = models.CharField(max_length=30)
+    employment_status = models.CharField(max_length=250, choices=EMPLOYMENT_STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'username', 'password1', 'password2', 'gender', 'age', 'education_level', 
-                    'profession', 'grad_year', 'looking_for', 'location', 'qualification']
+                    'profession', 'grad_year', 'looking_for', 'location', 'qualification', 'employment_status']
     
     class Meta:
         verbose_name_plural = "JobSeekers"
@@ -135,6 +186,7 @@ class JobSeeker(models.Model):
     #Concatenate first and last name
     def name(obj):
         return "%s %s" % (obj.first_name, obj.last_name)
+
 
     
 class Employer(models.Model):
@@ -190,3 +242,11 @@ class Government(models.Model):
    
     def __str__(self):
         return self.institution_name
+
+class ProfileView(models.Model):
+    viewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    jobseeker = models.ForeignKey(JobSeeker, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('viewer', 'jobseeker')

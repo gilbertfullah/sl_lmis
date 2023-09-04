@@ -1,148 +1,357 @@
 {% extends 'main.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 <link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+    <style>
+        .bi-bookmark {
+            font-size: 36px;
+            color: black;
+        }
+
+        .bi-bookmark-check-fill {
+            font-size: 36px;
+            color: black;
+        }
+
+        .save_job {
+            background-color:white;
+            border: none;
+        }
+
+    </style>
+
+    <section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+        <div class="container mx-auto">
+          <div class="row">
+            <div class="col-12">
+              <div class="text-center text-white">
+                <h3 class="mb-4 fs-2 text-white fw-bold">Job Details</h3>
+                <div class="page-next">
+                  <nav class="inline-block" aria-label="breadcrumb text-center">
+                    <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                      <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                      <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobs' %}" class="text-white">Jobs</a></li>
+                      <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> Job Details</li>
+                    </ol>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
     
     <!-- Job Detail Start -->
-    <div class="container-xxl py-2 wow fadeInUp" data-wow-delay="0.1s">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="background-color: #f2f2f2;">
-            <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'jobs' %}" style="color: #6C9BCF">Jobs</a></li>
-            <li class="breadcrumb-item active text-black" aria-current="page">{{job_detail.title}}</li>
-            </ol>
-        </nav>
-
-        <div class="container">
-            <div class="row gy-5 gx-4">
-                <div class="col-8">
-                    <div class="d-flex align-items-center mb-5">
-                        <img class="flex-shrink-0 img-fluid border rounded" src="{{job_detail.image.url}}" alt="" style="width: 80px; height: 80px;">
-                        <div class="text-start ps-4">
-                            <h3 class="mb-3">{{job_detail.title}}</h3>
-                            <span class="text-truncate me-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-building" viewBox="0 0 16 16">
-                                    <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
-                                    <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
-                                </svg>
-                              {{job_detail.employer}}
-                            </span>
-                            <span class="text-truncate me-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                                </svg>
-                                {{job_detail.location}}
-                            </span>
-                            <span class="text-truncate me-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                                </svg>
-                                {{job_detail.contract}}
-                            </span>
+    <!-- Start grid -->
+    <section class="py-5">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-12 gap-y-10 gap-10 row">
+                <div class="col-12 col-lg-8">
+                    <div class="border" style="border-radius: 10px; border-color: gray;">
+                        <div class="relative">
+                            <img src="{{ job_detail.image.url }}" alt="" class="rounded-md img-fluid mb-7" style="object-fit: cover; width: 100%; height: 10%; border-radius: 10px;">
+                            <div class="absolute z-20 -bottom-7 left-7">
+                                <img src="assets/images/featured-job/img-10.png" alt="" class="rounded-md img-fluid">
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-12">
+                                <div class="col-12 col-lg-8">
+                                    <div class="relative">
+                                        <h5 class="mb-4 text-gray-900 fw-bold fs-2">{{job_detail.title}}</h5>
+                                    </div>
+                                </div>
+                            </div>
 
-                
-                <div class="col-4">
-                    <div class="row">
-                    <div class="col-8">
-                    <a href="{% url 'applied-jobs' %}" class="btn w-60" type="button" style="background-color:#29569F; color:white">Apply Now</a>
-                    </div>
-                    <div class="col-4">
-                        <button class="btn btn-toggle" data-bs-toggle="button" aria-pressed="false" style="background-color:none; height:20px">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
-                              </svg>
-                        </button>
-                    </div>
-                    </div>
-                    <div class="row mt-3">
-                    <small class="text-truncate fs-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-alarm" viewBox="0 0 16 16">
-                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
-                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
-                        </svg>
-                      Application ends: <small class="text-danger fw-bold fs-6">{{job_detail.expiration_date}}</small>
-                    </small>
-                    </div>
-                </div>
+                            <div class="grid grid-cols-12 mt-8 gap-y-3 gap-lg-3">
+                                <div class="row flex justify-content">
+                                    <div class="col-12 col-lg-4 pl-4">
+                                        <div class="p-2 border align-content-center" style="border-radius: 10px; border-color: gray;">
+                                            <p class="mb-1 text-gray-500 fs-4 text-center">Experience</p>
+                                            <p class="fs-6 text-gray-900 text-center">{{job_detail.experience}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4">
+                                        <div class="p-2 border" style="border-radius: 10px; border-color: gray;">
+                                            <p class="mb-1 text-gray-500 fs-4 text-center">Job type</p>
+                                            <p class="fs-6 text-gray-900 text-center ">{{job_detail.contract}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-4 pr-4">
+                                        <div class="p-2 border" style="border-radius: 10px; border-color: gray;">
+                                            <p class="mb-1 text-gray-500 fs-4 text-center">Location</p>
+                                            <p class="fs-6 text-gray-900 text-center">{{job_detail.location}}</p>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            {% if job_detail.description %}
+                            <div class="mt-5 col-12">
+                                <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Job Description</h5>
+                                <div>
+                                    <p class="mb-0 text-gray-500">{{job_detail.description|safe}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if job_detail.requirements %}
+                            <div class="mt-5 col-12">
+                                <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Responsibilities</h5>
+                                <div>
+                                    <p class="mb-3 text-gray-500">{{job_detail.requirements|safe}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if job_detail.qualification %}
+                            <div class="mt-5 col-12">
+                                <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Qualification</h5>
+                                <div>
+                                    <p class="mb-3 text-gray-500">{{job_detail.qualification|safe}}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if job_detail.skills %}
+                            <div class="mt-5 col-12">
+                                <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Skill & Experience</h5>
+                                {{job_detail.skills|safe}}
+                            </div>
+                            {% endif %}
 
-            </div>
-            
-            <div class="row gy-5 gx-4">
-                <div class="col-8">
-                    <div class="mb-5">
-                        <h4 class="mb-3">Job description</h4>
-                        <p>{{job_detail.description}}</p>
-                        <h4 class="mb-3 mt-5">Job requirements</h4>
-                        <div>{{job_detail.requirements}}</div>
+                            <div class="pt-3 mt-4 col-12 mb-3">
+                                <div class="row">
+                                    <div class="col-2 mt-1">
+                                        <p class="mt-1">Share job:</p>
+                                    </div>
+                                
+                                    <div class="col-3 social mt-1">
+                                        <a href="#" class="btn" style="background-color:#3b5998"><i class="bi bi-facebook"></i> Facebook</a>
+                                    </div>
+                                    <div class="col-3 social mt-1">
+                                        <a href="#" class="btn" style="background-color:#00acee"><i class="bi bi-twitter"></i> Twitter+</a>
+                                    </div>
+                                    <div class="col-3 social mt-1">
+                                        <a href="#" class="btn" style="background-color:#0072b1"><i class="bi bi-linkedin"></i> Linkedin</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
-                </div>
-    
-                <div class="col-lg-4">
-                    <div class="rounded p-5 mb-4 wow slideInUp" style="background-color:#29569F" data-wow-delay="0.1s">
-                        <h4 class="mb-4" style="color:white">Job Summary</h4>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building" viewBox="0 0 16 16">
-                            <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1ZM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1Z"/>
-                            <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V1Zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3V1Z"/>
-                        </svg>  Company: {{job_detail.employer}}</p>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
-                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
-                        </svg>  Posted at: {{job_detail.published_date}}</p>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm" viewBox="0 0 16 16">
-                            <path d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z"/>
-                            <path d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z"/>
-                        </svg>  Application ends: {{job_detail.expiration_date}}</p>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag" viewBox="0 0 16 16">
-                            <path d="M6 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm-1 0a.5.5 0 1 0-1 0 .5.5 0 0 0 1 0z"/>
-                            <path d="M2 1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 1 6.586V2a1 1 0 0 1 1-1zm0 5.586 7 7L13.586 9l-7-7H2v4.586z"/>
-                          </svg>  Sector: {{job_detail.sector}}</p>
-                        <p style="color:white"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg>  Location: {{job_detail.location}}</p>
-                        <p style="color:white" class="m-0"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge-fill" viewBox="0 0 16 16">
-                            <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm4.5 0a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1h-3zM8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm5 2.755C12.146 12.825 10.623 12 8 12s-4.146.826-5 1.755V14a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-.245z"/>
-                          </svg>  Experience: {{job_detail.experience}}</p>
-                        <p style="color:white" class="mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                        </svg>  Contract: {{job_detail.contract}}</p>
-                    </div>
-                    <div class="rounded p-5 wow slideInUp mb-5" data-wow-delay="0.1s" style="background-color:#29569F;">
-                        <h4 style="color:white" class="mb-4">{{ job_detail.employer }}</h4>
-                        <p style="color:white" class="m-0">{{ employer.description }}</p>
-                    </div>
-                </div>
-            </div>
+                    
+                    <div class="mt-100">
+                        <h5 class="text-gray-900 dark:text-gray-50">Related Jobs</h5>
 
-            <h4 class="mb-4">Related Jobs</h4>
-            <div class="row">
-                {% for related in related_jobs %}
-                <div class="col-lg-4 col-md-6">
-                    <div class="job-item card mb-4" style="height:450px">
-                        <img src="{{ related.image.url}}" class="card-img-top px-4" alt="{{ related.title }}" height="200" width="100%">
-                        <div class="card-body">
-                        <h5 class="card-title"><b>{{ related.title}}</b></h5>
-                        <p class="card-text"><small class="text-muted">Application ends: {{ related.expiration_date}}</small></p>
-                        <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
-                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
-                        </svg> {{related.location}}</span>
-                        <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
-                        </svg> {{related.contract}}</span>     
-                        <a href="{% url 'job_detail' job_detail.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                        <div class="row">
+                            {% for related in related_jobs %}
+                            <div class="col-md-6 col-sm-12">
+                                <div class="job-item card mb-4" style="height:450px">
+                                    <img src="{{ related.image.url}}" class="card-img-top px-4" alt="{{ related.title }}" height="200" width="100%">
+                                    <div class="card-body">
+                                    <h5 class="card-title"><b>{{ related.title}}</b></h5>
+                                    <p class="card-text"><small class="text-muted">Application ends: {{ related.expiration_date}}</small></p>
+                                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                    </svg> {{related.location}}</span>
+                                    <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                    </svg> {{related.contract}}</span>     
+                                    <a href="{% url 'job_detail' job_detail.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-lg-4">
+                    <div class="border" style="border-radius: 10px; border-color: gray;">
+                        <div class="p-6">
+                            <h6 class="text-gray-900 fs-4 fw-bold pt-3 pl-3">Job Overview</h6>
+
+                            <div class="row flex mt-6" style="margin-top: 40px;">
+                                <div class="col-2">
+                                    <i class="bi bi-person-circle text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Job Title</h6>
+                                    <p class="text-gray-500">{{job_detail.title}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-star-half text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Experience</h6>
+                                    <p class="text-gray-500">{{job_detail.experience}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-geo-alt text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Location</h6>
+                                    <p class="text-gray-500">{{job_detail.location}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-mortarboard-fill text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Qualification</h6>
+                                    <p class="text-gray-500">{{job_detail.qualification}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-building-fill text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Sector</h6>
+                                    <p class="text-gray-500">{{job_detail.sector}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-clock-fill text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Date Posted</h6>
+                                    <p class="text-gray-500">{{job_detail.published_date}}</p>
+                                </div>
+                            </div>
+
+                            <div class="row flex mt-6" style="margin-top: 10px;">
+                                <div class="col-2">
+                                    <i class="bi bi-stopwatch-fill text-center fs-2 p-2"></i>
+                                </div>
+                                
+                                <div class="col-10">
+                                    <h6 class="mb-2 fs-6 text-gray-900">Application End</h6>
+                                    <p class="text-gray-500">{{job_detail.expiration_date}}</p>
+                                </div>
+                            </div>
+
+
+                            <div class="mt-10 text-center">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <form action="{% url 'apply_job' job_detail.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-primary" style="background-color:#29569F;">Apply <i class="bi bi-arrow-right"></i></button>
+                                        </form>
+                                    </div>
+                                    
+                                    <div class="col-sm-4">
+                                        {% if request.user.is_authenticated %}
+                                        <form id="save-unsave-form" action="{% url 'save_job' job_detail.id %}" method="post" class="mt-3 mb-3">
+                                            {% csrf_token %}
+                                            <button type="submit" class="w-full text-black text-center" style="background-color:white; border:none; margin-top: -12px; margin-left: -40px;">
+                                                <i class="bi bi-bookmark text-black text-center fs-1" ></i> Save Job
+                                            </button>
+            
+                                        </form>
+                                        
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+
+                            
+                    </div>
+                    <div class="border mt-10" style="border-radius: 10px; border-color: gray;">
+                        <div class="p-6">
+                            <div>
+                                <div class="mt-4 text-center">
+                                    <h6 class="text-gray-900 fs-5 fw-bold">{{ job_detail.employer }}</h6>
+                                </div>
+
+                                <div class="mt-4 space-y-4">
+
+                                    <div class="row flex mt-6" style="margin-top: 10px;">
+                                        <div class="col-2">
+                                            <i class="bi bi-telephone text-center fs-2 p-2"></i>
+                                        </div>
+                                        
+                                        <div class="col-10">
+                                            <h6 class="mb-2 fs-6 text-gray-900">Phone</h6>
+                                            <p class="text-gray-500">{{employer.phone_number}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row flex mt-6" style="margin-top: 10px;">
+                                        <div class="col-2">
+                                            <i class="bi bi-envelope text-center fs-2 p-2"></i>
+                                        </div>
+                                        
+                                        <div class="col-10">
+                                            <h6 class="mb-2 fs-6 text-gray-900">Email</h6>
+                                            <p class="text-gray-500">{{employer.email}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row flex mt-6" style="margin-top: 10px;">
+                                        <div class="col-2">
+                                            <i class="bi bi-globe text-center fs-2 p-2"></i>
+                                        </div>
+                                        
+                                        <div class="col-10">
+                                            <h6 class="mb-2 fs-6 text-gray-900">Website</h6>
+                                            <p class="text-gray-500">{{employer.website}}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row flex mt-6" style="margin-top: 10px;">
+                                        <div class="col-2">
+                                            <i class="bi bi-geo-alt text-center fs-2 p-2"></i>
+                                        </div>
+                                        
+                                        <div class="col-10">
+                                            <h6 class="mb-2 fs-6 text-gray-900">Address</h6>
+                                            <p class="text-gray-500">{{employer.address}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center" style="margin-top: 30px; margin-bottom: 30px;">
+                                    <a href="{% url 'employer_details' employer_id=employer.id %}" class="btn w-full text-white" style="background-color:#29569F;"><i class="bi bi-eye fs-6"></i> View Profile</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="mt-4">
+                        <h6 class="mb-3 fs-5 fw-bold">Job location</h6>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1628067715234!5m2!1sen!2sin" style="width:100%" height="250" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
                 </div>
-                {% endfor %}
+                
             </div>
-
         </div>
+    </section>
+<!-- End grid -->
 
-        
 {% endblock content %}

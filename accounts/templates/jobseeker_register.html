@@ -9,12 +9,26 @@
 
 
     <div class="our-services section-pad-t10" style="background-color:#FFFFF">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb" style="background-color: #f2f2f2;">
-                <li class="breadcrumb-item pl-145"><a href="{% url 'register' %}" style="color: #6C9BCF">Register</a></li>
-                <li class="breadcrumb-item active text-black" aria-current="page">JobSeeker Registration</li>
-            </ol>
-        </nav>
+        <section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+            <div class="container mx-auto">
+              <div class="row">
+                <div class="col-12">
+                  <div class="text-center text-white">
+                    <h3 class="mb-4 fs-2 text-white fw-bold">JobSeeker Registration</h3>
+                    <div class="page-next">
+                      <nav class="inline-block" aria-label="breadcrumb text-center">
+                        <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                          <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                          <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'register' %}" class="text-white">Register</a></li>
+                          <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> JobSeeker Registration</li>
+                        </ol>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
 
         <div class="container mt-3" style="width:70%; font-size:14px">
             <h5 class="mt-5 text-center fw-bold">JOB SEEKERS REGISTRATION</h5>
@@ -41,46 +55,48 @@
             <form method="POST" class="card p-3 mt-4" style="margin-bottom:80px; background-color:#f5f5f5; border: 1px solid #e3e3e3;" autocomplete="off" action="{% url 'jobseeker_register' %}" novalidate>
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-6">{{ form.first_name|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.last_name|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.first_name|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.last_name|as_crispy_field }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">{{ form.username|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.email|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.username|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.email|as_crispy_field }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">{{ form.password1|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.password2|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.password1|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.password2|as_crispy_field }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-4">{{ form.gender|as_crispy_field }}</div>
-                    <div class="col-4">{{ form.age|as_crispy_field }}</div>
-                    <div class="col-4">{{ form.phone_number|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.gender|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.age|as_crispy_field }}</div>
                 </div>
                 <div class="row">
-                    <div class="col-6">{{ form.district|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.looking_for|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.phone_number|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.district|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">{{ form.employment_status|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.looking_for|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">{{ form.education_level|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.grad_year|as_crispy_field }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">{{ form.qualification|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.profession|as_crispy_field }}</div>
+                </div>
+                <div class="row">
                     
-                </div>
-                <div class="row">
-                    <div class="col-6">{{ form.education_level|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.grad_year|as_crispy_field }}</div>
-                </div>
-                <div class="row">
-                    <div class="col-6">{{ form.qualification|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.profession|as_crispy_field }}</div>
-                </div>
-                <div class="row">
-                    
-                    <div class="col-6">{{ form.profile_pic|as_crispy_field }}</div>
-                    <div class="col-6">{{ form.resume|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.profile_pic|as_crispy_field }}</div>
+                    <div class="col-md-6 col-sm-12">{{ form.resume|as_crispy_field }}</div>
                 </div>
                 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <button type="submit" class="btn text-white mt-3" style="width:250px; font-weight:400; font-size:15px; background-color:#29569F">Register</button>
                     </div>
-                    <div class="col-6 align-items-center">
+                    <div class="col-md-6 col-sm-12 align-items-center">
                         <h5 class="text-center" style="font-size:14px; padding-top: 34px;">Already Registered?<a href="{% url 'login' %}" class="px-2 fs-6 fw-bold" style="color:red">Login</a></h5>
                     </div>
                 </div>

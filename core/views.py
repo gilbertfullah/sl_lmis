@@ -23,7 +23,7 @@ def home(request):
         'jobs': jobs,
         'sectors': sectors,
         'news_and_events_list': news_and_events_list,
-        'jobs_count': jobs_count
+        'jobs_count': jobs_count,
     }
     
     return render(request, 'core/home.html', context)

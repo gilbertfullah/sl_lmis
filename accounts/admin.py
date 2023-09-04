@@ -10,7 +10,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class JobSeekerAdmin(admin.ModelAdmin):
     list_filter = ['first_name', 'last_name', 'username', 'email']
-    list_display = ['name', 'username', 'email', 'gender', 'district', 'profession']
+    list_display = ['name', 'username', 'email', 'gender', 'district', 'profession', 'employment_status']
     search_fields = ['first_name', 'last_name', 'username', 'email']
     list_per_page = 10
     

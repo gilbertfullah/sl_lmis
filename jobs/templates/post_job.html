@@ -8,8 +8,8 @@
     <form method="POST" class="card p-3 mt-4" style="margin-bottom:80px; background-color:#f5f5f5; border: 1px solid #e3e3e3;" autocomplete="off" action="{% url 'post_job' %}" novalidate>
         {% csrf_token %}
         <div class="row">
-            <div class="col-6">{{ form.title|as_crispy_field }}</div>
-            <div class="col-6">{{ form.sector|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.title|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.sector|as_crispy_field }}</div>
         </div>
         <div class="row">
             <div class="col-12">{{ form.description|as_crispy_field }}</div>
@@ -18,19 +18,22 @@
             <div class="col-12">{{ form.requirements|as_crispy_field }}</div>
         </div>
         <div class="row">
-            <div class="col-6">{{ form.contract|as_crispy_field }}</div>
-            <div class="col-6">{{ form.location|as_crispy_field }}</div>
+            <div class="col-12">{{ form.skills|as_crispy_field }}</div>
         </div>
         <div class="row">
-            <div class="col-6">{{ form.qualification|as_crispy_field }}</div>
-            <div class="col-6">{{ form.experience|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.contract|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.location|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.qualification|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.experience|as_crispy_field }}</div>
         </div>  
         <div class="row">
-            <div class="col-6">{{ form.published_date|as_crispy_field }}</div>
-            <div class="col-6">{{ form.expiration_date|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.published_date|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.expiration_date|as_crispy_field }}</div>
         </div>
         <div class="row">
-            <div class="col-6">{{ form.image|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.image|as_crispy_field }}</div>
         </div>
         <button type="submit" class="btn text-white mt-3" style="width:250px; font-weight:400; font-size:15px; background-color:#29569F">Post A Job</button>
     </form>

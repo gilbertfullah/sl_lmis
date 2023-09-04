@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'resources.apps.ResourcesConfig',
     'taggit',
+    'formtools',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -98,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.jobseeker_id',
             ],
         },
     },
@@ -191,10 +193,43 @@ CLOUDINARY_STORAGE = {
 }
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    "default": {
+        "skin": "moono",
+        "toolbar": "full",
+        'height': 300,
+        'width': '100%',
+        "extraPlugins": ",".join(
+            [
+                'about',
+                'filetools',
+                'find',
+                'iframe',
+                'image',
+                'image2',
+                'link',
+                'smiley',
+                'table',
+                'tabletools',
+                'uploadimage',
+                'widget',
+                'dialog',
+            ]
+        ),
+    }
+}
 
 LOGIN_REDIRECT_URL = "/"
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'gilbertfullah@gmail.com'
+EMAIL_HOST_PASSWORD = 'Yusuf290419'
+DEFAULT_FROM_EMAIL = 'gilbertfullah@gmail.com'
+
+
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = "/"
 

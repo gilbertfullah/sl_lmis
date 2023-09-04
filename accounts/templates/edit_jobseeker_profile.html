@@ -1,0 +1,108 @@
+{% extends 'main.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Edit Profile Details</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'register' %}" class="text-white">Register</a></li>
+                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobseeker_profile' id %}" class="text-white">Profile</a></li>
+                  <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> Edit Profile Details</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div class="container mt-3" style="width:70%; font-size:14px">
+    <h5 class="mt-5 text-center fw-bold">Edit Profile Details</h5>
+    <!--Message from backend (success)-->
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"><strong>{{error|escape}}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <!--Message from backend (success)-->
+    <div class="text-center">
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert"><strong>{{message}}</strong>
+                    <a href="{% url 'login' %}" type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <form method="POST" class="card p-3 mt-4" style="margin-bottom:80px; background-color:#f5f5f5; border: 1px solid #e3e3e3;" autocomplete="off" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.first_name|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.last_name|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.username|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.email|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.password1|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.password2|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.gender|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.age|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.phone_number|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.district|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.employment_status|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.looking_for|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.education_level|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.grad_year|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">{{ form.qualification|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.profession|as_crispy_field }}</div>
+        </div>
+        <div class="row">
+            
+            <div class="col-md-6 col-sm-12">{{ form.profile_pic|as_crispy_field }}</div>
+            <div class="col-md-6 col-sm-12">{{ form.resume|as_crispy_field }}</div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <button type="submit" class="btn text-white mt-3" style="width:250px; font-weight:400; font-size:15px; background-color:#29569F">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+{% endblock content %}
+
+
+
+

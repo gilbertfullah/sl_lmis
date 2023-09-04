@@ -8,29 +8,69 @@
 <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 <link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
 
-<div style="background-color:white; margin-top:-50px; padding-bottom:60px; padding-top:80px">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb" style="background-color: #f2f2f2;">
-    <li class="breadcrumb-item pl-100"><a href="{% url 'home' %}" style="color: #6C9BCF">Home</a></li>
-    <li class="breadcrumb-item active text-black" aria-current="page">Jobs</li>
-    </ol>
-  </nav>
+<section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+  <div class="container mx-auto">
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center text-white">
+          <h3 class="mb-4 fs-2 text-white fw-bold">Browse All Jobs</h3>
+          <div class="page-next">
+            <nav class="inline-block" aria-label="breadcrumb text-center">
+              <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> All Jobs</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="background-color:white; padding-bottom:60px;">
 
   <div class="container mt-5 mb-5">
     <div class="row">
-      <div class="col-xl-8 offset-lg-2">
+      <div class="col-md-12">
           <!-- form -->
-          <form method="GET" action="{% url 'job_search_list' %}" class="search-box">
-            {% csrf_token %}
-            <div class="input-form">
-              <input type="text" name="q" placeholder="Job Tittle or keyword">
+          <form action="{% url 'job_search_list' %}" method="get" class="row g-3 bg-light p-4 rounded">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                    <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Enter job title" style="height:55px;">
+                </div>
             </div>
-            <div class="search-form">
-              <div class="search-form">
-                <button type="submit" class="btn text-white mt-2" style="width:250px; font-weight:420; font-size:15px; background-color:#29569F">Find job</button>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                    <select class="form-select" id="location" name="location" style="height:55px;">
+                        <option value="" selected>Any Location</option>
+                        <option value="newyork">New York</option>
+                        <option value="losangeles">Los Angeles</option>
+                        <!-- Add more location options here -->
+                    </select>
+                </div>
             </div>
-            </div>	
-          </form>	
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-briefcase"></i></span>
+                    <select class="form-select" id="jobSector" name="jobSector" style="height:55px;">
+                        <option value="" selected>Any Sector</option>
+                        {% for sector in sectors %}
+                            <option value="{{ sector }}">{{ sector }}</option>
+                        {% endfor %}
+                        
+                        <!-- Add more job sector options here -->
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 text-center" style="margin-left: -40px;">
+                <button type="submit" class="btn btn-primary" style="background-color: #29569F;">Find Job</button>
+            </div>
+        </form>
+        
+        
       </div>
     </div>
   </div>
@@ -38,9 +78,27 @@
 
 
   <div class="container-fluid">
-    <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -310px; font-weight: bold">{{jobs_count}} Jobs found</h3>
+    <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -210px; font-weight: bold">{{jobs_count}} Jobs found</h3>
     <div class="row">
-      <div class="col-md-8 offset-2">
+      <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+        <h4>Locations</h4>
+          <ul class="list-group">
+            {% for location in locations %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="#" class="text-black">{{ location.name }}</a>
+                <span class="badge bg-primary rounded-pill">
+                    {% for loc_count in locations_with_counts %}
+                        {% if loc_count.id == location.id %}
+                            {{ loc_count.job_count }}
+                        {% endif %}
+                    {% endfor %}
+                </span>
+            </li>
+            {% endfor %}
+          </ul>
+      </div>
+      <div class="col-lg-9 col-xl-9 col-md-9 col-sm-12">
+
           {% if jobs %}
                   {% for job in jobs %}
                   <div class="job-item p-4 mb-4">
