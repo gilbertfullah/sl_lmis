@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 #from formtools.wizard.views import SessionWizardView
 from django.http import HttpResponse
-from django.core.files.storage import FileSystemStorage
+#from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
 import os
 from django.conf import settings
@@ -20,7 +20,7 @@ from django.db.models import Count
 from jobs.models import SavedJobs, AppliedJobs, Job
 from datetime import timedelta
 from django.utils import timezone
-import json
+#import json
 
 def register(request):
     return render(request, 'register.html')
