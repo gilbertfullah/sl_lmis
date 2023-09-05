@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'resources.apps.ResourcesConfig',
     'taggit',
-    'formtools',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'

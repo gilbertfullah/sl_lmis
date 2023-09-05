@@ -8,7 +8,6 @@ from .models import User, JobSeeker, Employer, Government, ProfileView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-#from formtools.wizard.views import SessionWizardView
 from django.http import HttpResponse
 #from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator

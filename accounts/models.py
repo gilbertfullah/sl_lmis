@@ -3,9 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from django.utils import timezone
 from ckeditor.fields import RichTextField
-#from ckeditor_uploader import RichTextUploadingField
-#from shortuuidfield import ShortUUIDField
-#import shortuuid
 import uuid
 from django.utils.html import mark_safe
 from django.utils import timezone
