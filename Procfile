@@ -1,1 +1,1 @@
-web: gunicorn sl_lmis.wsgi:application --log-file -
+web: gunicorn sl_lmis.wsgi:application --log-level=info --log-file -
