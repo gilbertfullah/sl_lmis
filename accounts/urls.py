@@ -26,11 +26,11 @@ urlpatterns=[
      path('delete_skills/', views.delete_skill, name='skill-delete'),#path('login/',views.login_request, name='login'),
      path('logout/',views.logout_view, name='logout'),
      
-     path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step1'),
-     path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step2'),
-     path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step3'),
-     path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step4'),
-     path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step5'),
+     #path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step1'),
+     #path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step2'),
+     #path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step3'),
+     #path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step4'),
+     #path('profile/edit/', views.JobSeekerWizardView.as_view(), name='wizard_step5'),
      
      #dashboard
      path('jobseeker_dashboard/', views.jobseeker_dashboard, name='jobseeker_dashboard'),

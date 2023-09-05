@@ -2,13 +2,13 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 from django.views.generic.edit import CreateView
-from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm, JobSeekerInfoForm, JobSeekerEducationForm, JobSeekerExperienceForm, JobSeekerContactForm, JobSeekerProjectForm, JobseekerProfileForm
+from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import User, JobSeeker, Employer, Government, ProfileView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from formtools.wizard.views import SessionWizardView
+#from formtools.wizard.views import SessionWizardView
 from django.http import HttpResponse
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
@@ -21,15 +21,6 @@ from jobs.models import SavedJobs, AppliedJobs, Job
 from datetime import timedelta
 from django.utils import timezone
 import json
-
-
-class JobSeekerWizardView(SessionWizardView):
-    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'photos'))
-    form_list = [JobSeekerInfoForm, JobSeekerContactForm, JobSeekerEducationForm, JobSeekerExperienceForm, JobSeekerProjectForm]
-    template_name = "edit_profile.html"
-    
-    def done(self, form_list, **kwargs):
-        return HttpResponse("Form Submitted")
 
 def register(request):
     return render(request, 'register.html')
