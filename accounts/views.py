@@ -48,23 +48,28 @@ def employer(request):
     job_listings = Job.objects.all()
     employers = set(job_listing.employer.company_name for job_listing in job_listings)
     employer_counts = {}
-    
+
     for employer in employers:
         job_listings_for_employer = job_listings.filter(employer__company_name=employer)
         employer_counts[employer] = job_listings_for_employer.count()
-        
-        job_count = employer_counts.get(employer, 0)
-        
+
+    job_count = employer_counts.get(employer, 0)
+
+    # Check if there are no employers
+    if not company:
+        return render(request, 'blank_employer_page.html')  # Create a 'blank_employer_page.html' template for this purpose
+
     paginator = Paginator(job_listings, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
         'company': company,
         'job_count': job_count,
         'jobs': page_obj
     }
     return render(request, 'employers.html', context)
+
 
 def employer_job_listings(request, employer_id):
     employer = get_object_or_404(Employer, id=employer_id)
