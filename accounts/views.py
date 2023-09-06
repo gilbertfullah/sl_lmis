@@ -334,16 +334,12 @@ def jobseeker_dashboard(request):
             count_by_day = []
             
             for view in applied_jobs_by_day:
-                for job in saved_jobs_by_month:
-                    applied_by_day.append(calendar.day_name[view["day"]])
-                    count_by_day.append(view["count"])
-                
-                applied_by_day = view['day']
-                day_name = calendar.day_name[applied_by_day - 1]
-                count_by_day = view['count']
+                day_number = view["day"]
+                day_name = calendar.day_name[day_number - 1]  # Subtract 1 to get the correct day index
+                count = view["count"]
                 
                 applied_by_day.append(day_name)
-                count_by_day.append(count_by_day)
+                count_by_day.append(count)
                 
             profile_views = ProfileView.objects.filter(jobseeker=jobseeker)
 
