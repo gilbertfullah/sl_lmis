@@ -26,6 +26,12 @@ def home(request):
         'jobs_count': jobs_count,
     }
     
+    if not jobs and not news_and_events_list:
+        context['no_content_message'] = "Sorry, there are no jobs or news available at the moment."
+    else:
+        context['jobs'] = jobs
+        context['news_and_events_list'] = news_and_events_list
+    
     return render(request, 'core/home.html', context)
 
 def lfp(request):
