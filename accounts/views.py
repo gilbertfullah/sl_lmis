@@ -44,32 +44,37 @@ def JobSeekerRegister(request):
     return render(request, 'jobseeker_register.html', {'form':form})
 
 def employer(request):
-    company = Employer.objects.all()
-    job_listings = Job.objects.all()
-    employers = set(job_listing.employer.company_name for job_listing in job_listings)
-    employer_counts = {}
+    # Fetch all employers
+    employers = Employer.objects.all()
 
+    employer_data = []
     for employer in employers:
-        job_listings_for_employer = job_listings.filter(employer__company_name=employer)
-        employer_counts[employer] = job_listings_for_employer.count()
+        # For each employer, get their job listings and count them
+        job_listings_for_employer = Job.objects.filter(employer=employer)
+        job_count = job_listings_for_employer.count()
 
-    job_count = employer_counts.get(employer, 0)
+        # Create a dictionary with employer details and job count
+        employer_info = {
+            'employer': employer,
+            'job_count': job_count,
+        }
 
-    paginator = Paginator(job_listings, 6)
+        # Append this dictionary to the employer_data list
+        employer_data.append(employer_info)
+
+    paginator = Paginator(employer_data, 6)  # Paginate the employer data
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     context = {
-        'company': company,
-        'job_count': job_count,
-        'jobs': page_obj
+        'employers': page_obj,
     }
-    
-    # Check if there are no employers
-    if not company:
+
+    if not employers:
         return render(request, 'blank_employer_page.html')  # Create a 'blank_employer_page.html' template for this purpose
-    
+
     return render(request, 'employers.html', context)
+
 
 
 def employer_job_listings(request, employer_id):
@@ -330,7 +335,7 @@ def jobseeker_dashboard(request):
             
             for view in applied_jobs_by_day:
                 applied_by_day = view['day']
-                day_name = calendar.applied_by_day[applied_by_day - 1]
+                day_name = calendar.day_name[applied_by_day - 1]
                 count_by_day = view['count']
                 
                 applied_by_day.append(day_name)
