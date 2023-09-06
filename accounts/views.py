@@ -55,10 +55,6 @@ def employer(request):
 
     job_count = employer_counts.get(employer, 0)
 
-    # Check if there are no employers
-    if not company:
-        return render(request, 'blank_employer_page.html')  # Create a 'blank_employer_page.html' template for this purpose
-
     paginator = Paginator(job_listings, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -68,6 +64,11 @@ def employer(request):
         'job_count': job_count,
         'jobs': page_obj
     }
+    
+    # Check if there are no employers
+    if not company:
+        return render(request, 'blank_employer_page.html')  # Create a 'blank_employer_page.html' template for this purpose
+    
     return render(request, 'employers.html', context)
 
 
