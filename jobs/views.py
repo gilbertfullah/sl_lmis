@@ -22,7 +22,7 @@ from django.core.mail import EmailMessage
 
 
 def Jobs(request):
-    jobs = Job.objects.filter(job_status='Approved')
+    jobs = Job.objects.filter(job_status='Approved').order_by('-published_date')
     jobs_count = Job.objects.all().count()
     locations = Location.objects.all()
     sectors = Sector.objects.all()

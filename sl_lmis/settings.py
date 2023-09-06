@@ -210,7 +210,7 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-LOGIN_REDIRECT_URL = "/jobseeker_dashboard/"
+LOGIN_REDIRECT_URL = "/accounts/jobseeker_dashboard/"
 # SMTP Configuration
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
