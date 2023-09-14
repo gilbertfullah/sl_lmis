@@ -1,9 +1,14 @@
 from django import forms
 from .models import Job
+from accounts.models import JobSeeker
 from email import message
 from django.core.validators import RegexValidator
 from django.db import transaction
 from ckeditor.widgets import CKEditorWidget
+from formtools.wizard.forms import ManagementForm
+from phonenumber_field.modelfields import PhoneNumberField
+
+
 
 
 CONTRACT_CHOICES = (
@@ -12,6 +17,7 @@ CONTRACT_CHOICES = (
         ('Part-Time', 'Part-Time'),
         ('Internship', 'Internship'),
         ('Freelance', 'Freelance'),
+        ('Apprenticeship', 'Apprenticeship'),
         ('Remote', 'Remote')
 )
 
@@ -182,10 +188,18 @@ class JobApplicationForm(forms.Form):
     phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
                                 widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number'}))
     resume = forms.FileField(label="Upload your CV", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
-    title = forms.CharField(label="Job Title", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], 
-                            required=True, widget=forms.TextInput(attrs={'placeholder':'Job title', 'style':'font-size: 13px; text-transform: capitalize'}))
 
     def __init__(self, *args, **kwargs):
-        initial_data = kwargs.pop('initial_data', {})
+        initial = kwargs.get('initial', {})
+        kwargs['initial'] = initial
+        super(JobApplicationForm, self).__init__(*args, **kwargs)
+
+class JobApplicationWizard(ManagementForm):
+    step_field = 'step'
+    storage_name = 'job_application_wizard'
+
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.initial.update(initial_data)
+        self.model = JobSeeker
+        self.fields.update(self.model.get_fields_as_formfields())
+        

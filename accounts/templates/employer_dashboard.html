@@ -1,0 +1,325 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+<link rel="stylesheet" href="{% static 'styles/css/style.css' %}">
+
+<style>
+    /* Custom styles for the sidebar */
+    #sidebar {
+      background-color: #292b2c; /* Set your desired background color */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow effect */
+      color: #fff; /* Text color */
+    }
+    
+    .nav-link {
+      color: black; /* Link color */
+    }
+    
+    .nav-link.active {
+      background-color: #29569F; /* Active link background color */
+      color: #fff;
+    }
+    .nav-link.active::hover {
+        color: #fff;
+      }
+  </style>
+
+  <section class="pt-5 pt-md-10 pt-lg-28 pb-5 pb-md-10 pb-lg-28" style="background-image: url('{% static 'images/background.png' %}'); background-position: center; background-size: cover;">
+    <div class="container mx-auto">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center text-white">
+            <h3 class="mb-4 fs-2 text-white fw-bold">Employer Dashboard</h3>
+            <div class="page-next">
+              <nav class="inline-block" aria-label="breadcrumb text-center">
+                <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
+                  <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
+                  <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> Dashboard</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <div class="container-xxl mt-4">
+        
+    <div class="row">
+        <!-- Side Navbar -->
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar mb-4">
+        <div class="position-sticky">
+            <ul class="nav flex-column">
+                <li class="nav-item mb-10">
+                    <a class="nav-link active" href="#dashboard" data-bs-toggle="tab"><i class="bi bi-house-door"></i> Dashboard</a>
+                </li>
+            </ul>
+        </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="dashboard">
+                <div class="container mt-2">
+                    <h3>Welcome to Your Dashboard {{ employer.company_name }}</h3>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card shadow-lg">
+                          <div class="card-body text-center">
+                            <h4 class="card-title mb-3">Total Job Openings</h4>
+                            <p class="card-text">
+                            <span class="display-4 font-weight-bold">{{ active_jobs_count }}</span>
+                        
+                            <div class="col-md-12">
+                                <ul>
+                                    {% for sector in sectors %}
+                                    <div>
+                                        <canvas id="sectorChart" width="400" height="200"></canvas>
+                                    </div>
+                                    {% empty %}
+                                    <li>No active job listings in any sector.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            
+                            <script>
+                                const ctx = document.getElementById('sectorChart').getContext('2d');
+                                var sectorLabels = {{ sector_labels|safe }};
+                                var sectorCounts = {{ sector_counts|safe }};
+
+                                new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                    labels: sectorLabels,
+                                    datasets: [{
+                                        label: 'Active Job Listings',
+                                        data: sectorCounts,
+                                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Change the colors as needed
+                                        borderColor: 'rgba(75, 192, 192, 1)', // Change the colors as needed
+                                        borderWidth: 1
+                                    }]
+                                    },
+                                    options: {
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true
+                                        }
+                                    }
+                                    }
+                                });
+                            </script>
+
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="card shadow-lg">
+                          <div class="card-body text-center">
+                            <h4 class="card-title mb-3">Job Listing Status</h4>
+                            <p class="card-text">
+                              <div>
+                                <canvas id="jobStatusChart" width="400" height="200"></canvas>
+                              </div>
+                              <script>
+                                const atx = document.getElementById('jobStatusChart').getContext('2d');
+                        
+                                new Chart(atx, {
+                                    type: 'pie',
+                                    data: {
+                                    labels: ['Active', 'Pending', 'Closed'],
+                                    datasets: [{
+                                        label: 'Job Status',
+                                        data: [{{ active_jobs }}, {{ pending_jobs_count }}, {{ closed_jobs_count }}],
+                                        backgroundColor: [
+                                            'rgba(75, 192, 192, 0.2)', // Active
+                                            'rgba(255, 206, 86, 0.2)', // Pending
+                                            'rgba(255, 99, 132, 0.2)', // Closed
+                                        ],
+                                        borderColor: [
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                    },
+                                    options: {
+                                    scales: {
+                                        y: {
+                                        beginAtZero: true
+                                        }
+                                    }
+                                    }
+                                });
+                                </script>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-4 mb-100">
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                          <div class="card shadow-lg">
+                            <div class="card-body text-center">
+                              <h4 class="card-title mb-3">Applications Received</h4>
+                              <p class="card-text">
+                                <span class="display-4 font-weight-bold">{{ total_applications_count }}</span>
+                                {% if total_applications_count %}
+                                <div class="col-md-12">
+                                    <div>
+                                        <canvas id="jobApplicationsChart" width="400" height="200"></canvas>
+                                    </div>
+                                    {% else %}
+                                    <li>No job application received yet.</li>
+                                </div>
+                                {% endif %}
+                                <script>
+                                    const napptx = document.getElementById('jobApplicationsChart').getContext('2d');
+
+                                    var dayNames = {{ applied_by_day|safe }};
+                                    var counts = {{ count_by_day|safe }};
+
+                                    new Chart(napptx, {
+                                        type: 'bar',
+                                        data: {
+                                        labels: dayNames,
+                                        datasets: [{
+                                            label: 'Job Applications by Day',
+                                            data: counts,
+                                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Change the colors as needed
+                                            borderColor: 'rgba(75, 192, 192, 1)', // Change the colors as needed
+                                            borderWidth: 1
+                                        }]
+                                        },
+                                        options: {
+                                            scales: {
+                                              y: {
+                                                beginAtZero: true,
+                                                title: {
+                                                    display: true,
+                                                    text: 'Count'
+                                                }
+                                            },
+                                            x: {
+                                                title: {
+                                                    display: true,
+                                                    text: 'Day'
+                                                }
+                                            }
+                                        }
+                                        }
+                                    });
+                                </script>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+  
+                        <div class="col-lg-6 col-md-6 col-sm-12">
+                          <div class="card shadow-lg">
+                            <div id="demographics-charts">
+                              
+
+                              
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="saved-jobs">
+              <div class="row justify-content-center mt-2">
+                <div class="col-sm-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>Job Title</th>
+                          <th>Employer</th>
+                          <th>Date Saved</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for saved_job in saved_jobs %}
+                          <tr>
+                            <td>{{ saved_job.job }}</td>
+                            <td>{{ saved_job.employer }}</td>
+                            <td>{{ saved_job.saved_at }}</td>
+                            <td>
+                              <a href="{% url 'job_detail' id=saved_job.job.id %}" class="btn btn-sm" style="background-color:#29569F;">View Job</a>
+                              <a href="{% url 'remove_saved_job' saved_job_id=saved_job.id %}" class="btn btn-danger btn-sm">Remove Job</a>
+                            </td>
+                          </tr>
+                          {% empty %}
+                            <h3>No saved jobs found.</h3>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="applied-jobs">
+              <div class="row justify-content-center mt-2">
+                <div class="col-sm-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                      <thead class="table-dark">
+                        <tr>
+                          <th>Job Title</th>
+                          <th>Employer</th>
+                          <th>Applied on</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for application in job_applications %}
+                          <tr>
+                            <td>{{ application.job }}</td>
+                            <td>{{ application.employer }}</td>
+                            <td>{{ application.date_applied }}</td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="profile-view">
+              <h2>Users Who Viewed Jobseeker Profile</h2>
+              <ul>
+                  {% for username in viewed_by_usernames %}
+                      <li>{{ username }}</li>
+                  {% empty %}
+                      <p>No users have viewed this profile yet.</p>
+                  {% endfor %}
+              </ul>
+              
+            </div>
+            
+            <div class="tab-pane fade" id="notification">
+                <!-- Applied Jobs content here -->
+                <h2>Notifications</h2>
+                <!-- List of applied jobs -->
+            </div>
+        </div>
+        </main>
+    </div>
+    </div>
+
+
+    
+{% endblock content %}

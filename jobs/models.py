@@ -12,6 +12,10 @@ import uuid
 from django.utils.html import mark_safe
 from taggit.managers import TaggableManager
 from accounts.models import JobSeeker
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
+import magic
+from phonenumber_field.modelfields import PhoneNumberField
     
 EXP_CHOICES = (
         ('', 'Select an experience level'),
@@ -28,7 +32,8 @@ JOB_STATUS = (
     ('', 'Select a job status'),
     ('Pending', 'Pending'),
     ('Approved', 'Approved'),
-    ('Rejected', 'Rejected')
+    ('Rejected', 'Rejected'),
+    ('Closed', 'Closed')
 )
 
 QUALIFICATION = (
@@ -47,6 +52,27 @@ QUALIFICATION = (
 
 def user_directory_path(instance, filename):
     return 'employer_{0}/{1}'.format(instance.employer.id, filename)
+
+image_ex_validator = FileExtensionValidator(['png', 'jpeg', 'jpg'])
+file_ex_validator = FileExtensionValidator(['pdf'])
+
+def validate_image_type(file):
+    accept = ['image/png', 'image/jpeg', 'image/jpg']
+    file_image_type = magic.from_buffer(file.read(1024), mime=True)
+    if file_image_type not in accept:
+        raise ValidationError("Unsupported file type")
+    
+def validate_file_mimetype(file):
+    accept = ['application/pdf']
+    file_mimetype = magic.from_buffer(file.read(1024), mime=True)
+    if file_mimetype not in accept:
+        raise ValidationError("Unsupported file type")
+
+# Define a custom file size validation function
+def validate_file_size(value):
+    limit = 5 * 1024 * 1024  # 5MB limit
+    if value.size > limit:
+        raise models.ValidationError('File size cannot exceed 5MB.')
 
 class Sector(models.Model):
     #sid = ShortUUIDField(unique=True, max_length=20, default=shortuuid.uuid)
@@ -132,6 +158,7 @@ class SavedJobs(models.Model):
 class AppliedJobs(models.Model):
     job = models.ForeignKey(Job, related_name='applied_job', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='applied_user', on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     date_applied = models.DateTimeField(default=timezone.now)
     
     class Meta:
@@ -142,7 +169,7 @@ class AppliedJobs(models.Model):
 
 
 class JobApplication(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, related_name='applications', on_delete=models.CASCADE)
     jobseeker = models.ForeignKey(User, on_delete=models.CASCADE)
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     applied_at = models.DateTimeField(default=timezone.now)
@@ -150,3 +177,5 @@ class JobApplication(models.Model):
     def __str__(self):
         return f"{self.jobseeker.username} applied for {self.job.title}"
     
+
+

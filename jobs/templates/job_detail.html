@@ -54,7 +54,7 @@
                 <div class="col-12 col-lg-8">
                     <div class="border" style="border-radius: 10px; border-color: gray;">
                         <div class="relative">
-                            <img src="{{ job_detail.image.url }}" alt="" class="rounded-md img-fluid mb-7" style="object-fit: cover; width: 100%; height: 10%; border-radius: 10px;">
+                            <img src="{{ job.image.url }}" alt="" class="rounded-md img-fluid mb-7" style="object-fit: cover; width: 100%; height: 10%; border-radius: 10px;">
                             <div class="absolute z-20 -bottom-7 left-7">
                                 <img src="assets/images/featured-job/img-10.png" alt="" class="rounded-md img-fluid">
                             </div>
@@ -63,7 +63,7 @@
                             <div class="grid grid-cols-12">
                                 <div class="col-12 col-lg-8">
                                     <div class="relative">
-                                        <h5 class="mb-4 text-gray-900 fw-bold fs-2">{{job_detail.title}}</h5>
+                                        <h5 class="mb-4 text-gray-900 fw-bold fs-2">{{job.title}}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -73,52 +73,52 @@
                                     <div class="col-12 col-lg-4 pl-4">
                                         <div class="p-2 border align-content-center" style="border-radius: 10px; border-color: gray;">
                                             <p class="mb-1 text-gray-500 fs-4 text-center">Experience</p>
-                                            <p class="fs-6 text-gray-900 text-center">{{job_detail.experience}}</p>
+                                            <p class="fs-6 text-gray-900 text-center">{{job.experience}}</p>
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4">
                                         <div class="p-2 border" style="border-radius: 10px; border-color: gray;">
                                             <p class="mb-1 text-gray-500 fs-4 text-center">Job type</p>
-                                            <p class="fs-6 text-gray-900 text-center ">{{job_detail.contract}}</p>
+                                            <p class="fs-6 text-gray-900 text-center ">{{job.contract}}</p>
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-4 pr-4">
                                         <div class="p-2 border" style="border-radius: 10px; border-color: gray;">
                                             <p class="mb-1 text-gray-500 fs-4 text-center">Location</p>
-                                            <p class="fs-6 text-gray-900 text-center">{{job_detail.location}}</p>
+                                            <p class="fs-6 text-gray-900 text-center">{{job.location}}</p>
                                         </div>
                                     </div>
                                     
                                 </div>
                             </div>
-                            {% if job_detail.description %}
+                            {% if job.description %}
                             <div class="mt-5 col-12">
                                 <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Job Description</h5>
                                 <div>
-                                    <p class="mb-0 text-gray-500">{{job_detail.description|safe}}</p>
+                                    <p class="mb-0 text-gray-500">{{job.description|safe}}</p>
                                 </div>
                             </div>
                             {% endif %}
-                            {% if job_detail.requirements %}
+                            {% if job.requirements %}
                             <div class="mt-5 col-12">
                                 <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Responsibilities</h5>
                                 <div>
-                                    <p class="mb-3 text-gray-500">{{job_detail.requirements|safe}}</p>
+                                    <p class="mb-3 text-gray-500">{{job.requirements|safe}}</p>
                                 </div>
                             </div>
                             {% endif %}
-                            {% if job_detail.qualification %}
+                            {% if job.qualification %}
                             <div class="mt-5 col-12">
                                 <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Qualification</h5>
                                 <div>
-                                    <p class="mb-3 text-gray-500">{{job_detail.qualification|safe}}</p>
+                                    <p class="mb-3 text-gray-500">{{job.qualification|safe}}</p>
                                 </div>
                             </div>
                             {% endif %}
-                            {% if job_detail.skills %}
+                            {% if job.skills %}
                             <div class="mt-5 col-12">
                                 <h5 class="mb-3 text-gray-900 fs-4 fw-bold">Skill & Experience</h5>
-                                {{job_detail.skills|safe}}
+                                {{job.skills|safe}}
                             </div>
                             {% endif %}
 
@@ -144,6 +144,7 @@
                         
                     </div>
                     
+                    {% if related_jobs %}
                     <div class="mt-100">
                         <h5 class="text-gray-900 dark:text-gray-50">Related Jobs</h5>
 
@@ -161,7 +162,7 @@
                                     <span class="text-truncate me-3"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-clock-fill" viewBox="0 0 16 16">
                                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
                                     </svg> {{related.contract}}</span>     
-                                    <a href="{% url 'job_detail' job_detail.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
+                                    <a href="{% url 'job_detail' job.id %}" class="btn btn-primary mt-4" style="color:white; background-color:#29569F">Read More</a>
                                     </div>
                                 </div>
                             </div>
@@ -169,6 +170,7 @@
                         </div>
 
                     </div>
+                    {% endif %}
 
                 </div>
 
@@ -184,7 +186,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Job Title</h6>
-                                    <p class="text-gray-500">{{job_detail.title}}</p>
+                                    <p class="text-gray-500">{{job.title}}</p>
                                 </div>
                             </div>
 
@@ -195,7 +197,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Experience</h6>
-                                    <p class="text-gray-500">{{job_detail.experience}}</p>
+                                    <p class="text-gray-500">{{job.experience}}</p>
                                 </div>
                             </div>
 
@@ -206,7 +208,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Location</h6>
-                                    <p class="text-gray-500">{{job_detail.location}}</p>
+                                    <p class="text-gray-500">{{job.location}}</p>
                                 </div>
                             </div>
 
@@ -217,7 +219,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Qualification</h6>
-                                    <p class="text-gray-500">{{job_detail.qualification}}</p>
+                                    <p class="text-gray-500">{{job.qualification}}</p>
                                 </div>
                             </div>
 
@@ -228,7 +230,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Sector</h6>
-                                    <p class="text-gray-500">{{job_detail.sector}}</p>
+                                    <p class="text-gray-500">{{job.sector}}</p>
                                 </div>
                             </div>
 
@@ -239,7 +241,7 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Date Posted</h6>
-                                    <p class="text-gray-500">{{job_detail.published_date}}</p>
+                                    <p class="text-gray-500">{{job.published_date}}</p>
                                 </div>
                             </div>
 
@@ -250,44 +252,59 @@
                                 
                                 <div class="col-10">
                                     <h6 class="mb-2 fs-6 text-gray-900">Application End</h6>
-                                    <p class="text-gray-500">{{job_detail.expiration_date}}</p>
+                                    <p class="text-gray-500">{{job.expiration_date}}</p>
                                 </div>
                             </div>
 
 
                             <div class="mt-10 text-center">
                                 <div class="row">
-                                    <div class="col-sm-8">
-                                        <form action="{% url 'apply_job' job_detail.id %}" method="post">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-primary" style="background-color:#29569F;">Apply <i class="bi bi-arrow-right"></i></button>
-                                        </form>
-                                    </div>
-                                    
-                                    <div class="col-sm-4">
+                                    <div class="col-12">
                                         {% if request.user.is_authenticated %}
-                                        <form id="save-unsave-form" action="{% url 'save_job' job_detail.id %}" method="post" class="mt-3 mb-3">
-                                            {% csrf_token %}
-                                            <button type="submit" class="w-full text-black text-center" style="background-color:white; border:none; margin-top: -12px; margin-left: -40px;">
-                                                <i class="bi bi-bookmark text-black text-center fs-1" ></i> Save Job
-                                            </button>
-            
-                                        </form>
-                                        
+                                            {% if job_applied %}
+                                                <button type="button" class="btn btn-primary" style="background-color:#29569F;" disabled>Applied</button>
+                                            {% else %}
+                                                <form action="{% url 'apply_job' job.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="p-4">
+                                                    {{ form|crispy }}
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary" style="background-color:#29569F;">Apply</button>
+                                                </form>
+                                            {% endif %}
+                                        {% else %}
+                                            <p>
+                                                <a href="{% url 'login' %}" class="text-black">Log in</a> or <a href="{% url 'register' %}" class="text-black">create an account</a> to apply for this job.
+                                            </p>
                                         {% endif %}
                                     </div>
                                 </div>
-                                
-                                
-                            </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        {% if request.user.is_authenticated %}
+                                            {% if job_saved %}
+                                            <button type="button" class="w-full text-black text-center" style="background-color:white; border:none; margin-top: -12px; margin-left: -40px;" disabled>
+                                                <i class="bi bi-bookmark text-black text-center fs-1" ></i> Saved
+                                            </button>
+                                            {% else %}
+                                                <form id="save-unsave-form" action="{% url 'save_job' job.id %}" method="post" class="mt-3 mb-3">
+                                                    {% csrf_token %}
+                                                        <button type="submit" class="w-full text-black text-center" style="background-color:white; border:none; margin-top: -12px; margin-left: -40px;">
+                                                            <i class="bi bi-bookmark text-black text-center fs-1" ></i> Save Job
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+                                            {% endif %}
 
-                            
+                                    </div>
+                                </div>
+                            </div>
                     </div>
-                    <div class="border mt-10" style="border-radius: 10px; border-color: gray;">
+                    <div class="border" style="border-radius: 10px; border-color: gray; margin-top: 30px;">
                         <div class="p-6">
                             <div>
                                 <div class="mt-4 text-center">
-                                    <h6 class="text-gray-900 fs-5 fw-bold">{{ job_detail.employer }}</h6>
+                                    <h6 class="text-gray-900 fs-5 fw-bold">{{ job.employer }}</h6>
                                 </div>
 
                                 <div class="mt-4 space-y-4">
@@ -342,10 +359,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-4">
-                        <h6 class="mb-3 fs-5 fw-bold">Job location</h6>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sin!4v1628067715234!5m2!1sen!2sin" style="width:100%" height="250" allowfullscreen="" loading="lazy"></iframe>
                     </div>
                 </div>
                 

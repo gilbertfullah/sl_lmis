@@ -1,11 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
+from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 import uuid
 from django.utils.html import mark_safe
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
+import magic
 
 DISTRICT = (
         ('', 'Select a district'),
@@ -25,13 +29,18 @@ DISTRICT = (
         ('Tonkolili', 'Tonkolili'),
         ('Western Rural', 'Western Rural'),
         ('Western Urban', 'Western Urban'),
+        ('International', 'International'),
 )
 
 CHOICES = (
+        ('', 'Select a job type'),
         ('Full-Time', 'Full-Time'),
         ('Part-Time', 'Part-Time'),
         ('Internship', 'Internship'),
-        ('Freelance', 'Freelance')
+        ('Contract', 'Contract'),
+        ('Freelance', 'Freelance'),
+        ('Apprenticeship', 'Apprenticeship'),
+        ('Remote', 'Remote')
 )
 
 STATUS = (
@@ -97,6 +106,27 @@ SECTOR = (
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
+image_ex_validator = FileExtensionValidator(['png', 'jpeg', 'jpg'])
+file_ex_validator = FileExtensionValidator(['pdf'])
+
+def validate_image_type(file):
+    accept = ['image/png', 'image/jpeg', 'image/jpg']
+    file_image_type = magic.from_buffer(file.read(1024), mime=True)
+    if file_image_type not in accept:
+        raise ValidationError("Unsupported file type")
+    
+def validate_file_mimetype(file):
+    accept = ['application/pdf']
+    file_mimetype = magic.from_buffer(file.read(1024), mime=True)
+    if file_mimetype not in accept:
+        raise ValidationError("Unsupported file type")
+
+# Define a custom file size validation function
+def validate_file_size(value):
+    limit = 5 * 1024 * 1024  # 5MB limit
+    if value.size > limit:
+        raise models.ValidationError('File size cannot exceed 5MB.')
+
 class User(AbstractUser):
     is_jobseeker = models.BooleanField(default=False)
     is_company = models.BooleanField(default=False)
@@ -115,21 +145,22 @@ class JobSeeker(models.Model):
     gender = models.CharField(max_length=10)
     age = models.CharField(max_length=3)
     email = models.EmailField(max_length=50)
-    phone_number = models.CharField(max_length=20)
-    profile_pic = models.ImageField(upload_to=user_directory_path)
+    phone_number = PhoneNumberField(max_length=50, unique=True, help_text="")
+    about = RichTextField(max_length=1000)
+    profile_pic = models.FileField(upload_to=user_directory_path, validators=[image_ex_validator, validate_image_type, validate_file_size])
     district = models.CharField(max_length=250, choices=DISTRICT)
     education_level = models.CharField(max_length=200)
     profession = models.CharField(max_length=200, blank=True, null=True)
     qualification = models.CharField(max_length=250)
     grad_year = models.CharField(max_length=4)
-    resume = models.FileField(null=True, blank=True)
+    resume = models.FileField(upload_to='resumes/', validators=[file_ex_validator, validate_file_mimetype, validate_file_size])
     looking_for = models.CharField(max_length=30)
     employment_status = models.CharField(max_length=250, choices=EMPLOYMENT_STATUS)
     created_at = models.DateTimeField(auto_now_add=True)
     
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'username', 'password1', 'password2', 'gender', 'age', 'education_level', 
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name', 'username', 'password1', 'password2', 'gender', 'age', 'about', 'education_level', 
                     'profession', 'grad_year', 'looking_for', 'location', 'qualification', 'employment_status']
     
     class Meta:
@@ -156,12 +187,12 @@ class Employer(models.Model):
     description = RichTextField(null=True, blank=True, max_length=1000)
     email = models.EmailField(unique=True)
     address = models.CharField(max_length=250)
-    phone_number = models.CharField(max_length=50)
+    phone_number = PhoneNumberField(max_length=50)
     district = models.CharField(max_length=250, choices=DISTRICT)
-    company_logo = models.ImageField(upload_to=user_directory_path)
+    company_logo = models.FileField(upload_to=user_directory_path, validators=[image_ex_validator, validate_image_type, validate_file_size])
     company_certificate = models.FileField()
     company_size = models.CharField(max_length=255, null=True, blank=True)
-    website = models.URLField(null=True, blank=True)
+    website = models.URLField()
     sector = models.CharField(max_length=250, choices=SECTOR)
     status = models.CharField(choices=STATUS, max_length=50, default="Pending")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -189,7 +220,7 @@ class Government(models.Model):
     district = models.CharField(max_length=250, choices=DISTRICT)
     phone_number = models.CharField(max_length=50)
     sector = models.CharField(max_length=250, choices=SECTOR)
-    logo = models.ImageField(upload_to=user_directory_path)
+    logo = models.FileField(upload_to=user_directory_path, validators=[image_ex_validator, validate_image_type, validate_file_size])
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:

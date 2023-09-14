@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Job, AppliedJobs, SavedJobs, Location, Contract, JobApplication
-from .form import JobForm, JobSearchForm, JobApplicationForm
+from .form import JobForm, JobSearchForm, JobApplicationForm, JobApplicationWizard
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from .decorators import allowed_users
@@ -18,6 +18,10 @@ from django.views.generic import TemplateView
 from .models import Job, Sector
 from taggit.models import Tag
 from django.core.mail import EmailMessage
+from formtools.wizard.views import SessionWizardView
+from django.core.files.storage import FileSystemStorage
+from django.urls import reverse_lazy
+
 
 
 
@@ -31,6 +35,22 @@ def Jobs(request):
     
     # Query to count jobs for each location
     locations_with_counts = Location.objects.annotate(job_count=Count('job'))
+    
+    location_filter = request.GET.get('location')
+    
+    if location_filter:
+        jobs = Job.objects.filter(location=location_filter, job_status='Approved')
+        
+        paginator = Paginator(jobs, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+    
+    else:
+        jobs = Job.objects.filter(job_status='Approved').order_by('-published_date')
+        
+        paginator = Paginator(jobs, 6)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
     # Calculate the number of job openings for each category
     categories = {}
@@ -41,25 +61,106 @@ def Jobs(request):
         else:
             categories[category] = 1
     
-    paginator = Paginator(jobs, 6)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-            
-    return render(request, 'jobs.html', {'jobs': page_obj, 'categories': categories, 'jobs_count': jobs_count, 'sectors': sectors, 'locations': locations, 'location_counts':location_counts, 'locations_with_counts':locations_with_counts})
-
-def job_detail(request, id):
-    job_detail = get_object_or_404(Job, id=id)
-    employer = Employer.objects.get(company_name=job_detail.employer)
-    related_jobs = Job.objects.filter(sector=job_detail.sector).exclude(id=id)[:4]
-
+    
     
     context = {
-        'related_jobs':related_jobs, 
-        'job_detail': job_detail,
-        'employer': employer,
-        }
+        'jobs': page_obj,
+        'categories': categories,
+        'jobs_count': jobs_count,
+        'sectors': sectors,
+        'locations': locations,
+        'location_counts':location_counts,
+        'locations_with_counts':locations_with_counts
+    }
+            
+    return render(request, 'jobs.html', context)
+
+def application_success(request):
+    jobseeker = get_object_or_404(JobSeeker, user=request.user)
+    return render(request, 'application_success.html', {'jobseeker':jobseeker})
+
+@login_required
+def save_job(request, job_id):
+    user = request.user
+    job = get_object_or_404(Job, id=job_id)
+    employer = Employer.objects.get(company_name=job.employer)
+    saved, created = SavedJobs.objects.get_or_create(job=job, jobseeker=user, employer=employer)
+    return redirect('job_detail', job_id=job_id)
+
+def job_detail(request, job_id):
+    job = get_object_or_404(Job, id=job_id)
+
+    employer = Employer.objects.get(company_name=job.employer)
+    related_jobs = Job.objects.filter(sector=job.sector).exclude(id=job_id)[:4]
     
+    
+    job_applied = False  # Initialize to False by default
+    job_saved = False
+    
+    if request.user.is_authenticated:
+        # Only perform the query if the user is authenticated
+        job_applied = job.applications.filter(jobseeker=request.user).exists()
+        job_saved = job.saved_job.filter(jobseeker=request.user).exists()
+        # Create a form instance with initial data from the job seeker
+        job_seeker = get_object_or_404(JobSeeker, user=request.user)
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')  # Redirect to the login page if not authenticated
+
+        # Get the job seeker's information
+        job_seeker = get_object_or_404(JobSeeker, user=request.user)
+
+        form = JobApplicationForm(request.POST)
+        if form.is_valid():
+            # Create a JobApplication object
+            job_application = form.save(commit=False)
+            job_application.job = job
+            job_application.jobseeker = job_seeker
+            job_application.employer = job.employer
+            job_application.save()
+
+            # Send an email notification
+            email_subject = f"New Job Application for: {job.title}"
+            email_body = f"Job Seeker Full Name: {job_seeker.first_name} {job_seeker.last_name}\n"
+            email_body += f"Email: {job_seeker.email}\n"
+            email_body += f"Phone: {job_seeker.phone_number}\n"
+            email_body += f"Job Seeker Resume: {job_seeker.resume}\n"
+            email_body += f"Thank you for applying for the {job.title} job."
+
+            email = EmailMessage(email_subject, email_body, to=[job.employer.email, job_seeker.email])
+            email.send()
+
+            # Create an AppliedJobs entry
+            AppliedJobs.objects.get_or_create(job=job, user=job_seeker.user)
+
+            return redirect('application_success')
+
+    else:
+            
+            if request.user.is_authenticated:
+                form = JobApplicationForm(initial={
+                    'first_name': job_seeker.first_name,
+                    'last_name': job_seeker.last_name,
+                    'email': job_seeker.email,
+                    'phone_number': job_seeker.phone_number,
+                    'resume': job_seeker.resume,
+                    # Add other fields based on your form
+                })
+            else:
+                form = None
+        
+    context = {
+        'related_jobs':related_jobs,
+        'job': job,
+        'job_applied': job_applied,
+        'form': form,
+        'employer': employer,
+        'job_saved': job_saved,
+    }
+
     return render(request, 'job_detail.html', context)
+
 
 def sectors(request):
     #sectors = Sector.objects.all()
@@ -128,13 +229,6 @@ def post_job(request):
     }
     return render(request, 'post_job.html', context)
 
-@login_required
-def save_job(request, id):
-    user = request.user
-    job = get_object_or_404(Job, id=id)
-    employer = Employer.objects.get(company_name=job.employer)
-    saved, created = SavedJobs.objects.get_or_create(job=job, jobseeker=user, employer=employer)
-    return redirect('job_detail', id=id)
 
 @login_required
 def unsave_job(request, id):
@@ -143,56 +237,61 @@ def unsave_job(request, id):
     return redirect('job_detail', id=id) 
 
 
+@login_required
+def application_form(request):
+    return render(request, "job_application.html")
 
 @login_required
 def apply_job(request, id):
+    job = get_object_or_404(Job, id=id)
+    
     if request.method == 'POST':
-        jobseeker = request.user
-        
-        job = Job.objects.get(id=id)
-        job_application = JobApplication.objects.create(job=job, jobseeker=jobseeker, employer=job.employer)
-        job_application.save()
-        
-        seeker = get_object_or_404(JobSeeker, user=request.user)
-        
-        first_name = jobseeker.first_name,
-        last_name = jobseeker.last_name,
-        email = jobseeker.email,
-        phone_number = seeker.phone_number,
-        resume = seeker.resume,
-        title = job.title
-        
-        # Send an email notification
-        email_subject = f"New Job Application for: {title}"
-        email_body = f"Job Seeker FUll Name: {first_name} {last_name}\n"
-        email_body += f"Email: {email}\n"
-        email_body += f"Phone: {phone_number}\n"
-        email_body += f"Job Seeker Resume: {resume}\n"
-        email_body += f"Thank you for applying for the {title} job."
-        
-        email = EmailMessage(email_subject, email_body, to=[job.employer.email, email])
-        email.send()
+        form = JobApplicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Assuming you have a User model for job seekers and they are authenticated
+            jobseeker = get_object_or_404(JobSeeker, user=request.user)
 
+            # Create a JobApplication object
+            job_application = JobApplication(
+                job=job,
+                jobseeker=request.user,
+                employer=job.employer,
+            )
+            job_application.save()
+            
+            # Send an email notification to the employer
+            email_subject = f"New Job Application for: {job.title}"
+            email_body = f"Job Seeker Full Name: {jobseeker.first_name} {jobseeker.last_name}\n"
+            email_body += f"Email: {jobseeker.email}\n"
+            email_body += f"Phone: {jobseeker.phone_number}\n"
+            email_body += f"Job Seeker Resume: {jobseeker.resume}\n"
+            email_body += f"Thank you for applying for the {job.title} job."
+            
+            email = EmailMessage(email_subject, email_body, to=[job.employer.email, jobseeker.email])
+            email.send()
+            
+            # Create an AppliedJobs entry
+            AppliedJobs.objects.get_or_create(job=job, user=jobseeker.user, employer=job.employer)
+
+            # Redirect to a success page or wherever you need
+            return redirect('application_success')
         
-        applied, created = AppliedJobs.objects.get_or_create(job=job, user=jobseeker)
+    else:
+            # Create a new form instance without initial data
+            # Create a form instance with initial data from the job seeker
+            if request.user.is_authenticated:
+                form = JobApplicationForm(initial={
+                    'first_name': job_seeker.first_name,
+                    'last_name': job_seeker.last_name,
+                    'email': job_seeker.email,
+                    'phone_number': job_seeker.phone_number,
+                    'resume': job_seeker.resume,
+                    # Add other fields based on your form
+                })
+            else:
+                form = None
         
-        context = {
-        'jobseeker': seeker,
-        'job': job
-        }
-        
-        return render(request, 'application_success.html', context)
-    
-    # Handle GET requests and render the job application form
-    job = Job.objects.get(id=id)
-    #employer = request.user.is_company
-    jobseeker = request.user.is_jobseeker
-    
-    context = {
-        'job': job,
-        }
-    
-    return render(request, 'job_detail.html', context)
+    return render(request, 'job_detail.html', {'form': form})
 
 @login_required
 def remove_job(request, id):
@@ -265,3 +364,6 @@ def job_search(request):
 
     #context = {'jobs': jobs, 'query': query}
     return render(request, 'job_search_list.html', context)
+
+
+

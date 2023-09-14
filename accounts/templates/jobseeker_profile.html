@@ -34,9 +34,11 @@
                         <div class="border" style="border-radius: 10px;">
                             <div class="p-5" style="border-color: gray; border-bottom-style: solid; border-bottom-width: 1px;">
                                 <div class="text-center">
-                                    <img src="{% static 'images/pic.jpg' %}" alt="" class="w-20 h-20 mx-auto img-fluid rounded-circle" style="max-width: 100px;">
-                                    <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">Gabriel Palmer</h6>
-                                    <p class="mb-4 text-gray-500">Creative Designer</p>
+                                    {% if jobseeker.profile_pic %}
+                                    <img src="{{jobseeker.profile_pic.url}}" alt="" class="w-20 h-20 mx-auto img-fluid rounded-circle" style="max-width: 100px;">
+                                    {% endif %}
+                                    <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">{{jobseeker.first_name}} {{jobseeker.last_name}}</h6>
+                                    <p class="mb-4 text-gray-500">{{jobseeker.profession}}</p>
                                     <ul class="list-inline text-center">
                                         <li class="list-inline-item">
                                             <a href="#"><i class="bi bi-twitter fs-3 mr-3" style="color:#00acee"></i></a>
@@ -54,33 +56,26 @@
                                 <h6 class="mb-3 fw-semibold text-gray-900 fs-5">Profile Overview</h6>
                                 <ul class="space-y-4">
                                     <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Categories</label>
+                                        <label class="text-gray-900 w-25 fs-6 me-5">Sector</label>
                                         <p class="mb-1 text-gray-500">Accounting / Finance</p>
                                     </li>
                                     <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Offered Salary</label>
-                                        <p class="mb-1 text-gray-500">$450 per hour</p>
+                                        <label class="text-gray-900 w-25 fs-6 me-5">Employment Status</label>
+                                        <p class="mb-1 text-gray-500">{{jobseeker.employment_status}}</p>
                                     </li>
                                     <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Languages</label>
-                                        <p class="mb-1 text-gray-500">English, Turkish, Japanese</p>
+                                        <label class="text-gray-900 w-25 fs-6 me-5">Education Level</label>
+                                        <p class="mb-1 text-gray-500">{{jobseeker.education_level}}</p>
                                     </li>
                                     <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Experience</label>
-                                        <p class="mb-1 text-gray-500">3 Years</p>
+                                        <label class="text-gray-900 w-25 fs-6 me-5">Profession</label>
+                                        <p class="mb-1 text-gray-500">{{jobseeker.profession}}</p>
                                     </li>
-                                    <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Qualification</label>
-                                        <p class="mb-1 text-gray-500">Associate Degree</p>
-                                    </li>
-                                    <li class="d-flex align-items-center mb-10">
-                                        <label class="text-gray-900 w-25 fs-6 me-4">Views</label>
-                                        <p class="mb-1 text-gray-500">2574</p>
-                                    </li>
+                                    
                                 </ul>
                                 <div class="mt-8">
                                     <div class="mt-8 text-center">
-                                        <a href="mailto:recipient@example.com" class="btn w-full text-white" style="background-color:#29569F"><i class="bi bi-envelope"></i> Contact Me</a>
+                                        <a href="mailto:{{jobseeker.email}}" class="btn w-full text-white" style="background-color:#29569F"><i class="bi bi-envelope"></i> Contact Me</a>
                                     </div>
                                     <div class="mt-8 text-center">
                                         <a href="{{jobseeker.resume}}" class="btn w-full mt-3 text-white" style="background-color:#AA4A44"><i class="bi bi-download"></i> Download CV</a>
@@ -97,7 +92,7 @@
                                             </div>
                                             <div class="ms-3">
                                                 <h6 class="mb-1 text-gray-900 fs-6">Email</h6>
-                                                <p class="text-gray-500">gabrielpalmer@gmail.com</p> 
+                                                <p class="text-gray-500">{{jobseeker.email}}</p> 
                                             </div>
                                         </div>
                                     </li>
@@ -108,8 +103,8 @@
                                                 <i class="bi bi-geo-alt fs-3"></i>
                                             </div>
                                             <div class="ms-3">
-                                                <h6 class="mb-1 text-gray-900 fs-6">Address</h6>
-                                                <p class="text-gray-500">Dodge City, Louisiana</p> 
+                                                <h6 class="mb-1 text-gray-900 fs-6">Location</h6>
+                                                <p class="text-gray-500">{{jobseeker.district}}</p> 
                                             </div>
                                         </div>
                                     </li>
@@ -121,7 +116,7 @@
                                             </div>
                                             <div class="ms-3">
                                                 <h6 class="mb-1 text-gray-900 fs-6">Phone</h6>
-                                                <p class="text-gray-500">+1(452) 125-6789</p> 
+                                                <p class="text-gray-500">{{jobseeker.phone_number}}</p> 
                                             </div>
                                         </div>
                                     </li>
@@ -133,73 +128,12 @@
                         <div class="p-4 border" style="border-radius: 10px;">
                             <div>
                                 <h6 class="mb-3 fw-semibold text-gray-900 fs-5">About Me</h6>
-                                <p class="mb-2 text-gray-500">Very well thought out and articulate communication. Clear milestones, deadlines and fast work. Patience. Infinite patience. No
-                                            shortcuts. Even if the client is being careless. Some quick example text to build on the card title and bulk the card's content Moltin gives you platform.</p>
-
-                                <p class="mb-0 text-gray-500">As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience lies in successfully conceptualizing, designing, and modifying consumer products specific to interior design and home furnishings.</p>
+                                <p class="mb-2 text-gray-500">{{jobseeker.about}}</p>
                             </div>
-                            <div class="pt-5">
-                                <h6 class="mb-0 text-gray-900 fs-5 fw-semibold">Education</h6>
-                                <div class="relative flex mt-4">
-                                    <div class="h-8 w-8 text-center leading-[2.2] group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 shrink-0 rounded-full font-medium text-violet-500"> B </div>
-                                    <div class="after:contant[''] after:border after:absolute after:h-24 ltr:after:left-4 rtl:after:right-4 after:top-10 after:border-dashed group-data-[theme-color=violet]:after:border-violet-500/30 group-data-[theme-color=sky]:after:border-sky-500/30 group-data-[theme-color=red]:after:border-red-500/30 group-data-[theme-color=green]:after:border-green-500/30 group-data-[theme-color=pink]:after:border-pink-500/30 group-data-[theme-color=blue]:after:border-blue-500/30 hidden md:block"></div>
-                                    <div class="space-y-6 ltr:ml-4 rtl:mr-4">
-                                        <div>
-                                            <h6 class="mb-1 text-gray-900 text-16 dark:text-gray-50">BCA - Bachelor of Computer Applications</h6>
-                                            <p class="mb-2 text-gray-500 dark:text-gray-300">International University - (2004 - 2010)</p>
-                                            <p class="text-gray-500 dark:text-gray-300">There are many variations of passages of available, but the majority alteration in some form. As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="relative flex mt-8">
-                                    <div class="h-8 w-8 text-center leading-[2.2] group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 shrink-0 rounded-full font-medium text-violet-500"> M </div>
-                                    <div class="after:contant[''] after:border after:absolute after:h-24 ltr:after:left-4 rtl:after:right-4 after:top-10 after:border-dashed group-data-[theme-color=violet]:after:border-violet-500/30 group-data-[theme-color=sky]:after:border-sky-500/30 group-data-[theme-color=red]:after:border-red-500/30 group-data-[theme-color=green]:after:border-green-500/30 group-data-[theme-color=pink]:after:border-pink-500/30 group-data-[theme-color=blue]:after:border-blue-500/30 hidden md:block"></div>
-                                    <div class="space-y-6 ltr:ml-4 rtl:mr-4">
-                                        <div>
-                                            <h6 class="mb-1 text-gray-900 text-16 dark:text-gray-50">MCA - Master of Computer Application</h6>
-                                            <p class="mb-2 text-gray-500 dark:text-gray-300">International University - (2010 - 2012)</p>
-                                            <p class="text-gray-500 dark:text-gray-300">There are many variations of passages of available, but the majority alteration in some form. As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex mt-8">
-                                    <div class="h-8 w-8 text-center leading-[2.2] group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 shrink-0 rounded-full font-medium text-violet-500"> M </div>
-                                    <div class="space-y-6 ltr:ml-4 rtl:mr-4">
-                                        <div>
-                                            <h6 class="mb-1 text-gray-900 text-16 dark:text-gray-50">Design Communication Visual</h6>
-                                            <p class="mb-2 text-gray-500 dark:text-gray-300">International University - (2012-2015)</p>
-                                            <p class="text-gray-500 dark:text-gray-300">There are many variations of passages of available, but the majority alteration in some form. As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-10">
-                                <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">Experience</h6>
-                                <div class="relative flex mt-4">
-                                    <div class="h-8 w-8 text-center leading-[2.2] group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 shrink-0 rounded-full font-medium text-violet-500"> W </div>
-                                    <div class="after:contant[''] after:border after:absolute after:h-24 ltr:after:left-4 rtl:after:right-4 after:top-10 after:border-dashed group-data-[theme-color=violet]:after:border-violet-500/30 group-data-[theme-color=sky]:after:border-sky-500/30 group-data-[theme-color=red]:after:border-red-500/30 group-data-[theme-color=green]:after:border-green-500/30 group-data-[theme-color=pink]:after:border-pink-500/30 group-data-[theme-color=blue]:after:border-blue-500/30 hidden md:block"></div>
-                                    <div class="space-y-6 ltr:ml-4 rtl:mr-4">
-                                        <div>
-                                            <h6 class="mb-1 text-gray-900 text-16 dark:text-gray-50">Web Design & Development Team Leader</h6>
-                                            <p class="mb-2 text-gray-500 dark:text-gray-300">Creative Agency - (2013 - 2016)</p>
-                                            <p class="text-gray-500 dark:text-gray-300">There are many variations of passages of available, but the majority alteration in some form. As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex mt-8">
-                                    <div class="h-8 w-8 text-center leading-[2.2] group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 shrink-0 rounded-full font-medium text-violet-500"> P </div>
-                                    <div class="space-y-6 ltr:ml-4 rtl:mr-4">
-                                        <div>
-                                            <h6 class="mb-1 text-gray-900 text-16 dark:text-gray-50">Project Manager</h6>
-                                            <p class="mb-2 text-gray-500 dark:text-gray-300">Jobcy Technology Pvt.Ltd - (Pressent)</p>
-                                            <p class="text-gray-500 dark:text-gray-300">There are many variations of passages of available, but the majority alteration in some form. As a highly skilled and successfull product development and design specialist with more than 4 Years of My experience.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                            
+                            
                             <div class="text-start mt-5">
-                                <a href="{% url 'edit_jobseeker_profile' id %}" type="submit" class="btn text-white" style="background-color:#29569F">Edit Profile</a>
+                                <a href="{% url 'edit_jobseeker_profile' id=jobseeker_id %}" type="submit" class="btn text-white" style="background-color:#29569F">Edit Profile</a>
                             </div>
                         </div>
                     </div>

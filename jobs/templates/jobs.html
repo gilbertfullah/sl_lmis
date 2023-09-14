@@ -78,14 +78,18 @@
 
 
   <div class="container-fluid">
+    {% if jobs %}
     <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -210px; font-weight: bold">{{jobs_count}} Jobs found</h3>
+    {% else %}
+    <h3 class="text-center my-4 font-weight-bold" style="position:relative; left: -210px; font-weight: bold">No Jobs found</h3>
+    {% endif %}
     <div class="row">
       <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
         <h4>Locations</h4>
           <ul class="list-group">
             {% for location in locations %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <a href="#" class="text-black">{{ location.name }}</a>
+                <a href="?location={{ location.id }}" class="text-black">{{ location.name }}</a>
                 <span class="badge bg-primary rounded-pill">
                     {% for loc_count in locations_with_counts %}
                         {% if loc_count.id == location.id %}
@@ -122,7 +126,7 @@
                           </div>
                           <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                               <div class="d-flex mb-3">
-                                  <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="https://www.dangote-group.com/">Apply Now</a>
+                                  <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="{% url 'job_detail' job.id %}">Apply Now</a>
                               </div>
                                   <small class="text-truncate"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-calendar3" viewBox="0 0 16 16">
                                       <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
@@ -131,27 +135,30 @@
                           </div>  
                       </div>
                   </div>
-      
+                  {% empty%}
+                 
+                  <p>No jobs found.</p>
                   {% endfor%}
+                  <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
+                    <ul class="pagination">
+                        {% if jobs.has_previous %}
+                            <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
+                        {% endif %}
+                        {% for num_page in  jobs.paginator.page_range %}
+                        {% if jobs.number == num_page %}
+                            <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if jobs.has_next %}
+                            <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
                   {% endif %}
 
-                  <nav aria-label="Page navigation example" class="offset-5 mb-5 mt-5">
-                      <ul class="pagination">
-                          {% if jobs.has_previous %}
-                              <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}" style="background-color:#29569F; color:#FFFFFF">Previous</a></li>
-                          {% endif %}
-                          {% for num_page in  jobs.paginator.page_range %}
-                          {% if jobs.number == num_page %}
-                              <li class="page-item active"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
-                          {% else %}
-                              <li class="page-item"><a class="page-link" href="?page={{ num_page }}" style="background-color:#29569F; color:#FFFFFF">{{num_page}}</a></li>
-                          {% endif %}
-                          {% endfor %}
-                          {% if jobs.has_next %}
-                              <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}" style="background-color:#29569F; color:#FFFFFF">Next</a></li>
-                          {% endif %}
-                      </ul>
-                  </nav>
+                  
       </div>
     </div>
   </div>

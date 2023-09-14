@@ -3,36 +3,40 @@ from django import forms
 from django.db import transaction
 from .models import User, JobSeeker, Employer, Government
 from email import message
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, FileExtensionValidator
 from django_countries.fields import CountryField
 from django.core.exceptions import ValidationError
 from ckeditor.widgets import CKEditorWidget
+from phonenumber_field.formfields import PhoneNumberField
+#from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 GENDER = (
         ('', 'Select a gender'),
         ('Male', 'Male'),
         ('Female','Female')
     )
- 
+
 EDUCATION_LEVEL = (
         ('', 'Select an education level'),
         ('High School', 'High School'),
         ('Certificate', 'Certificate'),
         ('Diploma', 'Diploma'),
         ('College', 'College'),
-        ('Bachelor', 'Bachelor'),
-        ('Master', 'Master'),
-        ('Doctrate', 'Doctrate'),
+        ('Bachelor Degree', 'Bachelor Degree'),
+        ('Master Degree', 'Master Degree'),
+        ('Doctrate Degree', 'Doctrate(Ph.D) Degree'),
     )
 
 EXPERIENCE_LEVEL = (
         ('', 'Select an experience level'),
         ('No experience', 'No experience'),
-        ('Less than 1 year', 'Less than 1 year'),
-        ('1 - 2 years', '1 - 2 years'),
-        ('2 - 5 years', '2 - 5 years'),
-        ('5 - 10 years', '5 - 10 years'),
-        ('More than 10 years', 'More than 10 years'),
+        ('1 year', '1 year'),
+        ('2 years', '2 years'),
+        ('3 years', '3 years'),
+        ('4 years', '4 years'),
+        ('5 years', '5 years'),
+        ('10 years', '10 years'),
+        ('10+ years', '10+ years'),
     )
 
 SECTOR = (
@@ -80,14 +84,18 @@ SECTOR = (
     )
 
 CHOICES = (
+        ('', 'Select type of job'),
         ('Full-Time', 'Full-Time'),
         ('Part-Time', 'Part-Time'),
         ('Internship', 'Internship'),
-        ('Freelance', 'Freelance')
+        ('Contract', 'Contract'),
+        ('Apprenticeship', 'Apprenticeship'),
+        ('Freelance', 'Freelance'),
+        ('Remote', 'Remote')
 )
 
 DISTRICT = (
-        ('', 'Select a district'),
+        ('', 'Select a location'),
         ('Bo', 'Bo'),
         ('Bonthe', 'Bonthe'),
         ('Bombali', 'Bombali'),
@@ -104,10 +112,11 @@ DISTRICT = (
         ('Tonkolili', 'Tonkolili'),
         ('Western Rural', 'Western Rural'),
         ('Western Urban', 'Western Urban'),
+        ('International', 'International'),
 )
 
 EMPLOYMENT_STATUS = (
-    ('', 'Select employment staus'),
+    ('', 'Select employment status'),
     ('Employed', 'Employed'),
     ('Self-Employed', 'Self-Employed'),
     ('Unemployed', 'Unemployed'),
@@ -115,6 +124,12 @@ EMPLOYMENT_STATUS = (
     ('Retired', 'Retired'),
 )
 
+
+
+def validate_file_size(value):
+    MAX_FILE_SIZE = 5 * 1024 * 1024
+    if value.size > MAX_FILE_SIZE:
+        raise forms.ValidationError('File size cannot exceed 5MB.')
 
 class JobSeekerRegisterForm(UserCreationForm):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
@@ -150,15 +165,19 @@ class JobSeekerRegisterForm(UserCreationForm):
     age = forms.CharField(label="Age", min_length=2, validators=[RegexValidator(r'^[0-9]*$', message="Only number is allowed!")], error_messages={'required':'Age cannot be empty'},
                         widget=forms.TextInput(attrs={'placeholder':'Your Age', 'style':'font-size: 13px'}))
     
-    phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
-                                widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number'}))
+    phone_number = PhoneNumberField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
+                                widget=forms.TextInput(attrs={'class':" form-control", 'style':'font-size: 13px', 'placeholder':'Example: +23276901488'}))
     
-    profile_pic = forms.FileField(label="Upload your profile picture", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    about = forms.CharField(widget=CKEditorWidget())
+    
+    profile_pic = forms.FileField(label="Upload your profile picture", error_messages={'required':'Profile Pic cannot be empty'}, help_text="Allowed file type: JPG, JPEG, PNG. Maximum file size: 5MB.",
+                                widget=forms.ClearableFileInput(attrs={'class':'form-control', 'style':'font-size: 13px', 'accept': 'image/png, image/jpeg, image/jpg'}))
 
     grad_year = forms.CharField(label="Graduation year", min_length=2, required=True, validators=[RegexValidator(r'^[0-9]*$', message="Only number is allowed!")],
                                 error_messages={'required':'Graduation year cannot be empty'}, widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Graduation Year'}))
     
-    resume = forms.FileField(label="Upload your CV", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    resume = forms.FileField(label="Upload your CV", error_messages={'required':'Resume cannot be empty'}, help_text="Allowed file type: PDF. Maximum file size: 5MB.",
+                            widget=forms.ClearableFileInput(attrs={'class':'form-control','style':'font-size: 13px', 'accept': 'application/pdf'}))
     
     looking_for = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=CHOICES, error_messages={'required':'Looking for cannot be empty'},)
     employment_status = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=EMPLOYMENT_STATUS, error_messages={'required':'Employment status cannot be empty'},)
@@ -172,7 +191,7 @@ class JobSeekerRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'looking_for', 'resume', 'grad_year',
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'looking_for', 'resume', 'grad_year', 'about',
                   'age', 'phone_number', 'district', 'gender', 'education_level', 'profile_pic', 'profession', 'employment_status')
     
     @transaction.atomic
@@ -198,6 +217,7 @@ class JobSeekerRegisterForm(UserCreationForm):
         jobseeker.district = self.cleaned_data.get('district')
         jobseeker.gender = self.cleaned_data.get('gender')
         jobseeker.education_level = self.cleaned_data.get('education_level')
+        jobseeker.about = self.cleaned_data.get('about')
         jobseeker.profile_pic = self.cleaned_data.get('profile_pic')
         jobseeker.looking_for = self.cleaned_data.get('looking_for')
         jobseeker.resume = self.cleaned_data.get('resume')
@@ -225,8 +245,8 @@ class CompanyRegisterForm(UserCreationForm):
     email = forms.CharField(label="Email", min_length=8, required=True, error_messages={'required':'Email cannot be empty'},
                             widget=forms.TextInput(attrs={'placeholder':'Email','style':'font-size: 13px; text-transform: lowercase'}))
     
-    phone_number = forms.CharField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
-                                widget=forms.TextInput(attrs={'style':'font-size: 13px', 'placeholder':'Phone Number'}))
+    phone_number = PhoneNumberField(label="Phone Number", required=True, error_messages={'required':'Phone number cannot be empty'},
+                                widget=forms.TextInput(attrs={'class':" form-control", 'style':'font-size: 13px', 'placeholder':'Example: +23276901488'}), help_text="Please enter your phone number")
     
     district = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=DISTRICT, error_messages={'required':'District cannot be empty'},)
     
@@ -236,21 +256,23 @@ class CompanyRegisterForm(UserCreationForm):
                                 message="Only letters and numbers is allowed!")], error_messages={'required':'Address cannot be empty'}, required=True,
                                 widget=forms.TextInput(attrs={'placeholder':'Company address', 'style':'font-size: 13px; text-transform: capitalize'}))
     
-    company_certificate = forms.FileField(label="Upload company registration certificate", required=True, error_messages={'required':'Company certificate cannot be empty'},
-                                        widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    company_certificate = forms.FileField(label="Upload company registration certificate", required=True, error_messages={'required':'Company certificate cannot be empty'}, validators=[FileExtensionValidator(allowed_extensions=['pdf']), validate_file_size],
+                                        help_text="Allowed file type: PDF. Maximum file size: 5MB.",
+                                        widget=forms.ClearableFileInput(attrs={'class':'form-control','style':'font-size: 13px'}))
     
-    company_logo = forms.FileField(label="Upload company logo", required=False, widget=forms.ClearableFileInput(attrs={'style':'font-size: 13px'}))
+    company_logo = forms.FileField(label="Upload company logo", error_messages={'required':'Company logo cannot be empty'}, help_text="Allowed file type: JPG, JPEG, PNG. Maximum file size: 5MB.",
+                                widget=forms.ClearableFileInput(attrs={'class':'form-control', 'style':'font-size: 13px', 'accept': 'image/png, image/jpeg, image/jpg'}))
     
     company_size = forms.CharField(label="Company size", min_length=1, required=False, validators= [RegexValidator(r'^[0-9\s]*$',
                                 message="Only number is allowed!")], widget=forms.TextInput(attrs={'placeholder':'30', 'style':'font-size: 13px;'}))
     
-    website = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}))
+    website = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}))
     
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'district', 
-                  'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website')
+                'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website')
         
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -344,10 +366,9 @@ def login_form(request):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                 message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
                                 widget=forms.TextInput(attrs={'placeholder':'Username', 'style':'font-size: 13px; text-transform: capitalize'}))
-
-    password1 = forms.CharField(label="Password", min_length=3, required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder':'Password', 'style':'font-size: 13px;'}))
     
+    password1 = forms.CharField(label="Password", min_length=3, required=True, error_messages={'required':'Password cannot be empty'},
+                                widget=forms.PasswordInput(attrs={'placeholder':'Password', 'style':'font-size: 13px;'}))
 
     class Meta(UserCreationForm.Meta):
         model = User

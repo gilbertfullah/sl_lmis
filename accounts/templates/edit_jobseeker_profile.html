@@ -18,7 +18,7 @@
                 <ol class="flex flex-wrap justify-center text-sm font-medium uppercase list-none p-0 m-0">
                   <li class="list-inline-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
                   <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'register' %}" class="text-white">Register</a></li>
-                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobseeker_profile' id %}" class="text-white">Profile</a></li>
+                  <li class="list-inline-item"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i>  <a href="{% url 'jobseeker_profile' id=jobseeker_id %}" class="text-white">Profile</a></li>
                   <li class="list-inline-item active" aria-current="page"><i class="bi bi-chevron-right align-middle px-2.5 text-white pr-2"></i> Edit Profile Details</li>
                 </ol>
               </nav>

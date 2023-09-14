@@ -2,7 +2,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 from django.views.generic.edit import CreateView
-from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm
+from .form import JobSeekerRegisterForm, CompanyRegisterForm, GovernmentRegisterForm, JobseekerProfileForm
 from django.contrib.auth.forms import AuthenticationForm
 from .models import User, JobSeeker, Employer, Government, ProfileView
 from django.http import HttpResponseRedirect
@@ -15,10 +15,11 @@ import os
 from django.conf import settings
 import calendar
 from django.db.models.functions import ExtractMonth, ExtractHour, ExtractDay
-from django.db.models import Count
-from jobs.models import SavedJobs, AppliedJobs, Job
+from django.db.models import Count, CharField, Value
+from jobs.models import SavedJobs, AppliedJobs, Job, Sector, JobApplication
 from datetime import timedelta
 from django.utils import timezone
+from django.db.models.functions import TruncDate, Cast
 #import json
 
 def register(request):
@@ -236,6 +237,12 @@ def GovernmentRegister(request):
 
 def login_request(request):
     if request.user.is_authenticated:
+        user = request.user
+        if user.is_jobseeker:
+            return redirect('jobseeker_dashboard')
+        elif user.is_employer:
+            return redirect('employer_dashboard')
+        
         if request.method == 'POST':
             form = AuthenticationForm(request, request.POST)
             if form.is_valid():
@@ -245,7 +252,12 @@ def login_request(request):
                 if user is not None:
                     login(request, user)
                     messages.info(request, f"You are now logged in as {username}.")
-                    return '/jobseeker_dashboard/'
+                    # Determine the appropriate redirect URL based on user type
+                    if user.is_jobseeker:
+                        return redirect('jobseeker_dashboard')
+                    elif user.is_employer:
+                        return redirect('employer_dashboard')
+
                 else:
                     messages.error(request,"Invalid username or password")
             else:
@@ -328,16 +340,15 @@ def jobseeker_dashboard(request):
             
             total_job_applications = AppliedJobs.objects.filter(user=request.user).count()
             
-            applied_jobs_by_day = job_applications.annotate(day=ExtractDay('date_applied')).values('day').annotate(count=Count('id', distinct=True)).order_by('day')
+            applied_jobs_by_day = job_applications.annotate(day=TruncDate('date_applied')).values('day').annotate(count=Count('id', distinct=True)).order_by('day')
             
             applied_by_day = []
             count_by_day = []
             
             for view in applied_jobs_by_day:
-                day_number = view["day"]
-                day_name = calendar.day_name[day_number - 1]  # Subtract 1 to get the correct day index
+                day_date = view["day"]
                 count = view["count"]
-                
+                day_name = day_date.strftime("%A")
                 applied_by_day.append(day_name)
                 count_by_day.append(count)
                 
@@ -370,3 +381,62 @@ def jobseeker_dashboard(request):
     else:
         # User is not authenticated, redirect to the login page or show a message
         return redirect('login')
+
+@login_required
+def employer_dashboard(request):
+    employer = request.user.is_company  # Assuming you have a OneToOneField to Employer in your user model
+
+    # Calculate the total number of active job listings for the employer
+    active_jobs_count = Job.objects.filter(employer=employer, job_status='Approved', is_active=True).count()
+
+    # Retrieve the sectors of the active job listings along with their counts
+    sectors = Sector.objects.filter(job__employer=employer, job__job_status='Approved', job__is_active=True) \
+        .annotate(sector_count=Count('title')).distinct()
+        
+    # Prepare data for the Chart.js chart
+    sector_labels = [sector.title for sector in sectors]
+    sector_counts = [sector.sector_count for sector in sectors]
+    
+    # Count the number of active, pending, and closed job listings for the employer
+    active_jobs = Job.objects.filter(employer=employer, job_status='Active').count()
+    pending_jobs_count = Job.objects.filter(employer=employer, job_status='Pending').count()
+    closed_jobs_count = Job.objects.filter(employer=employer, job_status='Closed').count()
+    
+    
+    job_applied = AppliedJobs.objects.filter(employer=employer)
+    
+    # Calculate the total number of applications
+    total_applications_count = AppliedJobs.objects.filter(employer=employer).count()
+    
+    applied_jobs_by_day = job_applied.annotate(day=TruncDate('date_applied')).values('day').annotate(count=Count('id', distinct=True)).order_by('day')
+
+    
+    applied_by_day = []
+    count_by_day = []
+            
+    for view in applied_jobs_by_day:
+        day_date = view["day"]
+        count = view["count"]
+        day_name = day_date.strftime("%A")
+        applied_by_day.append(day_name)
+        count_by_day.append(count)
+    
+    context = {
+        'employer': employer,
+        'active_jobs_count': active_jobs_count,
+        'sectors': sectors,
+        'sector_labels': sector_labels,
+        'sector_counts': sector_counts,
+        'active_jobs': active_jobs_count,
+        'pending_jobs_count': pending_jobs_count,
+        'closed_jobs_count': closed_jobs_count,
+        
+        'total_applications_count': total_applications_count,
+        'applied_by_day': applied_by_day,
+        'count_by_day': count_by_day,
+    }
+
+    return render(request, 'employer_dashboard.html', context)
+
+def default_dashboard(request):
+    return(request, 'default_dashboard.html')

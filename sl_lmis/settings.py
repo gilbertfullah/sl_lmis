@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'resources.apps.ResourcesConfig',
     'taggit',
+    'formtools',
 ] 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -99,6 +100,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'accounts.context_processors.jobseeker_id',
+                'accounts.context_processors.employer_id',
             ],
         },
     },
@@ -210,7 +212,13 @@ CKEDITOR_CONFIGS = {
     }
 }
 
-LOGIN_REDIRECT_URL = "/accounts/jobseeker_dashboard/"
+AUTHENTICATION_BACKENDS = [
+    'accounts.backends.CustomUserBackend',  # Replace with your actual authentication backend
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_REDIRECT_URL = "/"  # Set to None to use the custom authentication backend for redirection
+#LOGIN_REDIRECT_URL = "/accounts/jobseeker_dashboard/"
 # SMTP Configuration
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -222,7 +230,7 @@ EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD'],
 DEFAULT_FROM_EMAIL = os.environ['EMAIL'],
 
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'accounts:login'
 LOGOUT_REDIRECT_URL = "/"
 
 # Default primary key field type
@@ -230,6 +238,4 @@ LOGOUT_REDIRECT_URL = "/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
-
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
