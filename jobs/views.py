@@ -132,7 +132,7 @@ def job_detail(request, job_id):
             #email.send()
 
             # Create an AppliedJobs entry
-            AppliedJobs.objects.get_or_create(job=job, user=job_seeker.user)
+            AppliedJobs.objects.get_or_create(job=job, user=job_seeker.user, employer=employer)
 
             return redirect('application_success')
 
