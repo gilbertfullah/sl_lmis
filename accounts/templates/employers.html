@@ -38,7 +38,7 @@
                                 <img src="{{ employer_info.employer.company_logo.url }}" alt="" class="img-fluid">
                             </div>
                             <div class="mt-5 text-center">
-                                <a href="company-details.html"><h6 class="mb-3 text-lg text-gray-900 dark:text-white">{{ employer_info.employer.company_name }}</h6></a>
+                                <a href="{% url 'employer_details' employer_id=employer_info.employer.id %}"><h6 class="mb-3 text-lg text-gray-900 dark:text-white">{{ employer_info.employer.company_name }}</h6></a>
                                 <p class="mb-6 text-gray-500 dark:text-gray-300">{{ employer_info.employer.district }}</p>
                                 <a href="{% url 'employer_job_listings' employer_id=employer_info.employer.id %}" class="text-white btn btn-sm mb-3" style="background-color:#29569F">{{ employer_info.job_count }} Opening Jobs</a>
                             </div>

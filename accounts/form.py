@@ -142,7 +142,7 @@ class JobSeekerRegisterForm(UserCreationForm):
                                 widget=forms.PasswordInput(attrs={'placeholder':'Password confirmation', 'style':'font-size: 13px;'}))
     
     first_name = forms.CharField(label="First Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'First name cannot be empty'}, required=True,
-                                widget=forms.TextInput(attrs={'placeholder':'First name', 'style':'font-size: 13px; text-transform: capitalize'}))
+                                widget=forms.TextInput(attrs={'placeholder':'First name', 'autofocus': 'autofocus', 'style':'font-size: 13px; text-transform: capitalize'}))
     
     last_name = forms.CharField(label="Last Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'Last name cannot be empty'}, required=True,
                                 widget=forms.TextInput(attrs={'placeholder':'Last name', 'style':'font-size: 13px; text-transform: capitalize'}))
@@ -229,10 +229,10 @@ class JobSeekerRegisterForm(UserCreationForm):
 
 class CompanyRegisterForm(UserCreationForm):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
-                                widget=forms.TextInput(attrs={'placeholder':'Username', 'autofocus': 'autofocus', 'style':'font-size: 13px; text-transform: capitalize'}))
+                                widget=forms.TextInput(attrs={'placeholder':'Username', 'style':'font-size: 13px; text-transform: capitalize'}))
     
     company_name = forms.CharField(label="Company Name", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$', message="Only letter is allowed!")], error_messages={'required':'Company name cannot be empty'}, required=True,
-                                widget=forms.TextInput(attrs={'placeholder':'Company name', 'style':'font-size: 13px; text-transform: capitalize'}))
+                                widget=forms.TextInput(attrs={'placeholder':'Company name', 'autofocus': 'autofocus', 'style':'font-size: 13px; text-transform: capitalize'}))
     
     description = forms.CharField(widget=CKEditorWidget())
     
@@ -365,7 +365,7 @@ class GovernmentRegisterForm(UserCreationForm):
 def login_form(request):
     username = forms.CharField(label="Username", min_length=3, validators= [RegexValidator(r'^[a-zA-Z\s]*$',
                                 message="Only letter is allowed!")], error_messages={'required':'Username cannot be empty'}, required=True,
-                                widget=forms.TextInput(attrs={'placeholder':'Username', 'style':'font-size: 13px; text-transform: capitalize'}))
+                                widget=forms.TextInput(attrs={'placeholder':'Username', 'autofocus': 'autofocus', 'style':'font-size: 13px; text-transform: capitalize'}))
     
     password1 = forms.CharField(label="Password", min_length=3, required=True, error_messages={'required':'Password cannot be empty'},
                                 widget=forms.PasswordInput(attrs={'placeholder':'Password', 'style':'font-size: 13px;'}))

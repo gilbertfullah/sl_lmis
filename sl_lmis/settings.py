@@ -221,17 +221,18 @@ LOGIN_REDIRECT_URL = "/"  # Set to None to use the custom authentication backend
 #LOGIN_REDIRECT_URL = "/accounts/jobseeker_dashboard/"
 # SMTP Configuration
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ['HOST_USER'],
-EMAIL_HOST_PASSWORD = os.environ['HOST_PASSWORD'],
-DEFAULT_FROM_EMAIL = os.environ['EMAIL'],
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.office365.com')
+EMAIL_PORT = config('EMAIL_PORT', cast=int, default=587)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+#DEFAULT_FROM_EMAIL = 'lmis.gov.sl@gmail.com',
 
 
 LOGIN_URL = 'accounts:login'
 LOGOUT_REDIRECT_URL = "/"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

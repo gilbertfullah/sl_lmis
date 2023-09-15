@@ -185,7 +185,7 @@ class Employer(models.Model):
     phone_number = PhoneNumberField(max_length=50)
     district = models.CharField(max_length=250, choices=DISTRICT)
     company_logo = models.FileField(upload_to=user_directory_path, validators=[image_ex_validator, validate_image_type, validate_file_size])
-    company_certificate = models.FileField()
+    company_certificate = models.FileField(upload_to='certificates/', validators=[file_ex_validator, validate_file_mimetype, validate_file_size])
     company_size = models.CharField(max_length=255, null=True, blank=True)
     website = models.URLField()
     sector = models.CharField(max_length=250, choices=SECTOR)
