@@ -75,9 +75,6 @@ def validate_file_size(value):
         raise models.ValidationError('File size cannot exceed 5MB.')
 
 class Sector(models.Model):
-    #sid = ShortUUIDField(unique=True, max_length=20, default=shortuuid.uuid)
-    #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to='sectors')
     
@@ -108,9 +105,6 @@ class Contract(models.Model):
         return self.name
 
 class Job(models.Model):
-    #job_id = ShortUUIDField(unique=True, length=10, max_length=20, prefix="job_", alphabet="abcdefgh12345", primary_key=True)
-    #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
     location = models.ForeignKey(Location, on_delete=models.CASCADE)

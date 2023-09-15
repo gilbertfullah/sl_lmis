@@ -4,7 +4,6 @@ from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 from ckeditor.fields import RichTextField
-import uuid
 from django.utils.html import mark_safe
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
@@ -134,8 +133,6 @@ class User(AbstractUser):
     
 
 class JobSeeker(models.Model):
-    #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -179,8 +176,6 @@ class JobSeeker(models.Model):
 
     
 class Employer(models.Model):
-    #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     company_name = models.CharField(max_length=200)
@@ -210,8 +205,6 @@ class Employer(models.Model):
         return self.company_name
     
 class Government(models.Model):
-    #id = models.CharField(unique=True, max_length=22, primary_key=True, default=shortuuid.uuid)
-    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     institution_name = models.CharField(max_length=200)
