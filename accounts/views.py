@@ -336,9 +336,9 @@ def jobseeker_dashboard(request):
                 #months.append(p["hour"])
                 #hourly_views.append(p["count"])
 
-            job_applications = AppliedJobs.objects.filter(user=request.user)
+            job_applications = AppliedJobs.objects.filter(user=jobseeker)
             
-            total_job_applications = AppliedJobs.objects.filter(user=request.user).count()
+            total_job_applications = AppliedJobs.objects.filter(user=jobseeker).count()
             
             applied_jobs_by_day = job_applications.annotate(day=TruncDate('date_applied')).values('day').annotate(count=Count('id', distinct=True)).order_by('day')
             
