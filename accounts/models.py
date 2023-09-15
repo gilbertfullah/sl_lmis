@@ -50,7 +50,7 @@ STATUS = (
 )
 
 EMPLOYMENT_STATUS = (
-    ('', 'Select employment staus'),
+    ('', 'Select employment status'),
     ('Employed', 'Employed'),
     ('Self-Employed', 'Self-Employed'),
     ('Unemployed', 'Unemployed'),
