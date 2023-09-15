@@ -267,8 +267,8 @@ def apply_job(request, id):
             email_body += f"Job Seeker Resume: {jobseeker.resume}\n"
             email_body += f"Thank you for applying for the {job.title} job."
             
-            email = EmailMessage(email_subject, email_body, to=[job.employer.email, jobseeker.email])
-            email.send()
+            #email = EmailMessage(email_subject, email_body, to=[job.employer.email, jobseeker.email])
+            #email.send()
             
             # Create an AppliedJobs entry
             AppliedJobs.objects.get_or_create(job=job, user=jobseeker.user, employer=job.employer)
