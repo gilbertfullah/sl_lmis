@@ -183,11 +183,11 @@ class JobSeekerRegisterForm(UserCreationForm):
     
     employment_status = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=EMPLOYMENT_STATUS, error_messages={'required':'Employment status cannot be empty'},)
     
-    facebook = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
+    facebook = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
     
-    linkedin = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
+    linkedin = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
     
-    twitter = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
+    twitter = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -268,7 +268,7 @@ class CompanyRegisterForm(UserCreationForm):
     
     company_certificate = forms.FileField(label="Upload company registration certificate", required=True, error_messages={'required':'Company certificate cannot be empty'}, validators=[FileExtensionValidator(allowed_extensions=['pdf']), validate_file_size],
                                         help_text="Allowed file type: PDF. Maximum file size: 5MB.",
-                                        widget=forms.ClearableFileInput(attrs={'class':'form-control','style':'font-size: 13px'}))
+                                        widget=forms.ClearableFileInput(attrs={'class':'form-control','style':'font-size: 13px', 'accept': 'application/pdf'}))
     
     company_logo = forms.FileField(label="Upload company logo", error_messages={'required':'Company logo cannot be empty'}, help_text="Allowed file type: JPG, JPEG, PNG. Maximum file size: 5MB.",
                                 widget=forms.ClearableFileInput(attrs={'class':'form-control', 'style':'font-size: 13px', 'accept': 'image/png, image/jpeg, image/jpg'}))
@@ -278,11 +278,11 @@ class CompanyRegisterForm(UserCreationForm):
     
     website = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Example: learnable.com', 'style':'font-size: 13px;'}))
     
-    facebook = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
+    facebook = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
     
-    linkedin = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
+    linkedin = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
     
-    twitter = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
+    twitter = forms.URLField(max_length=150, min_length=3, required=False, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
     
 
     class Meta(UserCreationForm.Meta):
