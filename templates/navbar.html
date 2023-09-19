@@ -75,7 +75,7 @@
                 {% endif %}
                 
                 {% if request.user.is_company %}
-                  <li><a class="dropdown-item" href="{% url 'employer_details' employer_id=employer_id %}">Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'employer_details' id=employer_id %}">Profile</a></li>
                 {% endif %}
                 {% if request.user.is_government %}
                 <li><a class="dropdown-item" href="#">Profile</a></li>
