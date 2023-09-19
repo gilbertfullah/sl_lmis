@@ -180,7 +180,14 @@ class JobSeekerRegisterForm(UserCreationForm):
                             widget=forms.ClearableFileInput(attrs={'class':'form-control','style':'font-size: 13px', 'accept': 'application/pdf'}))
     
     looking_for = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=CHOICES, error_messages={'required':'Looking for cannot be empty'},)
+    
     employment_status = forms.ChoiceField(widget=forms.Select(attrs={"class":"form-control"}), choices=EMPLOYMENT_STATUS, error_messages={'required':'Employment status cannot be empty'},)
+    
+    facebook = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
+    
+    linkedin = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
+    
+    twitter = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
     
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -191,8 +198,8 @@ class JobSeekerRegisterForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'looking_for', 'resume', 'grad_year', 'about',
-                  'age', 'phone_number', 'district', 'gender', 'education_level', 'profile_pic', 'profession', 'employment_status')
+        fields = ('username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'looking_for', 'resume', 'grad_year', 'about', 'facebook',
+                'age', 'phone_number', 'district', 'gender', 'education_level', 'profile_pic', 'profession', 'employment_status', 'linkedin', 'twitter')
     
     @transaction.atomic
     def save(self):
@@ -224,6 +231,9 @@ class JobSeekerRegisterForm(UserCreationForm):
         jobseeker.grad_year = self.cleaned_data.get('grad_year')
         jobseeker.profession = self.cleaned_data.get('profession')
         jobseeker.employment_status = self.cleaned_data.get('employment_status')
+        jobseeker.facebook = self.cleaned_data.get('facebook')
+        jobseeker.twitter = self.cleaned_data.get('twitter')
+        jobseeker.linkedin = self.cleaned_data.get('linkedin')
         jobseeker.save()
         return user
 
@@ -266,13 +276,19 @@ class CompanyRegisterForm(UserCreationForm):
     company_size = forms.CharField(label="Company size", min_length=1, required=False, validators= [RegexValidator(r'^[0-9\s]*$',
                                 message="Only number is allowed!")], widget=forms.TextInput(attrs={'placeholder':'30', 'style':'font-size: 13px;'}))
     
-    website = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Make sure the website URl starts with either http or https followed by ://', 'style':'font-size: 13px;'}))
+    website = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Example: learnable.com', 'style':'font-size: 13px;'}))
+    
+    facebook = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your facebook account link', 'style':'font-size: 13px;'}))
+    
+    linkedin = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your linkedin account link', 'style':'font-size: 13px;'}))
+    
+    twitter = forms.URLField(max_length=150, min_length=3, required=True, widget=forms.TextInput(attrs={'placeholder':'Enter your twitter account link', 'style':'font-size: 13px;'}))
     
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('company_name', 'username', 'email', 'password1', 'password2', 'description', 'phone_number', 'district', 
-                'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website')
+                'sector', 'company_certificate', 'company_logo', 'address', 'company_size', 'website', 'facebook', 'twitter', 'linkedin')
         
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -305,6 +321,9 @@ class CompanyRegisterForm(UserCreationForm):
         company.address = self.cleaned_data.get('address')
         company.company_size = self.cleaned_data.get('company_size')
         company.website = self.cleaned_data.get('website')
+        company.facebook = self.cleaned_data.get('facebook')
+        company.twitter = self.cleaned_data.get('twitter')
+        company.linkedin = self.cleaned_data.get('linkedin')
         company.save()
         return user
     

@@ -14,21 +14,13 @@
             <h3 class="fw-300" style="line-height:1.6em; margin-top: 90px">Welcome to the Sierra Leone Labour Market Information System</h3>
         </div>
         <div class="col-6" style="margin-top: 30px">
-        <!--Message from backend (success)-->
-        {% for field in form %}
-            {% for error in field.errors %}
-                <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"><strong>{{error|escape}}</strong>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        {% endfor %}
 
         <!--Message from backend (success)-->
         <div class="text-center">
             {% for message in messages %}
                 {% if message.tags == 'success' %}
                     <div class="alert alert-success alert-dismissible fade show" role="alert"><strong>{{message}}</strong>
-                        <a href="{% url 'login' %}" type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close"></a>
+                        <a href="{% url 'login' %}" type="button" class="btn btn-close text-black" data-bs-dismiss="alert" aria-label="Close"></a>
                     </div>
                 {% endif %}
             {% endfor %}
@@ -36,6 +28,15 @@
 
         <form method="POST" class="p-3 mt-6 fw-light" autocomplete="off" action="{% url 'login' %}" novalidate>
                 {% csrf_token %}
+                <!--Message from backend (success)-->
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert"><strong>{{error|escape}}</strong>
+                            <button type="button" class="btn-close text-black" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
                 <h4 class="mb-3">Sign In</h4>
                 <div class="row">
                     <div class="col-10">{{ form.username|as_crispy_field }}</div>
