@@ -40,15 +40,21 @@
                                     <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">{{ employer.company_name }}</h6>
                                     <p class="mb-4 text-gray-500">{{ employer.sector }}</p>
                                     <ul class="list-inline text-center">
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-twitter fs-3 mr-3" style="color:#00acee"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-linkedin fs-3 mr-3" style="color:#0072b1"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-facebook fs-3" style="color:#3b5998"></i></a>
-                                        </li>
+                                        {% if employer.twitter %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-twitter fs-3 mr-3" style="color:#00acee"></i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if employer.linkedin %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-linkedin fs-3 mr-3" style="color:#0072b1"></i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if employer.facebook %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-facebook fs-3" style="color:#3b5998"></i></a>
+                                            </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>
@@ -74,7 +80,7 @@
                                 </ul>
                                 <div class="mt-8">
                                     <div class="mt-8 text-center">
-                                        <a href="mailto:recipient@example.com" class="btn w-full text-white" style="background-color:#29569F"><i class="bi bi-envelope"></i> Contact Me</a>
+                                        <a href="mailto:{{employer.email}}" class="btn w-full text-white" style="background-color:#29569F"><i class="bi bi-envelope"></i> Contact Me</a>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +117,7 @@
                                         </div>
                                         <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
-                                                <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="https://www.dangote-group.com/">Apply Now</a>
+                                                <a class="btn" style="background-color:#29569F; color:#FFFFFF" href="{% url 'job_detail' job.id %}">Apply Now</a>
                                             </div>
                                                 <small class="text-truncate"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#29569F" class="bi bi-calendar3" viewBox="0 0 16 16">
                                                     <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>

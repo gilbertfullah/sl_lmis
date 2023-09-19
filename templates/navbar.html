@@ -70,12 +70,12 @@
                 <li><a class="dropdown-item" href="#">Dashboard</a></li>
                 {% endif %}
                 
-                  {% if request.user.is_jobseeker %}
+                {% if request.user.is_jobseeker %}
                   <li><a class="dropdown-item" href="{% url 'jobseeker_profile' id=jobseeker_id %}">Profile</a></li>
-                  {% endif %}
+                {% endif %}
                 
                 {% if request.user.is_company %}
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'employer_details' employer_id=employer_id %}">Profile</a></li>
                 {% endif %}
                 {% if request.user.is_government %}
                 <li><a class="dropdown-item" href="#">Profile</a></li>

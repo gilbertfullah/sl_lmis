@@ -40,15 +40,21 @@
                                     <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">{{jobseeker.first_name}} {{jobseeker.last_name}}</h6>
                                     <p class="mb-4 text-gray-500">{{jobseeker.profession}}</p>
                                     <ul class="list-inline text-center">
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-twitter fs-3 mr-3" style="color:#00acee"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-linkedin fs-3 mr-3" style="color:#0072b1"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#"><i class="bi bi-facebook fs-3" style="color:#3b5998"></i></a>
-                                        </li>
+                                        {% if jobseeker.twitter %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-twitter fs-3 mr-3" style="color:#00acee"></i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if jobseeker.linkedin %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-linkedin fs-3 mr-3" style="color:#0072b1"></i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if jobseeker.facebook %}
+                                            <li class="list-inline-item">
+                                                <a href="#"><i class="bi bi-facebook fs-3" style="color:#3b5998"></i></a>
+                                            </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </div>
